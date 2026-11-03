@@ -1,3 +1,10 @@
+/* =========================================================
+   app.js — shared module untuk seluruh halaman
+   ========================================================= */
+
+const STORE_KEY = 'tpa_ar_rahman_data_v1';
+const SESSION_KEY = 'tpa_ar_rahman_session';
+
 /* ---------------- Seed data awal ---------------- */
 const DEFAULT_DATA = {
   users: [
@@ -30,3 +37,160 @@ const DEFAULT_DATA = {
   ],
   jadwal: [], presensi: [], pencapaian: [], kas: [], hariLibur: [],
 };
+
+/* ---------------- Store ---------------- */
+function loadData() {
+  const raw = localStorage.getItem(STORE_KEY);
+  if (!raw) { saveData(DEFAULT_DATA, true); return JSON.parse(JSON.stringify(DEFAULT_DATA)); }
+  try { return JSON.parse(raw); } catch { return JSON.parse(JSON.stringify(DEFAULT_DATA)); }
+}
+function saveData(data, silent) {
+  localStorage.setItem(STORE_KEY, JSON.stringify(data));
+  if (!silent) window.dispatchEvent(new CustomEvent('tpa:data-changed'));
+}
+function updateData(fn) {
+  const d = loadData();
+  fn(d);
+  saveData(d);
+  return d;
+}
+
+/* Sinkron lintas tab & listener internal */
+window.addEventListener('storage', (e) => {
+  if (e.key === STORE_KEY) window.dispatchEvent(new CustomEvent('tpa:data-changed'));
+  if (e.key === SESSION_KEY) location.reload();
+});
+
+/* ---------------- Auth ---------------- */
+function getSession() {
+  const raw = localStorage.getItem(SESSION_KEY);
+  return raw ? JSON.parse(raw) : null;
+}
+function setSession(s) {
+  if (s) localStorage.setItem(SESSION_KEY, JSON.stringify(s));
+  else localStorage.removeItem(SESSION_KEY);
+}
+function login(username, password) {
+  const u = loadData().users.find(x =>
+    (x.username === username) && x.password === password && x.aktif);
+  if (!u) return null;
+  const sess = { userId:u.id, nama:u.nama, role:u.role,
+    pengajarId:u.pengajarId, kelasId:u.kelasId, santriIds:u.santriIds || [] };
+  setSession(sess);
+  return sess;
+}
+function logout() {
+  if (!confirm('Keluar dari akun?')) return;
+  setSession(null);
+  location.href = 'index.html';
+}
+function requireAuth(roles) {
+  const s = getSession();
+  if (!s) { location.href = 'index.html'; return null; }
+  if (roles && !roles.includes(s.role)) { location.href = 'dashboard.html'; return null; }
+  return s;
+}
+
+/* ---------------- UI helpers ---------------- */
+function esc(str){ return String(str ?? '').replace(/[&<>"']/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmtRp(n){ return 'Rp ' + (Number(n)||0).toLocaleString('id-ID'); }
+function fmtDate(iso){
+  if(!iso) return '-';
+  const d = new Date(iso);
+  return d.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
+}
+function uid(prefix){ return (prefix||'id') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+function roleLabel(r){
+  return ({admin:'Admin', pengajar:'Pengajar', wali_kelas:'Wali Kelas', walisantri:'Walisantri'})[r] || r;
+}
+
+function toast(msg, type=''){
+  let wrap = document.querySelector('.toast-wrap');
+  if(!wrap){
+    wrap = document.createElement('div');
+    wrap.className = 'toast-wrap';
+    document.body.appendChild(wrap);
+  }
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  wrap.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transform='translateY(10px)';
+    t.style.transition='.3s'; setTimeout(()=>t.remove(), 300); }, 2200);
+}
+
+const NAV_ITEMS = [
+  { href:'dashboard.html',  icon:'🏠', label:'Dashboard',  roles:['admin','pengajar','wali_kelas','walisantri'] },
+  { href:'santri.html',     icon:'👥', label:'Santri',     roles:['admin','wali_kelas'] },
+  { href:'pengajar.html',   icon:'👨‍🏫', label:'Pengajar',   roles:['admin'] },
+  { href:'presensi.html',   icon:'📋', label:'Presensi',   roles:['admin','pengajar','wali_kelas'] },
+  { href:'pencapaian.html', icon:'🏆', label:'Pencapaian', roles:['admin','pengajar','wali_kelas','walisantri'] },
+  { href:'kas.html',        icon:'💰', label:'Kas TPA',    roles:['admin'] },
+  { href:'kartu.html',      icon:'🪪', label:'Kartu',      roles:['admin','pengajar','wali_kelas','walisantri'] },
+  { href:'laporan.html',    icon:'📊', label:'Laporan',    roles:['admin'] },
+  { href:'pengaturan.html', icon:'⚙️', label:'Pengaturan', roles:['admin'] },
+];
+
+function mountPage(title, html){
+  const sess = getSession();
+  const active = location.pathname.split('/').pop() || 'dashboard.html';
+  const items = NAV_ITEMS.filter(n => n.roles.includes(sess.role));
+  document.getElementById('app').innerHTML = `
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand">
+          <!-- LOGO BARU (Sidebar) -->
+          <div class="brand-logo" style="background:#fff; padding:4px; overflow:hidden;">
+            <img src="https://lh3.googleusercontent.com/d/1F6GqnKh5sEGXFMIeFob5a3jib1CbhpHv" alt="Logo" style="width:100%; height:100%; object-fit:contain;">
+          </div>
+          <!-- END LOGO -->
+          <div>
+            <div class="brand-title">TPA Ar Rahman</div>
+            <div class="brand-sub">Jogonalan Lor</div>
+          </div>
+        </div>
+        <nav class="nav">
+          ${items.map(n=>`
+            <a href="${n.href}" class="nav-item ${n.href===active?'active':''}">
+              <span class="nav-icon">${n.icon}</span><span>${n.label}</span>
+            </a>`).join('')}
+        </nav>
+        <div class="sidebar-foot">
+          <div class="user-chip">
+            <div class="avatar">${esc(sess.nama.charAt(0).toUpperCase())}</div>
+            <div class="user-info">
+              <div class="user-name">${esc(sess.nama)}</div>
+              <div class="user-role">${roleLabel(sess.role)}</div>
+            </div>
+          </div>
+          <button class="btn btn-ghost btn-block btn-sm" onclick="logout()">Keluar</button>
+        </div>
+      </aside>
+      <div class="main">
+        <header class="topbar">
+          <button class="menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+          <h1>${esc(title)}</h1>
+        </header>
+        <main class="page">${html}</main>
+        <nav class="bottom-nav">
+          ${items.slice(0,5).map(n=>`
+            <a href="${n.href}" class="${n.href===active?'active':''}">
+              <span class="nav-icon">${n.icon}</span><span>${n.label}</span>
+            </a>`).join('')}
+        </nav>
+      </div>
+    </div>
+  `;
+}
+
+/* Reload data saat berubah (dari halaman lain atau tab lain) */
+function onDataChange(fn){
+  window.addEventListener('tpa:data-changed', () => fn());
+}
+
+/* Expose global */
+window.tpa = { loadData, saveData, updateData, getSession, login, logout,
+  requireAuth, mountPage, toast, esc, fmtRp, fmtDate, uid, roleLabel,
+  onDataChange, NAV_ITEMS };
