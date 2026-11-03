@@ -10,7 +10,7 @@
 
 <style>
   /* =========================================
-     STYLE KARTU PORTRAIT (QR SANGAT BESAR)
+     STYLE KARTU PORTRAIT (OPTIMAL TANPA RUANG KOSONG)
      ========================================= */
   
   .kartu-grid {
@@ -31,13 +31,13 @@
     border-radius: 12px;
     width: 100%;
     max-width: 340px;
-    height: 540px;
+    height: 540px; /* Tinggi fix standar ID Card */
     padding: 16px;
     color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Flexbox vertikal */
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     position: relative;
     overflow: hidden;
@@ -93,7 +93,7 @@
     display: flex;
     gap: 12px;
     align-items: center;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     flex-shrink: 0;
   }
 
@@ -146,18 +146,20 @@
     color: #eab308;
   }
 
-  /* --- DATA DIRI (TENGAH) --- */
+  /* --- DATA DIRI (TENGAH - MENGISI RUANG KOSONG) --- */
   .details-grid {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    flex: 1; /* Mengambil semua sisa ruang vertikal */
+    justify-content: space-evenly; /* Menyebar baris secara merata agar tidak ada space kosong */
     border-top: 1px solid rgba(255,255,255,0.2);
-    padding-top: 12px;
-    flex: 1; /* Mengisi sisa ruang di tengah */
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding: 10px 0;
+    margin-bottom: 14px;
   }
   .detail-item {
     display: flex;
-    font-size: 10px;
+    font-size: 11px; /* Sedikit diperbesar agar lebih mudah dibaca */
     line-height: 1.3;
   }
   .detail-item .label {
@@ -175,28 +177,26 @@
     text-overflow: ellipsis;
   }
 
-  /* --- BARIS BAWAH (QR BESAR & MASA BERLAKU) --- */
+  /* --- BARIS BAWAH (QR SANGAT BESAR) --- */
   .card-bottom-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: auto;
-    padding-top: 10px;
     flex-shrink: 0;
   }
 
   .qr-wrap {
     background: #fff;
-    padding: 8px; /* Padding diperbesar */
+    padding: 8px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 146px; /* Kotak QR diperbesar */
+    width: 160px; /* Lebar kotak QR disesuaikan */
   }
   .qr-wrap canvas, .qr-wrap img {
-    width: 130px !important; /* Ukuran QR Code SANGAT BESAR */
-    height: 130px !important;
+    width: 144px !important; /* Ukuran QR Code SANGAT BESAR */
+    height: 144px !important;
     display: block;
   }
   .qr-text {
@@ -340,8 +340,8 @@
         if (qrEl && qrEl.childElementCount === 0) {
           new QRCode(qrEl, {
             text: s.nis,
-            width: 130, // Render resolusi QR diperbesar (130px)
-            height: 130, 
+            width: 144, // Resolusi QR dinaikkan
+            height: 144, 
             colorDark: '#000', 
             colorLight: '#fff',
             correctLevel: QRCode.CorrectLevel.M
