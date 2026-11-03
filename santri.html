@@ -6,54 +6,98 @@
 <title>Data Santri · TPA Ar Rahman</title>
 <link rel="stylesheet" href="shared.css">
 <style>
-  /* Style untuk Tabel dan Form */
-  .page-header-box { background: #fff; border-radius: 16px; padding: 20px; border: 1px solid var(--border); margin-bottom: 16px; }
-  .page-title-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
-  .page-title-row h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin: 0; }
-  .badge-total { background: #dcfce7; color: #15803d; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; }
+  /* =========================================
+     STYLE DATA SANTRI (SESUAI REFERENSI)
+     ========================================= */
+  .page-header-box {
+    background: #fff; border-radius: 16px; padding: 20px;
+    border: 1px solid var(--border); margin-bottom: 16px;
+  }
+  .page-title-row {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;
+  }
+  .page-title-row h1 { font-size: 24px; font-weight: 800; color: #0f172a; margin: 0; }
+  .badge-total {
+    background: #ccfbf1; color: #0f766e; padding: 4px 12px;
+    border-radius: 20px; font-size: 13px; font-weight: 700;
+  }
   .page-desc { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
-  .action-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-  .btn-solid { background: #0f766e; color: #fff; border-radius: 8px; padding: 8px 16px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+
+  .action-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .btn-solid { background: #0f766e; color: #fff; border-radius: 8px; padding: 8px 16px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; border: none; cursor: pointer;}
   .btn-solid:hover { background: #115e59; }
-  .search-filter-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
-  .search-box { position: relative; flex: 1; min-width: 280px; }
-  .search-box input { padding-left: 36px; border-radius: 8px; border: 1px solid #e2e8f0; height: 40px; }
-  .search-box .icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+  .btn-outline { background: #f8fafc; color: #334155; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 16px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; cursor: pointer;}
+  .btn-outline:hover { background: #f1f5f9; }
+  .btn-icon { padding: 8px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; display: grid; place-items: center; color: #64748b; }
+
+  .search-filter-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+  .search-box { position: relative; flex: 1; min-width: 250px; }
+  .search-box input { padding-left: 40px; border-radius: 8px; border: 1px solid #e2e8f0; height: 42px; width: 100%; font-size: 14px; }
+  .search-box .icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; }
+  
   .filter-pills { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
-  .filter-pills button { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #64748b; background: transparent; border: 1px solid transparent; white-space: nowrap; }
-  .filter-pills button.active { background: #fff; color: #0f172a; border-color: #e2e8f0; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  .filter-pills button {
+    padding: 10px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+    color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; white-space: nowrap; cursor: pointer;
+  }
+  .filter-pills button.active { background: #fff; color: #0f172a; border-color: #cbd5e1; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+
+  .drive-links { display: flex; align-items: center; gap: 12px; font-size: 13px; flex-wrap: wrap; margin-top: 10px; color: #64748b; }
+  .drive-btn {
+    display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+    border-radius: 6px; font-weight: 600; font-size: 12px; text-decoration: none;
+  }
+  .drive-btn.yellow { background: #fefce8; color: #a16207; border: 1px solid #fef08a; }
+  .drive-btn.blue { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
+  .drive-btn.orange { background: #fff7ed; color: #9a3412; border-color: #fed7aa; }
+
+  /* TABLE STYLE */
   .table-card { background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
+  .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
-  th { background: #f8fafc; color: #64748b; font-weight: 600; padding: 14px 16px; border-bottom: 1px solid #e2e8f0; white-space: nowrap; font-size: 12px; }
-  td { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  th { background: #f8fafc; color: #64748b; font-weight: 700; padding: 16px; border-bottom: 1px solid #e2e8f0; white-space: nowrap; font-size: 12px; text-transform: uppercase; }
+  td { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
   tr:hover { background: #f8fafc; }
-  .avatar-img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; background: #e2e8f0; }
+  
+  .avatar-img { width: 38px; height: 38px; border-radius: 8px; object-fit: cover; background: #e2e8f0; display: block; }
   .nama-cell { display: flex; flex-direction: column; gap: 2px; }
-  .nama-cell strong { color: #0f172a; font-size: 14px; }
-  .nama-cell span { color: #64748b; font-size: 11px; }
-  .badge-jk { padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+  .nama-cell strong { color: #0f172a; font-size: 14px; font-weight: 700; }
+  .nama-cell span { color: #64748b; font-size: 11px; font-weight: 500; }
+  
+  .badge-jk { padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 12px; display: inline-block; }
   .badge-jk.p { background: #fce7f3; color: #be185d; }
   .badge-jk.l { background: #e0f2fe; color: #0369a1; }
-  .badge-kelas { padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 12px; border: 1px solid transparent; }
+  
+  .badge-gol { background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; display: inline-block; }
+  
+  .badge-kelas { padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 12px; border: 1px solid transparent; display: inline-block;}
   .badge-kelas.k1 { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
   .badge-kelas.k2 { background: #ccfbf1; color: #0f766e; border-color: #99f6e4; }
   .badge-kelas.k3 { background: #fef9c3; color: #a16207; border-color: #fef08a; }
   .badge-kelas.k4 { background: #f3e8ff; color: #7e22ce; border-color: #e9d5ff; }
+
+  .doc-badge { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; display: inline-block; }
+  .doc-badge.belum { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+  .doc-badge.sudah { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+
   .wali-cell { display: flex; flex-direction: column; gap: 2px; }
-  .wali-cell span { font-size: 12px; color: #0f172a; }
-  .wali-cell small { font-size: 10px; color: #64748b; }
+  .wali-cell span { font-size: 13px; color: #0f172a; font-weight: 600; }
+  .wali-cell small { font-size: 11px; color: #64748b; }
+  
+  .btn-qr { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+  .btn-qr:hover { background: #dcfce7; }
+  
   .aksi-btns { display: flex; gap: 8px; color: #94a3b8; }
-  .aksi-btns button { color: inherit; font-size: 16px; }
+  .aksi-btns button { color: inherit; font-size: 16px; background: none; border: none; cursor: pointer; }
   .aksi-btns button:hover { color: #0f172a; }
 
-  /* Style Khusus Kamera & Preview */
+  /* MODAL & CAMERA */
   .camera-modal { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:none; flex-direction:column; align-items:center; justify-content:center; z-index:9999; padding:16px; }
-  .camera-modal video { width:100%; max-width:500px; border-radius:12px; background:#000; transform: scaleX(-1); /* Mirror effect */ }
+  .camera-modal video { width:100%; max-width:500px; border-radius:12px; background:#000; transform: scaleX(-1); }
   .camera-actions { display:flex; gap:16px; margin-top:20px; }
   .btn-capture { width:60px; height:60px; border-radius:50%; background:#fff; border:4px solid #cbd5e1; display:grid; place-items:center; cursor:pointer; }
   .btn-capture:active { background:#cbd5e1; }
   .btn-close-cam { background:#ef4444; color:#fff; padding:10px 20px; border-radius:20px; font-weight:bold; border:none; cursor:pointer; }
-  
   .foto-preview-box { margin-top: 10px; display: flex; gap: 12px; align-items: flex-end; }
   .foto-preview-img { width: 80px; height: 100px; border-radius: 8px; object-fit: cover; border: 2px solid #cbd5e1; display: none; }
 </style>
@@ -63,14 +107,33 @@
 <script src="app.js"></script>
 <script>
   // === MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI ===
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbx-QPniiEVhWAjaFxaaPUrnEYXVU42jVwukxicglrQiom_U9b-Oqi4xVBdn1Nu1Rcmd5g/exec'; 
+  const GAS_URL = 'URL_WEB_APP_ANDA_DISINI'; 
   
   let editingId = null;
   let search = '';
   let activeFilter = 'all';
-  let capturedBase64 = null; // Menyimpan foto dari kamera sebelum disimpan
+  let capturedBase64 = null;
 
   const sess = tpa.requireAuth(['admin','wali_kelas']);
+
+  // === FUNGSI NIS OTOMATIS ===
+  function generateNIS() {
+    const d = tpa.loadData();
+    const year = new Date().getFullYear();
+    const prefix = `TPA-${year}-`;
+    let maxNum = 0;
+    
+    d.santri.forEach(s => {
+      if (s.nis && s.nis.includes('-')) {
+        const parts = s.nis.split('-');
+        const lastPart = parseInt(parts[parts.length-1], 10);
+        if (!isNaN(lastPart) && lastPart > maxNum) maxNum = lastPart;
+      }
+    });
+    
+    // Urutan selanjutnya (3 digit, contoh: 007)
+    return `${prefix}${String(maxNum + 1).padStart(3, '0')}`;
+  }
 
   function render() {
     const d = tpa.loadData();
@@ -86,51 +149,106 @@
     if (activeFilter !== 'all') list = list.filter(s => s.kelasId === activeFilter);
     if (search) {
       const q = search.toLowerCase();
-      list = list.filter(s => s.nama.toLowerCase().includes(q) || s.nis.includes(q));
+      list = list.filter(s => 
+        s.nama.toLowerCase().includes(q) || 
+        s.nis.toLowerCase().includes(q) || 
+        (s.namaWali && s.namaWali.toLowerCase().includes(q))
+      );
     }
 
     const html = `
+      <!-- HEADER -->
       <div class="page-header-box">
         <div class="page-title-row">
           <h1>Data Santri TPA</h1>
           <span class="badge-total">Total: ${baseList.length} santri</span>
         </div>
         <p class="page-desc">Kelola data diri, kartu barcode presensi, dan pembagian kelas A1, A2, B, C</p>
+
         <div class="action-buttons">
           <button class="btn-solid" onclick="openForm()"><span>+</span> Tambah Santri</button>
+          <button class="btn-solid" onclick="window.print()">Cetak Data</button>
+          <button class="btn-outline" onclick="alert('Fitur Export Excel akan segera hadir')"><span>📄</span> Export Excel</button>
+          <button class="btn-outline" onclick="alert('Fitur Import Excel akan segera hadir')"><span>⬆</span> Import Excel</button>
+          <button class="btn-icon" title="Pengaturan">⚙</button>
         </div>
+
         <div class="search-filter-row">
           <div class="search-box">
             <span class="icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Cari nama santri, NIS..." value="${tpa.esc(search)}">
+            <input type="text" id="searchInput" placeholder="Cari nama santri, NIS, atau nama orang tua..." value="${tpa.esc(search)}">
           </div>
           <div class="filter-pills">
             <button class="${activeFilter==='all'?'active':''}" onclick="setFilter('all')">Semua (${counts.all})</button>
             ${d.kelas.map(k => `<button class="${activeFilter===k.id?'active':''}" onclick="setFilter('${k.id}')">Kelas ${k.kode} (${counts[k.id]||0})</button>`).join('')}
           </div>
         </div>
+
+        <div class="drive-links">
+          <span>Akses Berkas Drive:</span>
+          <a href="#" class="drive-btn yellow" onclick="alert('Buka Folder KK')">📁 Folder KK Santri ↗</a>
+          <a href="#" class="drive-btn blue" onclick="alert('Buka Folder Akta')">📁 Folder Akta Santri ↗</a>
+          <a href="https://drive.google.com/drive/folders/1D8TLEbDxN9iUCrGSzPNHAIH3SphGkjso" target="_blank" class="drive-btn orange">📁 Folder Foto Santri ↗</a>
+        </div>
       </div>
 
+      <!-- TABLE -->
       <div class="table-card">
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>NO</th><th>FOTO</th><th>NAMA & NIS</th><th>JK</th><th>KELAS</th><th>WALI SANTRI</th><th>AKSI</th></tr>
+              <tr>
+                <th>NO</th>
+                <th>FOTO</th>
+                <th>NAMA & NIS</th>
+                <th>JK</th>
+                <th>GOL. DARAH</th>
+                <th>KELAS</th>
+                <th>DOKUMEN KK</th>
+                <th>DOKUMEN AKTA</th>
+                <th>WALI SANTRI</th>
+                <th>KARTU QR</th>
+                <th>AKSI</th>
+              </tr>
             </thead>
             <tbody>
               ${list.map((s, i) => {
                 const k = d.kelas.find(x => x.id === s.kelasId) || { kode: '-', id: '' };
                 const jkClass = s.jenisKelamin === 'P' ? 'p' : 'l';
+                const docKkClass = s.docKk === 'Sudah' ? 'sudah' : 'belum';
+                const docAktaClass = s.docAkta === 'Sudah' ? 'sudah' : 'belum';
+                
+                // Gunakan foto dari database (Drive) atau fallback inisial
                 const fotoUrl = s.fotoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=f1f5f9&color=0f766e&size=128&font-size=0.4`;
                 
                 return `
                 <tr>
                   <td>${i + 1}</td>
-                  <td><img src="${fotoUrl}" class="avatar-img" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=f1f5f9&color=0f766e&size=128'"></td>
-                  <td><div class="nama-cell"><strong>${tpa.esc(s.nama)}</strong><span>NIS: ${s.nis}</span></div></td>
+                  <td>
+                    <img src="${fotoUrl}" class="avatar-img" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=f1f5f9&color=0f766e&size=128&font-size=0.4'">
+                  </td>
+                  <td>
+                    <div class="nama-cell">
+                      <strong>${tpa.esc(s.nama)}</strong>
+                      <span>NIS: ${s.nis}</span>
+                    </div>
+                  </td>
                   <td><span class="badge-jk ${jkClass}">${s.jenisKelamin || '-'}</span></td>
+                  <td><span class="badge-gol">${s.golDarah || '-'}</span></td>
                   <td><span class="badge-kelas ${k.id}">${k.kode}</span></td>
-                  <td><div class="wali-cell"><span>${tpa.esc(s.namaWali || '-')}</span><small>WA: ${tpa.esc(s.waWali || '-')}</small></div></td>
+                  <td><span class="doc-badge ${docKkClass}">${s.docKk === 'Sudah' ? 'Sudah Upload' : 'Belum Upload'}</span></td>
+                  <td><span class="doc-badge ${docAktaClass}">${s.docAkta === 'Sudah' ? 'Sudah Upload' : 'Belum Upload'}</span></td>
+                  <td>
+                    <div class="wali-cell">
+                      <span>${tpa.esc(s.namaWali || '-')}</span>
+                      <small>WA: ${tpa.esc(s.waWali || '-')}</small>
+                    </div>
+                  </td>
+                  <td>
+                    <button class="btn-qr" onclick="alert('Buka QR ${tpa.esc(s.nama)}')">
+                      <span>⬚</span> Kartu
+                    </button>
+                  </td>
                   <td>
                     <div class="aksi-btns">
                       <button onclick="openForm('${s.id}')" title="Edit">✏️</button>
@@ -138,7 +256,7 @@
                     </div>
                   </td>
                 </tr>`;
-              }).join('') || `<tr><td colspan="7" class="empty">Tidak ada data santri.</td></tr>`}
+              }).join('') || `<tr><td colspan="11" class="empty">Tidak ada data santri.</td></tr>`}
             </tbody>
           </table>
         </div>
@@ -155,30 +273,52 @@
 
   window.setFilter = (filterId) => { activeFilter = filterId; render(); };
 
-  // --- MODAL FORM TAMBAH/EDIT SANTRI ---
+  // --- FORM TAMBAH/EDIT ---
   function openForm(id) {
     editingId = id || null;
-    capturedBase64 = null; // Reset kamera
+    capturedBase64 = null;
     const d = tpa.loadData();
     const s = id ? d.santri.find(x => x.id === id) : {};
+    
+    // Jika tambah baru, generate NIS otomatis
+    const autoNis = !id ? generateNIS() : s.nis;
 
     const modal = document.createElement('div');
     modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);display:grid;place-items:center;z-index:100;padding:16px;overflow-y:auto';
     modal.innerHTML = `
-      <div class="card" style="max-width:650px;width:100%;max-height:90vh;overflow-y:auto;border-radius:16px">
+      <div class="card" style="max-width:750px;width:100%;max-height:90vh;overflow-y:auto;border-radius:16px">
         <div class="card-title"><span style="font-size:18px">${id?'Edit':'Tambah'} Santri</span>
           <button class="btn-icon" onclick="this.closest('div[style]').remove()">✕</button></div>
         
         <form id="formSantri" onsubmit="event.preventDefault(); saveSantri();">
           <div class="form-grid">
-            <div class="field"><label>NIS</label><input id="f_nis" value="${tpa.esc(s.nis||'')}" placeholder="Contoh: 00123" required></div>
+            <div class="field"><label>NIS (Otomatis)</label><input id="f_nis" value="${tpa.esc(autoNis)}" readonly style="background:#f8fafc; cursor:not-allowed;" required></div>
             <div class="field"><label>Nama Lengkap</label><input id="f_nama" value="${tpa.esc(s.nama||'')}" required></div>
             
             <div class="field"><label>Jenis Kelamin</label>
-              <select id="f_jk"><option value="L" ${s.jenisKelamin==='L'?'selected':''}>Laki-laki (L)</option><option value="P" ${s.jenisKelamin==='P'?'selected':''}>Perempuan (P)</option></select>
+              <select id="f_jk">
+                <option value="L" ${s.jenisKelamin==='L'?'selected':''}>Laki-laki (L)</option>
+                <option value="P" ${s.jenisKelamin==='P'?'selected':''}>Perempuan (P)</option>
+              </select>
             </div>
+            <div class="field"><label>Golongan Darah</label>
+              <select id="f_gol">
+                <option value="-" ${s.golDarah==='-'?'selected':''}>-</option>
+                <option value="A" ${s.golDarah==='A'?'selected':''}>A</option>
+                <option value="B" ${s.golDarah==='B'?'selected':''}>B</option>
+                <option value="AB" ${s.golDarah==='AB'?'selected':''}>AB</option>
+                <option value="O" ${s.golDarah==='O'?'selected':''}>O</option>
+              </select>
+            </div>
+            
             <div class="field"><label>Kelas</label>
               <select id="f_kelas">${d.kelas.map(k => `<option value="${k.id}" ${s.kelasId===k.id?'selected':''}>${k.kode}</option>`).join('')}</select>
+            </div>
+            <div class="field"><label>Dokumen KK</label>
+              <select id="f_dockk"><option value="Belum" ${s.docKk==='Belum'?'selected':''}>Belum Upload</option><option value="Sudah" ${s.docKk==='Sudah'?'selected':''}>Sudah Upload</option></select>
+            </div>
+            <div class="field"><label>Dokumen Akta</label>
+              <select id="f_docakta"><option value="Belum" ${s.docAkta==='Belum'?'selected':''}>Belum Upload</option><option value="Sudah" ${s.docAkta==='Sudah'?'selected':''}>Sudah Upload</option></select>
             </div>
 
             <div class="field"><label>Nama Wali</label><input id="f_wali" value="${tpa.esc(s.namaWali||'')}"></div>
@@ -193,8 +333,8 @@
                 <input type="file" id="f_foto" accept="image/*" style="border:1px dashed #cbd5e1;padding:6px;background:#f8fafc; flex:1;">
               </div>
               <div class="foto-preview-box">
-                <img id="img_preview" class="foto-preview-img" src="">
-                <small style="color:#64748b;margin-bottom:4px;display:block">Nama file otomatis: <strong id="preview_name">${s.nis||'NIS'}_${s.nama||'Nama'}.jpg</strong></small>
+                <img id="img_preview" class="foto-preview-img" src="${s.fotoUrl || ''}">
+                <small style="color:#64748b;margin-bottom:4px;display:block">Nama file otomatis: <strong id="preview_name">${autoNis}_${s.nama||'Nama'}.jpg</strong></small>
               </div>
             </div>
           </div>
@@ -207,17 +347,19 @@
       </div>`;
     document.body.appendChild(modal);
 
-    const inputNis = document.getElementById('f_nis');
+    // Tampilkan preview jika sudah ada foto
+    if (s.fotoUrl) {
+      document.getElementById('img_preview').style.display = 'block';
+    }
+
     const inputNama = document.getElementById('f_nama');
     const previewName = document.getElementById('preview_name');
     const inputFile = document.getElementById('f_foto');
     const imgPreview = document.getElementById('img_preview');
 
-    const updatePreviewName = () => { previewName.textContent = `${inputNis.value || 'NIS'}_${inputNama.value || 'Nama'}.jpg`; };
-    inputNis.addEventListener('input', updatePreviewName);
+    const updatePreviewName = () => { previewName.textContent = `${autoNis}_${inputNama.value || 'Nama'}.jpg`; };
     inputNama.addEventListener('input', updatePreviewName);
 
-    // Tampilkan preview jika memilih file dari galeri
     inputFile.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -225,26 +367,16 @@
         reader.onload = (ev) => {
           imgPreview.src = ev.target.result;
           imgPreview.style.display = 'block';
-          capturedBase64 = ev.target.result; // Simpan base64
+          capturedBase64 = ev.target.result;
         };
         reader.readAsDataURL(file);
       }
     });
-
-    // Jika sedang edit dan sudah ada foto sebelumnya, tampilkan
-    if (s.fotoUrl) {
-      imgPreview.src = s.fotoUrl;
-      imgPreview.style.display = 'block';
-    }
   }
 
-  // ==========================================
-  // LOGIKA KAMERA LANGSUNG (WEBCAM / HP)
-  // ==========================================
+  // --- KAMERA LANGSUNG ---
   let videoStream = null;
-
   window.openCamera = async () => {
-    // Buat elemen modal kamera
     const camModal = document.createElement('div');
     camModal.className = 'camera-modal';
     camModal.id = 'cameraModal';
@@ -261,21 +393,16 @@
     camModal.style.display = 'flex';
 
     try {
-      // Minta akses kamera (depan/belakang)
-      videoStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } } 
-      });
+      videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } } });
       document.getElementById('videoFeed').srcObject = videoStream;
     } catch (err) {
-      alert('Tidak dapat mengakses kamera: ' + err.message + '\\nPastikan Anda memberi izin dan menggunakan koneksi HTTPS/localhost.');
+      alert('Tidak dapat mengakses kamera: ' + err.message + '\\nPastikan menggunakan HTTPS/localhost dan memberi izin.');
       closeCamera();
     }
   };
 
   window.closeCamera = () => {
-    if (videoStream) {
-      videoStream.getTracks().forEach(track => track.stop());
-    }
+    if (videoStream) videoStream.getTracks().forEach(track => track.stop());
     const modal = document.getElementById('cameraModal');
     if (modal) modal.remove();
   };
@@ -284,54 +411,37 @@
     const video = document.getElementById('videoFeed');
     const canvas = document.getElementById('canvasCapture');
     
-    // Kompresi: Set resolusi maksimal 400x400px agar ringan
     const maxSize = 400;
-    let w = video.videoWidth;
-    let h = video.videoHeight;
+    let w = video.videoWidth, h = video.videoHeight;
     if (w > h && w > maxSize) { h = h * (maxSize / w); w = maxSize; }
     else if (h > maxSize) { w = w * (maxSize / h); h = maxSize; }
     
-    canvas.width = w;
-    canvas.height = h;
-    
+    canvas.width = w; canvas.height = h;
     const ctx = canvas.getContext('2d');
-    // Efek cermin (mirror) agar sama seperti yang terlihat di video
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
     ctx.drawImage(video, 0, 0, w, h);
     
-    // Ambil hasil sebagai format JPEG kualitas 0.8 (kompresi bagus)
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+    capturedBase64 = canvas.toDataURL('image/jpeg', 0.8);
     
-    // Simpan ke variabel global
-    capturedBase64 = dataUrl;
-    
-    // Tampilkan di preview form
     const imgPreview = document.getElementById('img_preview');
-    if (imgPreview) {
-      imgPreview.src = dataUrl;
-      imgPreview.style.display = 'block';
-    }
-    
-    // Reset input file agar tidak bentrok
-    const inputFile = document.getElementById('f_foto');
-    if (inputFile) inputFile.value = '';
+    if (imgPreview) { imgPreview.src = capturedBase64; imgPreview.style.display = 'block'; }
     
     closeCamera();
     tpa.toast('Foto berhasil diambil', 'success');
   };
 
-  // ==========================================
-  // SIMPAN DATA & UPLOAD KE DRIVE
-  // ==========================================
+  // --- SIMPAN & UPLOAD ---
   window.saveSantri = async () => {
     const btn = document.getElementById('btnSimpan');
-    
     const data = {
       nis: document.getElementById('f_nis').value.trim(),
       nama: document.getElementById('f_nama').value.trim(),
       jenisKelamin: document.getElementById('f_jk').value,
+      golDarah: document.getElementById('f_gol').value,
       kelasId: document.getElementById('f_kelas').value,
+      docKk: document.getElementById('f_dockk').value,
+      docAkta: document.getElementById('f_docakta').value,
       namaWali: document.getElementById('f_wali').value.trim(),
       waWali: document.getElementById('f_wa').value.trim(),
       alamat: document.getElementById('f_alamat').value.trim(),
@@ -342,11 +452,9 @@
 
     let newFotoUrl = null;
 
-    // Jika ada foto (dari kamera ATAU dari file galeri)
     if (capturedBase64) {
-      btn.disabled = true;
-      btn.textContent = 'Mengunggah ke Drive...';
-      tpa.toast('Sedang mengunggah foto ke Google Drive...', '');
+      btn.disabled = true; btn.textContent = 'Mengunggah...';
+      tpa.toast('Sedang mengunggah foto ke Drive...', '');
 
       try {
         const filename = `${data.nis}_${data.nama}.jpg`;
@@ -358,25 +466,19 @@
         
         if (result.status === 'success') {
           newFotoUrl = result.url;
-          tpa.toast('Foto berhasil diunggah ke Drive!', 'success');
-        } else {
-          throw new Error(result.message);
-        }
+        } else throw new Error(result.message);
       } catch (err) {
-        console.error(err);
         tpa.toast('Gagal upload foto: ' + err.message, 'error');
-        btn.disabled = false;
-        btn.textContent = 'Simpan & Upload';
-        return; // Hentikan proses simpan jika upload gagal
+        btn.disabled = false; btn.textContent = 'Simpan & Upload';
+        return;
       }
     }
 
-    // Simpan ke Database (localStorage)
     tpa.updateData(dd => {
       if (editingId) {
         const i = dd.santri.findIndex(x => x.id === editingId);
         dd.santri[i] = { ...dd.santri[i], ...data };
-        if (newFotoUrl) dd.santri[i].fotoUrl = newFotoUrl; 
+        if (newFotoUrl) dd.santri[i].fotoUrl = newFotoUrl;
       } else {
         dd.santri.push({ id: tpa.uid('s'), ...data, fotoUrl: newFotoUrl });
       }
@@ -390,10 +492,7 @@
   window.del = (id) => {
     const s = tpa.loadData().santri.find(x => x.id === id);
     if (!confirm(`Nonaktifkan santri "${s.nama}"?`)) return;
-    tpa.updateData(d => {
-      const i = d.santri.findIndex(x => x.id === id);
-      d.santri[i].status = 'Nonaktif';
-    });
+    tpa.updateData(d => { d.santri.find(x => x.id === id).status = 'Nonaktif'; });
     tpa.toast('Santri dinonaktifkan', 'success'); render();
   };
 
