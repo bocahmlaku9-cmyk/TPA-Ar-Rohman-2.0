@@ -5,68 +5,206 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard · TPA Ar Rahman</title>
 <link rel="stylesheet" href="shared.css">
+<style>
+  /* --- Kartu Jam & Tanggal --- */
+  .clock-card{
+    background:linear-gradient(135deg,#0f766e 0%,#115e59 55%,#134e4a 100%);
+    color:#fff;border-radius:18px;padding:22px;position:relative;overflow:hidden;
+    box-shadow:0 10px 30px rgba(15,118,110,.25);
+  }
+  .clock-card::after{
+    content:'🕌';position:absolute;right:-15px;bottom:-25px;
+    font-size:140px;opacity:.08;pointer-events:none;
+  }
+  .clock-time{
+    font-size:44px;font-weight:800;letter-spacing:2px;
+    font-variant-numeric:tabular-nums;line-height:1;
+  }
+  .clock-time .sec{font-size:22px;opacity:.65;font-weight:600}
+  .clock-dates{margin-top:16px;display:flex;flex-direction:column;gap:6px;font-size:13px;position:relative;z-index:1}
+  .clock-dates .masehi{color:rgba(255,255,255,.95);font-weight:500}
+  .clock-dates .hijri{color:#fde68a;font-weight:600}
+  @media(min-width:640px){
+    .clock-time{font-size:56px}
+    .clock-time .sec{font-size:26px}
+  }
+
+  /* --- Tombol Cepat Scan --- */
+  .quick-scan{
+    margin-top:12px;display:flex;align-items:center;gap:14px;
+    background:linear-gradient(135deg,#f59e0b,#c2410c);
+    color:#fff;border-radius:16px;padding:16px 18px;
+    text-decoration:none;transition:transform .15s ease;
+    box-shadow:0 8px 24px rgba(245,158,11,.35);
+  }
+  .quick-scan:hover{transform:translateY(-2px)}
+  .quick-scan:active{transform:scale(.98)}
+  .quick-scan-icon{
+    width:54px;height:54px;flex-shrink:0;
+    background:rgba(255,255,255,.22);border-radius:14px;
+    display:grid;place-items:center;font-size:26px;
+    backdrop-filter:blur(4px);
+  }
+  .quick-scan-text{flex:1;min-width:0}
+  .quick-scan-text h3{font-size:16px;font-weight:700;margin-bottom:2px}
+  .quick-scan-text p{font-size:12px;opacity:.92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .quick-scan-arrow{font-size:26px;font-weight:300}
+
+  /* --- Statistik per Kelas --- */
+  .kelas-item{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 0;border-bottom:1px solid var(--border);
+  }
+  .kelas-item:last-child{border-bottom:none}
+  .kelas-badge{
+    width:44px;height:44px;flex-shrink:0;border-radius:12px;
+    background:linear-gradient(135deg,#0f766e,#14b8a6);
+    color:#fff;display:grid;place-items:center;
+    font-weight:800;font-size:14px;letter-spacing:.5px;
+  }
+  .kelas-info{flex:1;min-width:0}
+  .kelas-nama{font-weight:600;font-size:14px;margin-bottom:2px}
+  .kelas-detail{font-size:11px;color:var(--muted)}
+  .progress{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-top:6px}
+  .progress-bar{
+    height:100%;border-radius:3px;transition:width .4s ease;
+    background:linear-gradient(90deg,#14b8a6,#0f766e);
+  }
+  .kelas-pct{font-weight:800;font-size:14px;color:var(--primary);min-width:44px;text-align:right}
+</style>
 </head>
 <body>
 <div id="app"></div>
 <script src="app.js"></script>
 <script>
   const sess = tpa.requireAuth();
+  let clockInterval = null;
 
+  /* ---------- Tanggal ---------- */
+  function getMasehiDate() {
+    return new Date().toLocaleDateString('id-ID', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+  }
+  function getHijriDate() {
+    try {
+      const s = new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      }).format(new Date());
+      return s + ' H';
+    } catch {
+      return 'Kalender Hijriah tidak didukung';
+    }
+  }
+
+  /* ---------- Jam ---------- */
+  function getTimeParts() {
+    const n = new Date();
+    return {
+      h: String(n.getHours()).padStart(2, '0'),
+      m: String(n.getMinutes()).padStart(2, '0'),
+      s: String(n.getSeconds()).padStart(2, '0'),
+    };
+  }
+  function tickClock() {
+    const el = document.getElementById('clockTime');
+    if (!el) return;
+    const t = getTimeParts();
+    el.innerHTML = `${t.h}:${t.m}<span class="sec">:${t.s}</span>`;
+  }
+
+  /* ---------- Render ---------- */
   function render() {
     const d = tpa.loadData();
-    const today = new Date().toISOString().slice(0,10);
-    const presensiHariIni = d.presensi.filter(p => p.tanggal === today).length;
-    const saldo = d.kas.reduce((a, t) => a + (t.jenis==='masuk' ? t.nominal : -t.nominal), 0);
-    const totalSantri = d.santri.filter(s => s.status === 'Aktif').length;
+    const today = new Date().toISOString().slice(0, 10);
+    const presensiHariIni = d.presensi.filter(p => p.tanggal === today);
+
+    const saldo = d.kas.reduce((a, t) =>
+      a + (t.jenis === 'masuk' ? t.nominal : -t.nominal), 0);
+
+    const totalSantri   = d.santri.filter(s => s.status === 'Aktif').length;
     const totalPengajar = d.pengajar.filter(p => p.aktif).length;
 
+    // Statistik per kelas
+    const kelasStats = d.kelas.filter(k => k.aktif).map(k => {
+      const total  = d.santri.filter(s => s.kelasId === k.id && s.status === 'Aktif').length;
+      const hadir  = presensiHariIni.filter(p => p.kelasId === k.id && p.status === 'Hadir').length;
+      const pct    = total ? Math.round((hadir / total) * 100) : 0;
+      return { ...k, total, hadir, pct };
+    });
+
+    const t = getTimeParts();
     const isWali = sess.role === 'walisantri';
-    const namaDepan = sess.nama.split(' ')[0];
+    const canScan = ['admin', 'pengajar', 'wali_kelas'].includes(sess.role);
 
     const html = `
-      <p class="muted" style="margin-bottom:14px">Selamat datang, <strong>${tpa.esc(sess.nama)}</strong> 👋</p>
+      <!-- ===== Jam & Tanggal ===== -->
+      <div class="clock-card">
+        <div class="clock-time" id="clockTime">${t.h}:${t.m}<span class="sec">:${t.s}</span></div>
+        <div class="clock-dates">
+          <div class="masehi">📅 ${getMasehiDate()}</div>
+          <div class="hijri">🌙 ${getHijriDate()}</div>
+        </div>
+      </div>
 
-      <div class="stats">
+      <!-- ===== Tombol Cepat Scan ===== -->
+      ${canScan ? `
+        <a href="presensi.html" class="quick-scan">
+          <div class="quick-scan-icon">📷</div>
+          <div class="quick-scan-text">
+            <h3>Scan QR Presensi</h3>
+            <p>Catat kehadiran santri dengan cepat</p>
+          </div>
+          <div class="quick-scan-arrow">→</div>
+        </a>
+      ` : ''}
+
+      <!-- ===== Statistik Utama ===== -->
+      <div class="stats" style="margin-top:12px">
         <div class="stat green">
           <div class="stat-label">Total Santri</div>
           <div class="stat-value">${totalSantri}</div>
         </div>
         <div class="stat blue">
-          <div class="stat-label">Pengajar</div>
+          <div class="stat-label">Total Pengajar</div>
           <div class="stat-value">${totalPengajar}</div>
         </div>
-        <div class="stat orange">
-          <div class="stat-label">Presensi Hari Ini</div>
-          <div class="stat-value">${presensiHariIni}</div>
-        </div>
-        <div class="stat purple">
-          <div class="stat-label">Saldo Kas</div>
-          <div class="stat-value" style="font-size:16px">${tpa.fmtRp(saldo)}</div>
+        <div class="stat purple" style="grid-column:1/-1">
+          <div class="stat-label">Saldo Kas TPA</div>
+          <div class="stat-value" style="font-size:22px">${tpa.fmtRp(saldo)}</div>
         </div>
       </div>
 
+      <!-- ===== Statistik per Kelas ===== -->
       <div class="card" style="margin-top:14px">
         <div class="card-title">
-          <span>Jadwal Presensi Hari Ini</span>
-          <a href="presensi.html" class="btn btn-primary btn-sm">Buka Presensi →</a>
+          <span>Statistik per Kelas</span>
+          <span class="muted">${presensiHariIni.length} presensi hari ini</span>
         </div>
-        ${d.jadwal.map(j => {
-          const k = d.kelas.find(k => k.id === j.kelasId)?.kode || '-';
-          return `<div class="row" style="padding:10px 0;border-bottom:1px solid var(--border)">
-            <strong>${k}</strong>
-            <span class="muted">${j.jamMulai}–${j.jamSelesai}</span>
-            <span class="spacer"></span>
-            <span class="badge blue">Terjadwal</span>
-          </div>`;
-        }).join('')}
+        ${kelasStats.length ? kelasStats.map(k => `
+          <div class="kelas-item">
+            <div class="kelas-badge">${tpa.esc(k.kode)}</div>
+            <div class="kelas-info">
+              <div class="kelas-nama">${tpa.esc(k.nama)}</div>
+              <div class="kelas-detail">${k.total} santri · ${k.hadir} hadir hari ini</div>
+              <div class="progress"><div class="progress-bar" style="width:${k.pct}%"></div></div>
+            </div>
+            <div class="kelas-pct">${k.pct}%</div>
+          </div>
+        `).join('') : '<div class="empty">Belum ada kelas aktif</div>'}
       </div>
 
       ${isWali ? renderWaliPanel(d) : ''}
     `;
 
     tpa.mountPage('Dashboard', html);
+
+    // Jalankan jam
+    if (clockInterval) clearInterval(clockInterval);
+    clockInterval = setInterval(tickClock, 1000);
   }
 
+  /* ---------- Panel Khusus Walisantri ---------- */
   function renderWaliPanel(d) {
     const anak = d.santri.filter(s => sess.santriIds.includes(s.id));
     if (!anak.length) return '';
@@ -94,6 +232,7 @@
       </div>`;
   }
 
+  /* ---------- Inisialisasi ---------- */
   render();
   tpa.onDataChange(render);
 </script>
