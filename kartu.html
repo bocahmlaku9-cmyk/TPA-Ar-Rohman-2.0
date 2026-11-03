@@ -11,6 +11,7 @@
 <style>
   /* =========================================================
      DESAIN PREMIUM EMERALD GOLD (PRESISI ID-CARD 54mm x 85mm)
+     DENGAN WATERMARK MASJID 1 WARNA TRANSPARAN
      ========================================================= */
   
   :root {
@@ -22,6 +23,8 @@
     --gold-light: #fef3c7;
     --text-dark: #0f172a;
     --text-muted: #334155;
+    /* Ganti URL ini jika menggunakan nama file gambar masjid lokal */
+    --bg-masjid-url: url('photo2436060185124254977.jpg'); 
   }
 
   .kartu-grid {
@@ -51,19 +54,6 @@
     overflow: hidden;
   }
 
-  /* Pattern Background Ornamen */
-  .card-portrait::before {
-    content: "";
-    position: absolute;
-    top: -20mm;
-    right: -20mm;
-    width: 45mm;
-    height: 45mm;
-    background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
   /* --- HEADER --- */
   .card-header {
     display: flex;
@@ -74,6 +64,7 @@
     padding: 0.8mm 1mm;
     border-radius: 2mm 2mm 1mm 1mm;
     flex-shrink: 0;
+    z-index: 2;
   }
   .card-brand {
     display: flex;
@@ -96,7 +87,6 @@
     margin: 0;
     line-height: 1;
     letter-spacing: 0.3px;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
   }
   .brand-text p {
     font-size: 7px;
@@ -131,7 +121,7 @@
     letter-spacing: 0.2px;
   }
 
-  /* --- KOTAK PROFIL & DATA DIRI --- */
+  /* --- KOTAK PROFIL & DATA DIRI (DENGAN BACKGROUND MASJID WATERMARK) --- */
   .profile-box {
     background: #ffffff;
     border-radius: 2.2mm;
@@ -142,6 +132,30 @@
     gap: 1mm;
     box-shadow: 0 2mm 4mm rgba(0,0,0,0.25);
     border-top: 0.8mm solid var(--emerald-main);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Watermark Masjid 1 Warna Transparan untuk Profile Box */
+  .profile-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--bg-masjid-url);
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.12;
+    filter: grayscale(100%) sepia(100%) hue-rotate(110deg) saturate(300%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .profile-top, .details-grid, .validity-box {
+    position: relative;
+    z-index: 1;
   }
 
   .profile-top {
@@ -205,7 +219,7 @@
     flex-wrap: wrap;
   }
   .tag {
-    background: var(--emerald-light);
+    background: rgba(236, 253, 245, 0.9);
     color: var(--emerald-dark);
     border: 0.2mm solid #a7f3d0;
     font-size: 7.5px;
@@ -219,7 +233,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.8mm 1.2mm;
-    border-top: 0.3mm solid #e2e8f0;
+    border-top: 0.3mm solid rgba(226, 232, 240, 0.8);
     padding-top: 1mm;
   }
   .detail-item {
@@ -251,7 +265,7 @@
 
   /* Kotak Masa Berlaku */
   .validity-box {
-    background: var(--gold-light);
+    background: rgba(254, 243, 199, 0.9);
     border: 0.3mm solid var(--gold-bright);
     border-radius: 1mm;
     padding: 0.6mm 1.2mm;
@@ -270,7 +284,7 @@
     color: #78350f;
   }
 
-  /* --- KOTAK QR CODE (BAWAH) --- */
+  /* --- KOTAK QR CODE (DENGAN BACKGROUND MASJID WATERMARK) --- */
   .qr-box {
     background: #ffffff;
     border-radius: 2.2mm;
@@ -282,6 +296,30 @@
     color: var(--text-dark);
     box-shadow: 0 2mm 4mm rgba(0,0,0,0.25);
     border-bottom: 0.8mm solid var(--gold-accent);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Watermark Masjid 1 Warna Transparan untuk QR Box */
+  .qr-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--bg-masjid-url);
+    background-size: cover;
+    background-position: center center;
+    opacity: 0.10;
+    filter: grayscale(100%) sepia(100%) hue-rotate(110deg) saturate(300%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .qr-container, .btn-scan, .qr-hint {
+    position: relative;
+    z-index: 1;
   }
 
   .qr-container {
@@ -292,6 +330,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
   .qr-container canvas, .qr-container img {
     width: 15mm !important;
