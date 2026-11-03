@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pencapaian · TPA Ar Rahman</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="app.js"></script>
+<script>
+  const sess = tpa.requireAuth(['admin','pengajar','wali_kelas','walisantri']);
+
+  function render() {
+    const d = tpa.loadData();
+    let list = d.pencapaian;
+    // Walisantri: hanya anak sendiri
+    if (sess.role === 'walisantri')
+      list = list.filter(c => sess.santriIds.includes(c.santriId));
+    list = [...list].sort((a,b) => b.tanggal.localeCompare(a.tanggal));
+
+    const santriMap = Object.fromEntries(d.santri.map(s => [s.id, s.nama]));
+    const canAdd = ['admin','pengajar','wali_kelas'].includes(sess.role);
+
+    const html = `
+      ${canAdd ? `<div class="row" style="margin-bottom:12px">
+        <span class="spacer"></span>
+        <button class="btn btn-primary" onclick="openForm()">+ Tambah Pencapaian</button>
+      </div>` : ''}
+      <div class="card">
+        <div class="card-title"><span>Daftar Pencapaian (${list.length})</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tanggal</th><th>Santri</th><th>Kategori</th><th>Materi</th><th>Nilai</th></tr></thead>
+            <tbody>
+              ${list.map(c => `
+                <tr>
+                  <td>${tpa.fmtDate(c.tanggal)}</td>
+                  <td>${tpa.esc(santriMap[c.santriId] || '-')}</td>
+                  <td><span class="badge blue">${c.kategori}</span></td>
+                  <td>${tpa.esc(c.materi)}</td>
+                  <td><strong style="color:${c.nilai>=90?'var(--success)':'var(--accent)'}">${c.nilai}</strong></td>
+                </tr>`).join('') || `<tr><td colspan="5" class="empty">Belum ada data pencapaian</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    tpa.mountPage('Pencapaian', html);
+  }
+
+  function openForm() {
+    const d = tpa.loadData();
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);display:grid;place-items:center;z-index:100;padding:16px';
+    modal.innerHTML = `
+      <div class="card" style="max-width:500px;width:100%">
+        <div class="card-title"><span>Tambah Pencapaian</span>
+          <button class="btn-icon" onclick="this.closest('div[style]').remove()">✕</button></div>
+        <div class="form-grid">
+          <div class="field full"><label>Santri</label>
+            <select id="f_santri">
+              ${d.santri.filter(s=>s.status==='Aktif').map(s =>
+                `<option value="${s.id}">${tpa.esc(s.nama)}</option>`).join('')}
+            </select></div>
+          <div class="field"><label>Tanggal</label><input type="date" id="f_tgl" value="${new Date().toISOString().slice(0,10)}"></div>
+          <div class="field"><label>Kategori</label>
+            <select id="f_kat"><option>Hafalan</option><option>Doa Harian</option><option>Praktik Sholat</option></select></div>
+          <div class="field full"><label>Materi</label><input id="f_materi" placeholder="An-Nas / Al-Falaq..."></div>
+          <div class="field full"><label>Nilai (0-100)</label><input type="number" id="f_nilai" min="0" max="100" value="90"></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" onclick="this.closest('div[style]').remove()">Batal</button>
+          <button class="btn btn-primary" onclick="save()">Simpan</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    window.save = () => {
+      const data = {
+        santriId: document.getElementById('f_santri').value,
+        tanggal: document.getElementById('f_tgl').value,
+        kategori: document.getElementById('f_kat').value,
+        materi: document.getElementById('f_materi').value.trim(),
+        nilai: Number(document.getElementById('f_nilai').value),
+        pengajarId: sess.pengajarId || null,
+      };
+      if (!data.materi) return tpa.toast('Materi wajib diisi', 'error');
+      tpa.updateData(dd => dd.pencapaian.push({ id: tpa.uid('c'), ...data }));
+      modal.remove(); tpa.toast('Pencapaian disimpan', 'success'); render();
+    };
+  }
+
+  render();
+  tpa.onDataChange(render);
+</script>
+</body>
+</html>

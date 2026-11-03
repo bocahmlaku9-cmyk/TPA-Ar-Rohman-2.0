@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Pengajar · TPA Ar Rahman</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="app.js"></script>
+<script>
+  tpa.requireAuth(['admin']);
+
+  function render() {
+    const d = tpa.loadData();
+    const html = `
+      <div class="card">
+        <div class="card-title"><span>Data Pengajar (${d.pengajar.length})</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>NIP</th><th>Nama</th><th>No. HP</th><th>Alamat</th><th>Status</th></tr></thead>
+            <tbody>
+              ${d.pengajar.map(p => `
+                <tr>
+                  <td>${p.nip}</td>
+                  <td><strong>${tpa.esc(p.nama)}</strong></td>
+                  <td>${tpa.esc(p.noHp)}</td>
+                  <td>${tpa.esc(p.alamat)}</td>
+                  <td><span class="badge ${p.aktif?'green':'red'}">${p.aktif?'Aktif':'Nonaktif'}</span></td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    tpa.mountPage('Data Pengajar', html);
+  }
+
+  render();
+  tpa.onDataChange(render);
+</script>
+</body>
+</html>

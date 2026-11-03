@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login · TPA Ar Rahman</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="login-wrap">
+  <form class="login-card" id="loginForm">
+    <div class="login-logo">
+      <div class="logo">🕌</div>
+      <h1>TPA Ar Rahman</h1>
+      <p>Jogonalan Lor · Bersama Al-Qur'an</p>
+    </div>
+    <div class="login-error" id="err"></div>
+    <div class="field" style="margin-bottom:12px">
+      <label>Username</label>
+      <input id="username" placeholder="Masukkan username" autocomplete="username" required>
+    </div>
+    <div class="field" style="margin-bottom:16px">
+      <label>Password</label>
+      <input id="password" type="password" placeholder="Masukkan password" autocomplete="current-password" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Masuk →</button>
+    <div class="login-hint">
+      <strong>Demo akun:</strong><br>
+      <code>admin/admin</code> · <code>pengajar1/pengajar</code><br>
+      <code>walikelas1/wali</code> · <code>wali1/wali</code>
+    </div>
+  </form>
+</div>
+<script src="app.js"></script>
+<script>
+  // Jika sudah login, langsung ke dashboard
+  if (tpa.getSession()) location.href = 'dashboard.html';
+
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value;
+    const sess = tpa.login(u, p);
+    if (!sess) {
+      const err = document.getElementById('err');
+      err.textContent = 'Username atau password salah.';
+      err.style.display = 'block';
+      return;
+    }
+    location.href = 'dashboard.html';
+  });
+</script>
+</body>
+</html>

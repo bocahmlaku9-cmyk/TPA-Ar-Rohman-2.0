@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presensi · TPA Ar Rahman</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="app.js"></script>
+<script>
+  const sess = tpa.requireAuth(['admin','pengajar','wali_kelas']);
+  let aktifKelas = 'k1';
+
+  function render() {
+    const d = tpa.loadData();
+    const today = new Date().toISOString().slice(0,10);
+    const santriKelas = d.santri.filter(s => s.kelasId === aktifKelas && s.status === 'Aktif');
+    const presensiHariIni = d.presensi.filter(p => p.tanggal === today);
+
+    const html = `
+      <div class="pill-tabs">
+        ${d.kelas.map(k => `
+          <button class="${k.id===aktifKelas?'active':''}" onclick="pilihKelas('${k.id}')">${k.kode}</button>
+        `).join('')}
+      </div>
+
+      <div class="card" style="text-align:center;margin-bottom:12px">
+        <button class="scan-circle" onclick="scanQR()" title="Klik untuk simulasi scan">📷</button>
+        <div style="font-weight:600">Scan QR Kartu Santri</div>
+        <div class="muted">Klik ikon kamera untuk simulasi scan</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Daftar Kehadiran · ${new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>No</th><th>Nama</th><th>Status</th><th>Waktu</th><th>Aksi</th></tr></thead>
+            <tbody>
+              ${santriKelas.map((s, i) => {
+                const p = presensiHariIni.find(x => x.santriId === s.id && x.kelasId === aktifKelas);
+                return `
+                  <tr>
+                    <td>${i+1}</td>
+                    <td><div class="row"><div class="avatar-sm">${s.nama.charAt(0)}</div>
+                      <strong>${tpa.esc(s.nama)}</strong></div></td>
+                    <td>${p ? badgeStatus(p.status) : '<span class="badge">Belum</span>'}</td>
+                    <td>${p ? p.waktu : '-'}</td>
+                    <td class="row" style="gap:3px">
+                      <button class="btn-icon primary" title="Hadir" onclick="mark('${s.id}','Hadir')">✓</button>
+                      <button class="btn-icon" title="Izin" onclick="mark('${s.id}','Izin')" style="background:#dbeafe;color:#1e40af">I</button>
+                      <button class="btn-icon" title="Sakit" onclick="mark('${s.id}','Sakit')" style="background:#ffedd5;color:#c2410c">S</button>
+                      <button class="btn-icon danger" title="Alpa" onclick="mark('${s.id}','Alpa')">A</button>
+                    </td>
+                  </tr>`;
+              }).join('') || `<tr><td colspan="5" class="empty">Tidak ada santri aktif di kelas ini</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
+    tpa.mountPage('Presensi', html);
+  }
+
+  function badgeStatus(st) {
+    const map = { Hadir:'green', Izin:'blue', Sakit:'orange', Alpa:'red', Terlambat:'orange' };
+    return `<span class="badge ${map[st]||''}">${st}</span>`;
+  }
+
+  function mark(santriId, status) {
+    const today = new Date().toISOString().slice(0,10);
+    const waktu = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+    tpa.updateData(d => {
+      d.presensi = d.presensi.filter(p => !(p.tanggal===today && p.santriId===santriId && p.kelasId===aktifKelas));
+      d.presensi.push({ id: tpa.uid('pr'), tanggal: today, kelasId: aktifKelas,
+        santriId, status, waktu, dicatatOleh: sess.userId });
+    });
+    tpa.toast(`Presensi disimpan (${status})`, 'success');
+    render();
+  }
+
+  function scanQR() {
+    // Simulasi: pilih santri acak dari kelas aktif yang belum tercatat
+    const d = tpa.loadData();
+    const today = new Date().toISOString().slice(0,10);
+    const santriKelas = d.santri.filter(s => s.kelasId === aktifKelas && s.status === 'Aktif');
+    const belum = santriKelas.filter(s =>
+      !d.presensi.some(p => p.tanggal===today && p.santriId===s.id && p.kelasId===aktifKelas));
+    if (!belum.length) return tpa.toast('Semua santri sudah tercatat', 'error');
+
+    // Simulasi scan → pilih acak
+    const target = belum[Math.floor(Math.random()*belum.length)];
+    const waktu = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+    tpa.updateData(dd => {
+      dd.presensi.push({ id: tpa.uid('pr'), tanggal: today, kelasId: aktifKelas,
+        santriId: target.id, status: 'Hadir', waktu, dicatatOleh: sess.userId });
+    });
+    tpa.toast(`✓ QR ${target.nama} valid — Hadir`, 'success');
+    render();
+  }
+
+  window.pilihKelas = (id) => { aktifKelas = id; render(); };
+  window.mark = mark;
+  window.scanQR = scanQR;
+
+  render();
+  tpa.onDataChange(render);
+</script>
+</body>
+</html>

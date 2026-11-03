@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · TPA Ar Rahman</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="app.js"></script>
+<script>
+  const sess = tpa.requireAuth();
+
+  function render() {
+    const d = tpa.loadData();
+    const today = new Date().toISOString().slice(0,10);
+    const presensiHariIni = d.presensi.filter(p => p.tanggal === today).length;
+    const saldo = d.kas.reduce((a, t) => a + (t.jenis==='masuk' ? t.nominal : -t.nominal), 0);
+    const totalSantri = d.santri.filter(s => s.status === 'Aktif').length;
+    const totalPengajar = d.pengajar.filter(p => p.aktif).length;
+
+    const isWali = sess.role === 'walisantri';
+    const namaDepan = sess.nama.split(' ')[0];
+
+    const html = `
+      <p class="muted" style="margin-bottom:14px">Selamat datang, <strong>${tpa.esc(sess.nama)}</strong> 👋</p>
+
+      <div class="stats">
+        <div class="stat green">
+          <div class="stat-label">Total Santri</div>
+          <div class="stat-value">${totalSantri}</div>
+        </div>
+        <div class="stat blue">
+          <div class="stat-label">Pengajar</div>
+          <div class="stat-value">${totalPengajar}</div>
+        </div>
+        <div class="stat orange">
+          <div class="stat-label">Presensi Hari Ini</div>
+          <div class="stat-value">${presensiHariIni}</div>
+        </div>
+        <div class="stat purple">
+          <div class="stat-label">Saldo Kas</div>
+          <div class="stat-value" style="font-size:16px">${tpa.fmtRp(saldo)}</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <div class="card-title">
+          <span>Jadwal Presensi Hari Ini</span>
+          <a href="presensi.html" class="btn btn-primary btn-sm">Buka Presensi →</a>
+        </div>
+        ${d.jadwal.map(j => {
+          const k = d.kelas.find(k => k.id === j.kelasId)?.kode || '-';
+          return `<div class="row" style="padding:10px 0;border-bottom:1px solid var(--border)">
+            <strong>${k}</strong>
+            <span class="muted">${j.jamMulai}–${j.jamSelesai}</span>
+            <span class="spacer"></span>
+            <span class="badge blue">Terjadwal</span>
+          </div>`;
+        }).join('')}
+      </div>
+
+      ${isWali ? renderWaliPanel(d) : ''}
+    `;
+
+    tpa.mountPage('Dashboard', html);
+  }
+
+  function renderWaliPanel(d) {
+    const anak = d.santri.filter(s => sess.santriIds.includes(s.id));
+    if (!anak.length) return '';
+    return `
+      <div class="card" style="margin-top:14px">
+        <div class="card-title"><span>Anak Saya</span></div>
+        ${anak.map(s => {
+          const kelas = d.kelas.find(k => k.id === s.kelasId)?.kode || '-';
+          const hadir = d.presensi.filter(p => p.santriId === s.id && p.status === 'Hadir').length;
+          const total = d.presensi.filter(p => p.santriId === s.id).length;
+          return `
+            <div class="row" style="padding:10px 0;border-bottom:1px solid var(--border)">
+              <div class="avatar-sm">${s.nama.charAt(0)}</div>
+              <div>
+                <div style="font-weight:600">${tpa.esc(s.nama)}</div>
+                <div class="muted">Kelas ${kelas}</div>
+              </div>
+              <span class="spacer"></span>
+              <div style="text-align:right">
+                <div class="muted">Kehadiran</div>
+                <strong>${total ? Math.round(hadir/total*100) : 0}%</strong>
+              </div>
+            </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  render();
+  tpa.onDataChange(render);
+</script>
+</body>
+</html>

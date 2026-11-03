@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pengaturan · TPA Ar Rahman</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="app.js"></script>
+<script>
+  tpa.requireAuth(['admin']);
+
+  function render() {
+    const d = tpa.loadData();
+    const html = `
+      <div class="card">
+        <div class="card-title"><span>Akun Pengguna (${d.users.length})</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Username</th><th>Nama</th><th>Role</th><th>Status</th></tr></thead>
+            <tbody>
+              ${d.users.map(u => `
+                <tr>
+                  <td>${tpa.esc(u.username)}</td>
+                  <td>${tpa.esc(u.nama)}</td>
+                  <td><span class="badge blue">${tpa.roleLabel(u.role)}</span></td>
+                  <td><span class="badge ${u.aktif?'green':'red'}">${u.aktif?'Aktif':'Nonaktif'}</span></td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Backup & Restore</span></div>
+        <div class="row">
+          <button class="btn btn-primary" onclick="backup()">⬇ Unduh Backup (JSON)</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('fileImport').click()">⬆ Import Backup</button>
+          <input type="file" id="fileImport" accept=".json" style="display:none" onchange="restore(event)">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="color:var(--danger)"><span>Zona Bahaya</span></div>
+        <p class="muted" style="margin-bottom:10px">Semua data akan dihapus dan dikembalikan ke data contoh.</p>
+        <button class="btn btn-danger" onclick="resetAll()">Reset Semua Data</button>
+      </div>
+    `;
+    tpa.mountPage('Pengaturan', html);
+  }
+
+  window.backup = () => {
+    const data = tpa.loadData();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'tpa-backup-' + new Date().toISOString().slice(0,10) + '.json';
+    a.click();
+    tpa.toast('Backup diunduh', 'success');
+  };
+
+  window.restore = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (!data.santri || !data.users) throw new Error('Format salah');
+        localStorage.setItem('tpa_ar_rahman_data_v1', JSON.stringify(data));
+        tpa.toast('Data dipulihkan', 'success');
+        render();
+      } catch (err) {
+        tpa.toast('File backup tidak valid', 'error');
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  window.resetAll = () => {
+    if (!confirm('Yakin reset semua data ke contoh awal?')) return;
+    localStorage.removeItem('tpa_ar_rahman_data_v1');
+    tpa.toast('Data direset', 'success');
+    setTimeout(() => location.reload(), 500);
+  };
+
+  render();
+  tpa.onDataChange(render);
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kartu Anggota · TPA Ar Rahman</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script src="app.js"></script>
+<script>
+  const sess = tpa.requireAuth();
+
+  function render() {
+    const d = tpa.loadData();
+    let santriList = d.santri.filter(s => s.status === 'Aktif');
+    if (sess.role === 'walisantri') santriList = santriList.filter(s => sess.santriIds.includes(s.id));
+
+    const html = `
+      <div class="card">
+        <div class="card-title"><span>Kartu Santri</span></div>
+        <div class="row" style="flex-wrap:wrap;gap:14px">
+          ${santriList.map(s => {
+            const k = d.kelas.find(x => x.id === s.kelasId)?.kode || '-';
+            return `
+              <div class="kartu-mini" data-santri="${s.id}">
+                <h3>TPA AR RAHMAN · KARTU SANTRI</h3>
+                <div class="name">${tpa.esc(s.nama)}</div>
+                <div class="meta">${s.nis} · Kelas ${k}</div>
+                <div class="qr-box" id="qr-${s.id}"></div>
+              </div>`;
+          }).join('') || '<div class="empty">Tidak ada santri</div>'}
+        </div>
+        <button class="btn btn-primary" style="margin-top:14px" onclick="window.print()">🖨 Cetak Semua</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Kartu Pengajar</span></div>
+        <div class="row" style="flex-wrap:wrap;gap:14px">
+          ${d.pengajar.filter(p=>p.aktif).map(p => `
+            <div class="kartu-mini" style="background:linear-gradient(135deg,#0e7490,#155e75)">
+              <h3>TPA AR RAHMAN · KARTU PENGAJAR</h3>
+              <div class="name">${tpa.esc(p.nama)}</div>
+              <div class="meta">${p.nip} · Pengajar</div>
+              <div class="qr-box" id="qr-${p.id}"></div>
+            </div>`).join('')}
+        </div>
+      </div>
+    `;
+    tpa.mountPage('Kartu Anggota', html);
+
+    // Generate QR setelah DOM terpasang
+    requestAnimationFrame(() => {
+      [...santriList, ...d.pengajar].forEach(a => {
+        const el = document.getElementById('qr-' + a.id);
+        if (el && el.childElementCount === 0) {
+          new QRCode(el, {
+            text: JSON.stringify({ id: a.id, nip: a.nis || a.nip, type: a.nis ? 'santri' : 'pengajar' }),
+            width: 90, height: 90, colorDark: '#000', colorLight: '#fff'
+          });
+        }
+      });
+    });
+  }
+
+  render();
+  tpa.onDataChange(render);
+</script>
+</body>
+</html>

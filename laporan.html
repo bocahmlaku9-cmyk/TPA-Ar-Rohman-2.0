@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan · TPA Ar Rahman</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="app.js"></script>
+<script>
+  tpa.requireAuth(['admin']);
+
+  function render() {
+    const d = tpa.loadData();
+    const today = new Date().toISOString().slice(0,10);
+    const hadir = d.presensi.filter(p => p.status==='Hadir').length;
+    const izin = d.presensi.filter(p => p.status==='Izin').length;
+    const sakit = d.presensi.filter(p => p.status==='Sakit').length;
+    const alpa = d.presensi.filter(p => p.status==='Alpa').length;
+
+    const html = `
+      <div class="card">
+        <div class="card-title"><span>Ringkasan Sistem</span></div>
+        <div class="stats" style="grid-template-columns:1fr 1fr">
+          <div><div class="muted">Total Santri</div><strong style="font-size:20px">${d.santri.length}</strong></div>
+          <div><div class="muted">Total Pengajar</div><strong style="font-size:20px">${d.pengajar.length}</strong></div>
+          <div><div class="muted">Total Presensi</div><strong style="font-size:20px">${d.presensi.length}</strong></div>
+          <div><div class="muted">Total Pencapaian</div><strong style="font-size:20px">${d.pencapaian.length}</strong></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Rekap Presensi (semua)</span></div>
+        <div class="stats" style="grid-template-columns:repeat(4,1fr)">
+          <div><div class="muted">Hadir</div><strong style="color:var(--success)">${hadir}</strong></div>
+          <div><div class="muted">Izin</div><strong style="color:#1e40af">${izin}</strong></div>
+          <div><div class="muted">Sakit</div><strong style="color:#c2410c">${sakit}</strong></div>
+          <div><div class="muted">Alpa</div><strong style="color:var(--danger)">${alpa}</strong></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Ekspor Data</span></div>
+        <div class="row">
+          <button class="btn btn-primary" onclick="exportCSV('santri')">⬇ Ekspor Santri (CSV)</button>
+          <button class="btn btn-primary" onclick="exportCSV('presensi')">⬇ Ekspor Presensi (CSV)</button>
+          <button class="btn btn-primary" onclick="exportCSV('kas')">⬇ Ekspor Kas (CSV)</button>
+          <button class="btn btn-ghost" onclick="window.print()">🖨 Cetak Laporan</button>
+        </div>
+      </div>
+    `;
+    tpa.mountPage('Laporan', html);
+  }
+
+  window.exportCSV = (type) => {
+    const d = tpa.loadData();
+    let rows, filename;
+    if (type === 'santri') {
+      filename = 'santri.csv';
+      rows = [['NIS','Nama','Kelas','Status','NoHP','Alamat']];
+      d.santri.forEach(s => rows.push([s.nis, s.nama,
+        d.kelas.find(k=>k.id===s.kelasId)?.kode || '-', s.status, s.noHp, s.alamat]));
+    } else if (type === 'presensi') {
+      filename = 'presensi.csv';
+      rows = [['Tanggal','Santri','Kelas','Status','Waktu']];
+      d.presensi.forEach(p => rows.push([p.tanggal,
+        d.santri.find(s=>s.id===p.santriId)?.nama || '-',
+        d.kelas.find(k=>k.id===p.kelasId)?.kode || '-', p.status, p.waktu]));
+    } else if (type === 'kas') {
+      filename = 'kas.csv';
+      rows = [['Tanggal','Jenis','Kategori','Nominal','Keterangan']];
+      d.kas.forEach(t => rows.push([t.tanggal, t.jenis, t.kategori, t.nominal, t.ket]));
+    }
+    const csv = rows.map(r => r.map(x =>
+      `"${String(x ?? '').replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob(['\ufeff'+csv], { type:'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    tpa.toast('File CSV diunduh', 'success');
+  };
+
+  render();
+  tpa.onDataChange(render);
+</script>
+</body>
+</html>
