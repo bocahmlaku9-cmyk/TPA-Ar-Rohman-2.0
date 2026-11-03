@@ -10,20 +10,21 @@
 
 <style>
   /* =========================================================
-     DESAIN PREMIUM EMERALD GOLD (PRESISI ID-CARD 54mm x 85mm)
-     DENGAN WATERMARK MASJID 1 WARNA TRANSPARAN
+     DESAIN HIJAU RATA PRESI (ID-CARD 54mm x 85mm)
+     DENGAN KONTRAST TEKS TINGGI DAN BACA MUDAH
      ========================================================= */
   
   :root {
     --emerald-dark: #044e3a;
     --emerald-main: #065f46;
-    --emerald-light: #ecfdf5;
-    --gold-accent: #d97706;
+    --emerald-card: #033829;
+    --emerald-box: #064e3b;
+    --emerald-border: #059669;
+    --emerald-light: #a7f3d0;
     --gold-bright: #fbbf24;
-    --gold-light: #fef3c7;
-    --text-dark: #0f172a;
-    --text-muted: #334155;
-    /* Ganti URL ini jika menggunakan nama file gambar masjid lokal */
+    --gold-accent: #d97706;
+    --text-white: #ffffff;
+    --text-sub: #cbd5e1;
     --bg-masjid-url: url('photo2436060185124254977.jpg'); 
   }
 
@@ -39,7 +40,7 @@
   .card-portrait {
     width: 54mm;
     height: 85mm;
-    background: linear-gradient(145deg, var(--emerald-dark) 0%, #022c22 100%);
+    background-color: var(--emerald-card);
     border: 1.2mm solid var(--gold-accent);
     border-radius: 4mm;
     padding: 1.2mm;
@@ -59,7 +60,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(90deg, rgba(6,95,70,0.9) 0%, rgba(4,78,58,0.9) 100%);
+    background: rgba(6, 95, 70, 0.95);
     border-bottom: 0.4mm solid var(--gold-bright);
     padding: 0.8mm 1mm;
     border-radius: 2mm 2mm 1mm 1mm;
@@ -121,22 +122,22 @@
     letter-spacing: 0.2px;
   }
 
-  /* --- KOTAK PROFIL & DATA DIRI (DENGAN BACKGROUND MASJID WATERMARK) --- */
+  /* --- KOTAK PROFIL & DATA DIRI (BACKGROUND HIJAU RATA + WATERMARK MASJID) --- */
   .profile-box {
-    background: #ffffff;
+    background: var(--emerald-box);
     border-radius: 2.2mm;
     padding: 1.2mm 1.5mm;
-    color: var(--text-dark);
+    color: #ffffff;
     display: flex;
     flex-direction: column;
     gap: 1mm;
-    box-shadow: 0 2mm 4mm rgba(0,0,0,0.25);
-    border-top: 0.8mm solid var(--emerald-main);
+    box-shadow: inset 0 0 0 0.3mm rgba(255,255,255,0.15);
+    border-top: 0.8mm solid var(--gold-bright);
     position: relative;
     overflow: hidden;
   }
 
-  /* Watermark Masjid 1 Warna Transparan untuk Profile Box */
+  /* Watermark Masjid Transparan pada Background Hijau Rata */
   .profile-box::before {
     content: "";
     position: absolute;
@@ -147,8 +148,8 @@
     background-image: var(--bg-masjid-url);
     background-size: cover;
     background-position: center bottom;
-    opacity: 0.12;
-    filter: grayscale(100%) sepia(100%) hue-rotate(110deg) saturate(300%);
+    opacity: 0.15;
+    filter: brightness(200%) contrast(150%);
     pointer-events: none;
     z-index: 0;
   }
@@ -171,8 +172,8 @@
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
-    background: #f1f5f9;
-    border: 0.4mm solid var(--gold-accent);
+    background: #022c22;
+    border: 0.4mm solid var(--gold-bright);
   }
   .foto-img {
     width: 100%;
@@ -184,8 +185,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: var(--emerald-dark);
-    color: #fff;
+    background: rgba(0, 0, 0, 0.75);
+    color: var(--gold-bright);
     font-size: 5.5px;
     font-weight: 900;
     text-align: center;
@@ -205,13 +206,14 @@
     font-size: 12.5px;
     font-weight: 900;
     line-height: 1.15;
-    color: #000000;
+    color: #ffffff;
     word-break: break-word;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin-bottom: 0.8mm;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
   }
   .tags {
     display: flex;
@@ -219,9 +221,9 @@
     flex-wrap: wrap;
   }
   .tag {
-    background: rgba(236, 253, 245, 0.9);
-    color: var(--emerald-dark);
-    border: 0.2mm solid #a7f3d0;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--emerald-light);
+    border: 0.3mm solid var(--emerald-border);
     font-size: 7.5px;
     font-weight: 800;
     padding: 0.3mm 1.2mm;
@@ -233,7 +235,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.8mm 1.2mm;
-    border-top: 0.3mm solid rgba(226, 232, 240, 0.8);
+    border-top: 0.3mm solid rgba(255, 255, 255, 0.2);
     padding-top: 1mm;
   }
   .detail-item {
@@ -247,7 +249,7 @@
   .detail-item .label {
     font-size: 7.5px;
     font-weight: 900;
-    color: var(--emerald-main);
+    color: var(--emerald-light);
     text-transform: uppercase;
     letter-spacing: 0.1px;
     line-height: 1;
@@ -256,7 +258,7 @@
   .detail-item .value {
     font-size: 9.5px;
     font-weight: 800;
-    color: var(--text-dark);
+    color: #ffffff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -265,7 +267,7 @@
 
   /* Kotak Masa Berlaku */
   .validity-box {
-    background: rgba(254, 243, 199, 0.9);
+    background: rgba(0, 0, 0, 0.35);
     border: 0.3mm solid var(--gold-bright);
     border-radius: 1mm;
     padding: 0.6mm 1.2mm;
@@ -276,31 +278,31 @@
   .validity-box .label {
     font-size: 7.5px;
     font-weight: 900;
-    color: #92400e;
+    color: var(--gold-bright);
   }
   .validity-box .value {
     font-size: 9px;
     font-weight: 900;
-    color: #78350f;
+    color: #ffffff;
   }
 
-  /* --- KOTAK QR CODE (DENGAN BACKGROUND MASJID WATERMARK) --- */
+  /* --- KOTAK QR CODE (BACKGROUND HIJAU RATA + WATERMARK MASJID) --- */
   .qr-box {
-    background: #ffffff;
+    background: var(--emerald-box);
     border-radius: 2.2mm;
     padding: 1mm 1.2mm 0.8mm 1.2mm;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--text-dark);
-    box-shadow: 0 2mm 4mm rgba(0,0,0,0.25);
-    border-bottom: 0.8mm solid var(--gold-accent);
+    color: #ffffff;
+    box-shadow: inset 0 0 0 0.3mm rgba(255,255,255,0.15);
+    border-bottom: 0.8mm solid var(--gold-bright);
     position: relative;
     overflow: hidden;
   }
 
-  /* Watermark Masjid 1 Warna Transparan untuk QR Box */
+  /* Watermark Masjid Transparan pada QR Box */
   .qr-box::before {
     content: "";
     position: absolute;
@@ -311,8 +313,8 @@
     background-image: var(--bg-masjid-url);
     background-size: cover;
     background-position: center center;
-    opacity: 0.10;
-    filter: grayscale(100%) sepia(100%) hue-rotate(110deg) saturate(300%);
+    opacity: 0.12;
+    filter: brightness(200%) contrast(150%);
     pointer-events: none;
     z-index: 0;
   }
@@ -322,15 +324,16 @@
     z-index: 1;
   }
 
+  /* Container QR tetap putih agar pemindai presensi dapat membaca QR dengan sempurna */
   .qr-container {
-    background: #fff;
-    padding: 0.3mm;
-    border-radius: 1mm;
-    margin-bottom: 0.6mm;
+    background: #ffffff;
+    padding: 0.6mm;
+    border-radius: 1.2mm;
+    margin-bottom: 0.8mm;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
   }
   .qr-container canvas, .qr-container img {
     width: 15mm !important;
@@ -339,8 +342,8 @@
   }
 
   .btn-scan {
-    background: linear-gradient(135deg, var(--emerald-main) 0%, var(--emerald-dark) 100%);
-    color: #fff;
+    background: var(--gold-bright);
+    color: #000000;
     font-size: 8.5px;
     font-weight: 900;
     padding: 0.9mm 0;
@@ -352,12 +355,12 @@
     justify-content: center;
     gap: 0.8mm;
     letter-spacing: 0.3px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   }
 
   .qr-hint {
     font-size: 7px;
-    color: var(--text-muted);
+    color: var(--emerald-light);
     text-align: center;
     line-height: 1.1;
     margin: 0.6mm 0 0 0;
@@ -436,7 +439,7 @@
               if (parts.length === 3) tglLahirStr = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            const fallbackImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=065f46&color=fff&size=128&font-size=0.4`;
+            const fallbackImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=064e3b&color=fff&size=128&font-size=0.4`;
             const jk = s.jenisKelamin === 'L' ? 'Laki-laki' : (s.jenisKelamin === 'P' ? 'Perempuan' : '-');
             const nisDisplay = s.nis || '-';
             const fotoSrc = s.fotoUrl || fallbackImg;
@@ -459,7 +462,7 @@
                   </div>
                 </div>
 
-                <!-- KOTAK PROFIL -->
+                <!-- KOTAK PROFIL (HIJAU RATA) -->
                 <div class="profile-box">
                   <div class="profile-top">
                     <div class="foto-wrap">
@@ -504,7 +507,7 @@
                   </div>
                 </div>
 
-                <!-- KOTAK QR CODE -->
+                <!-- KOTAK QR CODE (HIJAU RATA) -->
                 <div class="qr-box">
                   <div class="qr-container">
                     <div id="qr-${s.id}"></div>
