@@ -5,20 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login · TPA Ar Rahman</title>
 <link rel="stylesheet" href="shared.css">
+<style>
+  /* Gaya untuk tombol reset darurat */
+  .reset-btn {
+    background: none; border: none; color: #ef4444; font-size: 12px;
+    cursor: pointer; text-decoration: underline; margin-top: 15px;
+    display: block; width: 100%; text-align: center; font-weight: 600;
+  }
+  .reset-btn:hover { color: #b91c1c; }
+  
+  /* Gaya untuk pesan error sistem */
+  .debug-err {
+    background: #fee2e2; color: #dc2626; padding: 10px; 
+    border-radius: 8px; font-size: 12px; margin-bottom: 12px; 
+    display: none; border: 1px solid #f87171; text-align: center;
+  }
+</style>
 </head>
 <body>
 <div class="login-wrap">
   <form class="login-card" id="loginForm">
     <div class="login-logo">
-      <!-- LOGO BARU -->
+      
+      <!-- LOGO BARU DENGAN FALLBACK -->
       <div class="logo" style="background:#fff; padding:6px; overflow:hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-        <img src="https://lh3.googleusercontent.com/d/1F6GqnKh5sEGXFMIeFob5a3jib1CbhpHv" alt="Logo TPA" style="width:100%; height:100%; object-fit:contain;">
+        <img src="https://lh3.googleusercontent.com/d/1F6GqnKh5sEGXFMIeFob5a3jib1CbhpHv" 
+             alt="Logo TPA" 
+             style="width:100%; height:100%; object-fit:contain;"
+             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=TPA&background=0f766e&color=fff&size=128&font-size=0.33';">
       </div>
       <!-- END LOGO -->
+
       <h1>TPA Ar Rahman</h1>
       <p>Jogonalan Lor · Bersama Al-Qur'an</p>
     </div>
+
+    <!-- Pesan Error -->
+    <div class="debug-err" id="debugErr"></div>
     <div class="login-error" id="err"></div>
+
     <div class="field" style="margin-bottom:12px">
       <label>Username</label>
       <input id="username" placeholder="Masukkan username" autocomplete="username" required>
@@ -28,31 +53,68 @@
       <input id="password" type="password" placeholder="Masukkan password" autocomplete="current-password" required>
     </div>
     <button type="submit" class="btn btn-primary btn-block">Masuk →</button>
+    
+    <!-- TOMBOL RESET DARURAT -->
+    <button type="button" class="reset-btn" onclick="resetSystem()">Data tidak bisa login? Klik untuk Reset Aplikasi</button>
+
     <div class="login-hint">
       <strong>Demo akun:</strong><br>
-      <code>admin/admin</code> · <code>pengajar1/pengajar</code><br>
-      <code>walikelas1/wali</code> · <code>wali1/wali</code>
+      <code>admin</code> / <code>admin</code><br>
+      <code>pengajar1</code> / <code>pengajar</code><br>
+      <code>walikelas1</code> / <code>wali</code> · <code>wali1</code> / <code>wali</code>
     </div>
   </form>
 </div>
-<script src="app.js"></script>
-<script>
-  // Jika sudah login, langsung ke dashboard
-  if (tpa.getSession()) location.href = 'dashboard.html';
 
-  document.getElementById('loginForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const u = document.getElementById('username').value.trim();
-    const p = document.getElementById('password').value;
-    const sess = tpa.login(u, p);
-    if (!sess) {
-      const err = document.getElementById('err');
-      err.textContent = 'Username atau password salah.';
-      err.style.display = 'block';
-      return;
+<!-- Panggil app.js -->
+<script src="app.js"></script>
+
+<script>
+  // 1. Cek apakah app.js berhasil dimuat
+  if (typeof tpa === 'undefined') {
+    const errBox = document.getElementById('debugErr');
+    errBox.style.display = 'block';
+    errBox.innerHTML = '<b>ERROR:</b> File <code>app.js</code> tidak ditemukan atau error. Pastikan file app.js ada di folder yang sama dan tidak ada salah ketik.';
+  } else {
+    
+    // 2. Jika sudah login, langsung lempar ke dashboard
+    if (tpa.getSession()) {
+      location.href = 'dashboard.html';
     }
-    location.href = 'dashboard.html';
-  });
+
+    // 3. Logika Form Login
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value;
+      
+      try {
+        const sess = tpa.login(u, p);
+        if (!sess) {
+          showErr('Username atau password salah.');
+          return;
+        }
+        location.href = 'dashboard.html';
+      } catch (error) {
+        showErr('Error sistem: ' + error.message);
+      }
+    });
+  }
+
+  function showErr(msg) {
+    const err = document.getElementById('err');
+    err.textContent = msg;
+    err.style.display = 'block';
+  }
+
+  // 4. Fungsi Reset Darurat
+  function resetSystem() {
+    if (confirm('Ini akan menghapus semua data di browser dan mengembalikannya ke data awal. Lanjutkan?')) {
+      localStorage.removeItem('tpa_ar_rahman_data_v1');
+      localStorage.removeItem('tpa_ar_rahman_session');
+      location.reload();
+    }
+  }
 </script>
 </body>
 </html>
