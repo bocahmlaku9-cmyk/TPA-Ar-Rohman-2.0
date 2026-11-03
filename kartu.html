@@ -10,37 +10,43 @@
 
 <style>
   /* =========================================
-     STYLE KARTU ANGGOTA (PERSIS REFERENSI)
+     STYLE KARTU ANGGOTA (BACKGROUND HIJAU & FONT BESAR)
      ========================================= */
   
   :root {
-    --teal-primary: #147d73; /* Warna Tosca Utama */
-    --teal-light: #e6f4f1;
+    --teal-primary: #0f766e; /* Tosca untuk elemen dalam */
+    --bg-dark-green: #0b5e3b; /* Hijau Gelap TPA */
+    --gold-accent: #eab308; /* Emas */
     --text-dark: #1a202c;
     --text-grey: #718096;
   }
 
   .kartu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 20px;
     margin-top: 16px;
   }
 
   .card-portrait {
-    background-color: #ffffff;
-    border: 2.5px solid var(--teal-primary); /* Border Tosca Tebal */
+    background-color: var(--bg-dark-green); /* Background Hijau */
+    /* Watermark geometris halus */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path fill="white" d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50S27.9 10 50 10s40 17.9 40 40-17.9 40-40 40zM30 30h40v10H30zm0 20h40v10H30zm0 20h40v10H30z"/></svg>');
+    background-size: 150%;
+    background-position: center;
+    
+    border: 3.5px solid var(--gold-accent); /* Border Emas */
     border-radius: 16px;
     width: 100%;
-    max-width: 330px;
-    min-height: 590px;
+    max-width: 350px; /* Sedikit dilebarkan untuk font besar */
+    min-height: 620px;
     padding: 16px;
-    color: var(--text-dark);
+    color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     position: relative;
     overflow: hidden;
   }
@@ -50,7 +56,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     flex-shrink: 0;
     padding: 0 4px;
   }
@@ -60,22 +66,24 @@
     gap: 10px;
   }
   .card-brand img {
-    width: 38px;
-    height: 38px;
-    border-radius: 6px;
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
     object-fit: contain;
+    background: #fff;
+    padding: 2px;
   }
   .brand-text h3 {
-    font-size: 14px;
+    font-size: 17px; /* Font diperbesar */
     font-weight: 900;
-    color: var(--teal-primary);
+    color: #ffffff;
     letter-spacing: 0.5px;
     margin: 0 0 2px 0;
   }
   .brand-text p {
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--teal-primary);
+    font-size: 13px; /* Font diperbesar */
+    font-weight: 700;
+    color: #a7f3d0;
     margin: 0;
     letter-spacing: 0.5px;
   }
@@ -85,44 +93,43 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 4px;
+    gap: 6px;
   }
   .badge-aktif {
-    background: #ffffff;
-    color: var(--teal-primary);
-    font-size: 9px;
+    background: var(--gold-accent);
+    color: #000;
+    font-size: 11px; /* Font diperbesar */
     font-weight: 800;
-    padding: 2px 12px;
+    padding: 3px 12px;
     border-radius: 20px;
-    border: 1px solid var(--teal-primary);
     text-transform: uppercase;
   }
   .header-nis {
-    font-size: 10px;
+    font-size: 12px; /* Font diperbesar */
     font-weight: 700;
-    color: var(--teal-primary);
+    color: var(--gold-accent);
     font-family: monospace;
   }
 
-  /* --- KOTAK PROFIL (ATAS) --- */
+  /* --- KOTAK PROFIL (ATAS - PUTIH) --- */
   .profile-box {
-    border: 1.5px solid var(--teal-primary);
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 12px;
-    flex-shrink: 0;
     background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+    flex-shrink: 0;
+    color: var(--text-dark);
   }
 
   .profile-top {
     display: flex;
     gap: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
 
   .foto-wrap {
-    width: 75px;
-    height: 100px;
+    width: 80px;
+    height: 105px;
     border-radius: 10px;
     overflow: hidden;
     position: relative;
@@ -139,9 +146,9 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(20,125,115,0.95), rgba(20,125,115,0.6), transparent);
+    background: linear-gradient(to top, rgba(15,118,110,0.95), rgba(15,118,110,0.6), transparent);
     color: #fff;
-    font-size: 9px;
+    font-size: 10px; /* Font diperbesar */
     font-weight: 800;
     text-align: center;
     padding: 12px 0 5px 0;
@@ -157,23 +164,23 @@
     justify-content: center;
   }
   .info-nama {
-    font-size: 17px;
+    font-size: 20px; /* Font diperbesar signifikan */
     font-weight: 900;
     line-height: 1.1;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     color: var(--text-dark);
   }
   .tags {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     flex-wrap: wrap;
   }
   .tag {
-    background: var(--teal-light);
+    background: #ccfbf1;
     color: var(--teal-primary);
-    font-size: 10px;
+    font-size: 12px; /* Font diperbesar */
     font-weight: 800;
-    padding: 3px 8px;
+    padding: 4px 10px;
     border-radius: 6px;
   }
 
@@ -181,7 +188,7 @@
   .details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 14px 12px;
   }
   .detail-item {
     display: flex;
@@ -191,14 +198,14 @@
     grid-column: 1 / -1;
   }
   .detail-item .label {
-    font-size: 9px;
-    font-weight: 700;
+    font-size: 10px; /* Font diperbesar */
+    font-weight: 800;
     color: var(--text-grey);
     text-transform: uppercase;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
   }
   .detail-item .value {
-    font-size: 12px;
+    font-size: 14px; /* Font diperbesar */
     font-weight: 800;
     color: var(--text-dark);
     white-space: nowrap;
@@ -208,33 +215,33 @@
 
   /* Kotak Masa Berlaku */
   .validity-box {
-    background: var(--teal-light);
-    border: 1px solid #b2dfd9;
+    background: #f0fdfa;
+    border: 1.5px solid #99f6e4;
     border-radius: 8px;
-    padding: 6px 12px;
+    padding: 8px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 14px;
+    margin-top: 16px;
   }
   .validity-box .label {
-    font-size: 9px;
+    font-size: 10px; /* Font diperbesar */
     font-weight: 800;
     color: var(--teal-primary);
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     text-transform: uppercase;
   }
   .validity-box .value {
-    font-size: 11px;
+    font-size: 13px; /* Font diperbesar */
     font-weight: 900;
     color: var(--teal-primary);
   }
 
-  /* --- KOTAK QR CODE (BAWAH) --- */
+  /* --- KOTAK QR CODE (BAWAH - PUTIH) --- */
   .qr-box {
-    border: 1.5px solid var(--teal-primary);
+    background: #ffffff;
     border-radius: 12px;
     padding: 16px;
     display: flex;
@@ -242,7 +249,7 @@
     align-items: center;
     flex: 1; /* Mengisi sisa ruang */
     justify-content: center;
-    background: #ffffff;
+    color: var(--text-dark);
   }
 
   .qr-container {
@@ -250,7 +257,6 @@
     padding: 4px;
     border-radius: 8px;
     margin-bottom: 16px;
-    border: 1px dashed #b2dfd9; /* Border putus-putus tipis agar rapi */
   }
   .qr-container canvas, .qr-container img {
     width: 160px !important; /* QR Code besar */
@@ -261,27 +267,28 @@
   .btn-scan {
     background: var(--teal-primary);
     color: #fff;
-    font-size: 12px;
+    font-size: 14px; /* Font diperbesar */
     font-weight: 800;
-    padding: 9px 16px;
+    padding: 10px 16px;
     border-radius: 20px;
     text-align: center;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     margin-bottom: 10px;
     letter-spacing: 0.5px;
   }
 
   .qr-hint {
-    font-size: 9px;
+    font-size: 11px; /* Font diperbesar */
     color: var(--text-grey);
     text-align: center;
-    line-height: 1.3;
+    line-height: 1.4;
     margin: 0;
     padding: 0 10px;
+    font-weight: 500;
   }
 
   /* --- PRINT SETTINGS --- */
@@ -315,7 +322,6 @@
 
     const nextYear = new Date();
     nextYear.setFullYear(nextYear.getFullYear() + 1);
-    // Format tanggal masa berlaku: DD Mmm YYYY (Contoh: 03 Nov 2027)
     const tglBerlaku = nextYear.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
 
     const html = `
@@ -330,18 +336,14 @@
           ${santriList.map(s => {
             const kelas = d.kelas.find(x => x.id === s.kelasId)?.kode || '-';
             
-            // Format Tgl Lahir: DD/MM/YYYY
             let tglLahirStr = '-';
             if (s.tanggalLahir) {
               const parts = s.tanggalLahir.split('-');
               if (parts.length === 3) tglLahirStr = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            // Gambar Avatar 3D / Inisial
-            const fallbackImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=f1f5f9&color=147d73&size=128&font-size=0.4`;
+            const fallbackImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=f1f5f9&color=0f766e&size=128&font-size=0.4`;
             const jk = s.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan';
-            
-            // Handling NIS jika kosong
             const nisDisplay = s.nis || '-';
 
             return `
@@ -350,7 +352,7 @@
                 <!-- HEADER -->
                 <div class="card-header">
                   <div class="card-brand">
-                    <img src="https://lh3.googleusercontent.com/d/1F6GqnKh5sEGXFMIeFob5a3jib1CbhpHv" onerror="this.src='https://ui-avatars.com/api/?name=TPA&background=147d73&color=fff&size=128'">
+                    <img src="https://lh3.googleusercontent.com/d/1F6GqnKh5sEGXFMIeFob5a3jib1CbhpHv" onerror="this.src='https://ui-avatars.com/api/?name=TPA&background=0f766e&color=fff&size=128'">
                     <div class="brand-text">
                       <h3>TPA AR-RAHMAN</h3>
                       <p>KARTU ANGGOTA</p>
@@ -436,7 +438,7 @@
             text: s.nis || 'TIDAK-ADA-NIS',
             width: 160, 
             height: 160, 
-            colorDark: '#147d73', // Warna Tosca
+            colorDark: '#0f766e', 
             colorLight: '#ffffff',
             correctLevel: QRCode.CorrectLevel.H 
           });
