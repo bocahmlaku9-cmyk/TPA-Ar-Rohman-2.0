@@ -10,43 +10,43 @@
 
 <style>
   /* =========================================
-     STYLE KARTU ANGGOTA (BACKGROUND HIJAU & FONT BESAR)
+     STYLE KARTU ANGGOTA (UKURAN FISIK 5.4 x 8.5 CM)
      ========================================= */
   
   :root {
-    --teal-primary: #0f766e; /* Tosca untuk elemen dalam */
-    --bg-dark-green: #0b5e3b; /* Hijau Gelap TPA */
-    --gold-accent: #eab308; /* Emas */
+    --teal-primary: #0f766e;
+    --bg-dark-green: #0b5e3b;
+    --gold-accent: #eab308;
     --text-dark: #1a202c;
     --text-grey: #718096;
   }
 
   .kartu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
     margin-top: 16px;
+    justify-content: center;
   }
 
+  /* UKURAN KARTU PRESISI (Lebar 5.4cm, Tinggi 8.5cm) */
   .card-portrait {
-    background-color: var(--bg-dark-green); /* Background Hijau */
-    /* Watermark geometris halus */
+    background-color: var(--bg-dark-green);
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path fill="white" d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50S27.9 10 50 10s40 17.9 40 40-17.9 40-40 40zM30 30h40v10H30zm0 20h40v10H30zm0 20h40v10H30z"/></svg>');
     background-size: 150%;
     background-position: center;
     
-    border: 3.5px solid var(--gold-accent); /* Border Emas */
-    border-radius: 16px;
-    width: 100%;
-    max-width: 350px; /* Sedikit dilebarkan untuk font besar */
-    min-height: 620px;
-    padding: 16px;
+    border: 1.5mm solid var(--gold-accent); /* Border emas diperkecil */
+    border-radius: 3mm;
+    width: 5.4cm;
+    height: 8.5cm;
+    padding: 2.5mm;
     color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     position: relative;
     overflow: hidden;
   }
@@ -55,37 +55,35 @@
   .card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
+    align-items: flex-start;
+    margin-bottom: 2mm;
     flex-shrink: 0;
-    padding: 0 4px;
   }
   .card-brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1.5mm;
   }
   .card-brand img {
-    width: 42px;
-    height: 42px;
-    border-radius: 8px;
+    width: 7mm;
+    height: 7mm;
+    border-radius: 1mm;
     object-fit: contain;
     background: #fff;
-    padding: 2px;
+    padding: 0.5mm;
   }
   .brand-text h3 {
-    font-size: 17px; /* Font diperbesar */
+    font-size: 3mm; /* Font disesuaikan */
     font-weight: 900;
     color: #ffffff;
-    letter-spacing: 0.5px;
-    margin: 0 0 2px 0;
+    margin: 0;
+    line-height: 1.1;
   }
   .brand-text p {
-    font-size: 13px; /* Font diperbesar */
+    font-size: 2.2mm;
     font-weight: 700;
     color: #a7f3d0;
     margin: 0;
-    letter-spacing: 0.5px;
   }
   
   .header-right {
@@ -93,19 +91,18 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 6px;
+    gap: 1mm;
   }
   .badge-aktif {
     background: var(--gold-accent);
     color: #000;
-    font-size: 11px; /* Font diperbesar */
+    font-size: 2mm;
     font-weight: 800;
-    padding: 3px 12px;
-    border-radius: 20px;
-    text-transform: uppercase;
+    padding: 0.5mm 2mm;
+    border-radius: 3mm;
   }
   .header-nis {
-    font-size: 12px; /* Font diperbesar */
+    font-size: 2mm;
     font-weight: 700;
     color: var(--gold-accent);
     font-family: monospace;
@@ -114,23 +111,23 @@
   /* --- KOTAK PROFIL (ATAS - PUTIH) --- */
   .profile-box {
     background: #ffffff;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 14px;
+    border-radius: 2mm;
+    padding: 2mm;
+    margin-bottom: 2mm;
     flex-shrink: 0;
     color: var(--text-dark);
   }
 
   .profile-top {
     display: flex;
-    gap: 14px;
-    margin-bottom: 16px;
+    gap: 2mm;
+    margin-bottom: 2mm;
   }
 
   .foto-wrap {
-    width: 80px;
-    height: 105px;
-    border-radius: 10px;
+    width: 13mm;
+    height: 17mm;
+    border-radius: 1.5mm;
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
@@ -148,12 +145,10 @@
     right: 0;
     background: linear-gradient(to top, rgba(15,118,110,0.95), rgba(15,118,110,0.6), transparent);
     color: #fff;
-    font-size: 10px; /* Font diperbesar */
+    font-size: 1.6mm;
     font-weight: 800;
     text-align: center;
-    padding: 12px 0 5px 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    padding: 2mm 0 0.5mm 0;
   }
 
   .profile-info {
@@ -161,34 +156,36 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-top: 1mm;
   }
   .info-nama {
-    font-size: 20px; /* Font diperbesar signifikan */
+    font-size: 3.2mm; /* Nama tetap paling besar */
     font-weight: 900;
     line-height: 1.1;
-    margin-bottom: 10px;
+    margin-bottom: 1.5mm;
     color: var(--text-dark);
+    word-wrap: break-word;
   }
   .tags {
     display: flex;
-    gap: 8px;
+    gap: 1mm;
     flex-wrap: wrap;
   }
   .tag {
     background: #ccfbf1;
     color: var(--teal-primary);
-    font-size: 12px; /* Font diperbesar */
+    font-size: 2mm;
     font-weight: 800;
-    padding: 4px 10px;
-    border-radius: 6px;
+    padding: 0.5mm 1.5mm;
+    border-radius: 1mm;
   }
 
   /* Grid Data Diri */
   .details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px 12px;
+    gap: 1.5mm 1mm;
   }
   .detail-item {
     display: flex;
@@ -198,14 +195,13 @@
     grid-column: 1 / -1;
   }
   .detail-item .label {
-    font-size: 10px; /* Font diperbesar */
+    font-size: 1.6mm;
     font-weight: 800;
     color: var(--text-grey);
-    text-transform: uppercase;
-    margin-bottom: 3px;
+    margin-bottom: 0.2mm;
   }
   .detail-item .value {
-    font-size: 14px; /* Font diperbesar */
+    font-size: 2.2mm;
     font-weight: 800;
     color: var(--text-dark);
     white-space: nowrap;
@@ -216,25 +212,21 @@
   /* Kotak Masa Berlaku */
   .validity-box {
     background: #f0fdfa;
-    border: 1.5px solid #99f6e4;
-    border-radius: 8px;
-    padding: 8px 12px;
+    border: 0.3mm solid #99f6e4;
+    border-radius: 1mm;
+    padding: 1mm 1.5mm;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 16px;
+    margin-top: 2mm;
   }
   .validity-box .label {
-    font-size: 10px; /* Font diperbesar */
+    font-size: 1.8mm;
     font-weight: 800;
     color: var(--teal-primary);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    text-transform: uppercase;
   }
   .validity-box .value {
-    font-size: 13px; /* Font diperbesar */
+    font-size: 2mm;
     font-weight: 900;
     color: var(--teal-primary);
   }
@@ -242,61 +234,68 @@
   /* --- KOTAK QR CODE (BAWAH - PUTIH) --- */
   .qr-box {
     background: #ffffff;
-    border-radius: 12px;
-    padding: 16px;
+    border-radius: 2mm;
+    padding: 2mm;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1; /* Mengisi sisa ruang */
+    flex: 1; /* Mengisi sisa ruang di bawah */
     justify-content: center;
     color: var(--text-dark);
   }
 
   .qr-container {
     background: #fff;
-    padding: 4px;
-    border-radius: 8px;
-    margin-bottom: 16px;
+    padding: 0.5mm;
+    border-radius: 1mm;
+    margin-bottom: 2mm;
   }
   .qr-container canvas, .qr-container img {
-    width: 160px !important; /* QR Code besar */
-    height: 160px !important;
+    width: 24mm !important; /* Ukuran QR proporsional dengan KTA */
+    height: 24mm !important;
     display: block;
   }
 
   .btn-scan {
     background: var(--teal-primary);
     color: #fff;
-    font-size: 14px; /* Font diperbesar */
+    font-size: 2.2mm;
     font-weight: 800;
-    padding: 10px 16px;
-    border-radius: 20px;
+    padding: 1.5mm;
+    border-radius: 3mm;
     text-align: center;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
+    gap: 1mm;
+    margin-bottom: 1mm;
   }
 
   .qr-hint {
-    font-size: 11px; /* Font diperbesar */
+    font-size: 1.6mm;
     color: var(--text-grey);
     text-align: center;
-    line-height: 1.4;
+    line-height: 1.2;
     margin: 0;
-    padding: 0 10px;
     font-weight: 500;
   }
 
-  /* --- PRINT SETTINGS --- */
+  /* --- PENGATURAN CETAK (PRINT) --- */
   @media print {
+    /* Mengatur ukuran kertas A4 dengan margin 1cm */
+    @page { size: A4; margin: 10mm; }
     body { background: #fff; }
-    .sidebar, .topbar, .bottom-nav, .btn-print, .card-title span { display: none !important; }
+    .sidebar, .topbar, .bottom-nav, .btn-print, .card-title, .muted { display: none !important; }
     .layout, .main, .page { display: block !important; padding: 0 !important; margin: 0 !important; }
-    .kartu-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+    
+    /* Mengatur grid untuk mencetak banyak kartu dalam 1 lembar A4 */
+    .kartu-grid { 
+      display: grid; 
+      grid-template-columns: repeat(3, 5.4cm); /* 3 kolom */
+      gap: 5mm; 
+      justify-content: start;
+    }
     .card-portrait { 
       break-inside: avoid; 
       box-shadow: none; 
@@ -327,10 +326,10 @@
     const html = `
       <div class="card">
         <div class="card-title">
-          <span>Kartu Santri</span>
-          <button class="btn btn-primary btn-print" onclick="window.print()">🖨 Cetak Kartu</button>
+          <span>Kartu Santri (Ukuran 5.4 x 8.5 cm)</span>
+          <button class="btn btn-primary btn-print" onclick="window.print()">🖨 Cetak Kartu (A4)</button>
         </div>
-        <p class="muted">Pastikan opsi "Background graphics" dicentang saat mencetak.</p>
+        <p class="muted">Pastikan opsi "Background graphics" dicentang dan skala cetak 100% saat mencetak.</p>
         
         <div class="kartu-grid">
           ${santriList.map(s => {
@@ -415,9 +414,9 @@
                     <div id="qr-${s.id}"></div>
                   </div>
                   <div class="btn-scan">
-                    <span>◉</span> SCAN PRESENSI HADIR TPQ
+                    <span>◉</span> SCAN PRESENSI
                   </div>
-                  <p class="qr-hint">Arahkan kamera scanner di menu Presensi untuk kehadiran...</p>
+                  <p class="qr-hint">Arahkan kamera scanner di menu Presensi...</p>
                 </div>
 
               </div>
@@ -436,8 +435,8 @@
         if (qrEl && qrEl.childElementCount === 0) {
           new QRCode(qrEl, {
             text: s.nis || 'TIDAK-ADA-NIS',
-            width: 160, 
-            height: 160, 
+            width: 120, // Resolusi tinggi agar tetap tajam saat dicetak
+            height: 120, 
             colorDark: '#0f766e', 
             colorLight: '#ffffff',
             correctLevel: QRCode.CorrectLevel.H 
