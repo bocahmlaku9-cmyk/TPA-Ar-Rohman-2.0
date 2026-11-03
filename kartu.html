@@ -5,40 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kartu Anggota · TPA Ar Rahman</title>
 <link rel="stylesheet" href="shared.css">
-<!-- Hanya memuat library QR Code -->
+<!-- Library QR Code -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
   /* =========================================
-     STYLE KARTU PORTRAIT (OPTIMAL TANPA RUANG KOSONG)
+     STYLE KARTU ANGGOTA (TEMA PUTIH TOSCA)
      ========================================= */
   
   .kartu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px;
     margin-top: 16px;
   }
 
   .card-portrait {
-    background-color: #0b5e3b;
-    /* Watermark geometris halus */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path fill="white" d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50S27.9 10 50 10s40 17.9 40 40-17.9 40-40 40zM30 30h40v10H30zm0 20h40v10H30zm0 20h40v10H30z"/></svg>');
-    background-size: 150%;
-    background-position: center;
-    
-    border: 3px solid #eab308;
-    border-radius: 12px;
+    background-color: #ffffff;
+    border: 2px solid #0f766e; /* Border Tosca */
+    border-radius: 16px;
     width: 100%;
     max-width: 340px;
-    height: 540px; /* Tinggi fix standar ID Card */
+    min-height: 580px;
     padding: 16px;
-    color: #fff;
+    color: #1e293b;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     box-sizing: border-box;
     display: flex;
-    flex-direction: column; /* Flexbox vertikal */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     position: relative;
     overflow: hidden;
   }
@@ -48,176 +43,232 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    padding-bottom: 10px;
-    margin-bottom: 14px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
     flex-shrink: 0;
   }
   .card-brand {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
   .card-brand img {
-    width: 32px;
-    height: 32px;
-    background: #fff;
+    width: 34px;
+    height: 34px;
     border-radius: 6px;
-    padding: 2px;
     object-fit: contain;
   }
   .brand-text h3 {
     font-size: 13px;
     font-weight: 800;
+    color: #0f766e;
     letter-spacing: 0.5px;
     margin: 0 0 2px 0;
   }
   .brand-text p {
-    font-size: 9px;
-    color: #a7f3d0;
+    font-size: 11px;
+    font-weight: 700;
+    color: #0f766e;
     margin: 0;
   }
-  .card-badge-kelas {
-    background: #eab308;
-    color: #000;
-    font-size: 10px;
+  
+  .header-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .badge-aktif {
+    background: #ccfbf1;
+    color: #0f766e;
+    font-size: 9px;
     font-weight: 800;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid #99f6e4;
     text-transform: uppercase;
-    white-space: nowrap;
+  }
+  .header-nis {
+    font-size: 10px;
+    font-weight: 700;
+    color: #0f766e;
   }
 
-  /* --- BARIS PROFIL (FOTO & NAMA) --- */
-  .card-profile-row {
-    display: flex;
-    gap: 12px;
-    align-items: center;
+  /* --- KOTAK PROFIL (ATAS) --- */
+  .profile-box {
+    border: 1.5px solid #0f766e;
+    border-radius: 12px;
+    padding: 14px;
     margin-bottom: 12px;
     flex-shrink: 0;
   }
 
-  .card-foto-wrap {
-    position: relative;
+  .profile-top {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .foto-wrap {
     width: 75px;
     height: 95px;
-    border-radius: 8px;
-    border: 2px solid rgba(255,255,255,0.4);
-    background: #1e293b;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
     flex-shrink: 0;
+    background: #f1f5f9;
   }
-  .card-foto {
+  .foto-img {
     width: 100%;
     height: 100%;
-    border-radius: 6px;
     object-fit: cover;
-    display: block;
   }
-  .badge-aktif {
+  .badge-santri {
     position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #eab308;
-    color: #000;
-    font-size: 9px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(15,118,110,0.9), transparent);
+    color: #fff;
+    font-size: 8px;
     font-weight: 800;
-    padding: 2px 8px;
-    border-radius: 10px;
-    white-space: nowrap;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-align: center;
+    padding: 10px 0 4px 0;
+    text-transform: uppercase;
   }
 
   .profile-info {
     flex: 1;
     min-width: 0;
-  }
-  .info-nama {
-    font-size: 18px;
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 4px;
-    color: #fff;
-    word-wrap: break-word;
-  }
-  .info-nis {
-    font-size: 12px;
-    font-weight: 700;
-    color: #eab308;
-  }
-
-  /* --- DATA DIRI (TENGAH - MENGISI RUANG KOSONG) --- */
-  .details-grid {
     display: flex;
     flex-direction: column;
-    flex: 1; /* Mengambil semua sisa ruang vertikal */
-    justify-content: space-evenly; /* Menyebar baris secara merata agar tidak ada space kosong */
-    border-top: 1px solid rgba(255,255,255,0.2);
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    padding: 10px 0;
-    margin-bottom: 14px;
+    justify-content: center;
+  }
+  .info-nama {
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    color: #0f172a;
+  }
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: #ccfbf1;
+    color: #0f766e;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  /* Grid Data Diri */
+  .details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 12px;
   }
   .detail-item {
     display: flex;
-    font-size: 11px; /* Sedikit diperbesar agar lebih mudah dibaca */
-    line-height: 1.3;
+    flex-direction: column;
+  }
+  .detail-item.full {
+    grid-column: 1 / -1;
   }
   .detail-item .label {
-    width: 55px;
-    color: #6ee7b7;
-    font-weight: 600;
-    flex-shrink: 0;
+    font-size: 8px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    margin-bottom: 2px;
   }
   .detail-item .value {
-    color: #fff;
-    font-weight: 500;
-    flex: 1;
+    font-size: 11px;
+    font-weight: 700;
+    color: #0f172a;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  /* --- BARIS BAWAH (QR SANGAT BESAR) --- */
-  .card-bottom-row {
+  /* Kotak Masa Berlaku */
+  .validity-box {
+    background: #f0fdfa;
+    border: 1px solid #ccfbf1;
+    border-radius: 6px;
+    padding: 6px 10px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    flex-shrink: 0;
+    align-items: center;
+    margin-top: 14px;
+  }
+  .validity-box .label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #0f766e;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .validity-box .value {
+    font-size: 10px;
+    font-weight: 800;
+    color: #0f766e;
   }
 
-  .qr-wrap {
-    background: #fff;
-    padding: 8px;
-    border-radius: 8px;
+  /* --- KOTAK QR CODE (BAWAH) --- */
+  .qr-box {
+    border: 1.5px solid #0f766e;
+    border-radius: 12px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 160px; /* Lebar kotak QR disesuaikan */
+    flex: 1; /* Mengisi sisa ruang di bawah */
+    justify-content: space-between;
   }
-  .qr-wrap canvas, .qr-wrap img {
-    width: 144px !important; /* Ukuran QR Code SANGAT BESAR */
-    height: 144px !important;
+
+  .qr-container {
+    background: #fff;
+    padding: 4px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .qr-container canvas, .qr-container img {
+    width: 150px !important;
+    height: 150px !important;
     display: block;
   }
-  .qr-text {
-    font-size: 9px;
+
+  .btn-scan {
+    background: #0f766e;
+    color: #fff;
+    font-size: 11px;
     font-weight: 800;
-    color: #000;
+    padding: 8px 16px;
+    border-radius: 20px;
     text-align: center;
-    margin-top: 6px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
     letter-spacing: 0.5px;
   }
 
-  .masa-berlaku {
-    text-align: right;
+  .qr-hint {
     font-size: 9px;
-    color: #a7f3d0;
-    line-height: 1.4;
-    padding-bottom: 4px;
-  }
-  .masa-berlaku strong {
-    color: #fff;
-    font-size: 10px;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.3;
+    margin: 0;
+    padding: 0 10px;
   }
 
   /* --- PRINT SETTINGS --- */
@@ -251,79 +302,106 @@
 
     const nextYear = new Date();
     nextYear.setFullYear(nextYear.getFullYear() + 1);
-    const tglBerlaku = nextYear.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+    // Format tanggal masa berlaku: DD MMM YYYY
+    const tglBerlaku = nextYear.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
 
     const html = `
       <div class="card">
         <div class="card-title">
-          <span>Kartu Santri (Portrait)</span>
+          <span>Kartu Santri</span>
           <button class="btn btn-primary btn-print" onclick="window.print()">🖨 Cetak Kartu</button>
         </div>
         <p class="muted">Pastikan opsi "Background graphics" dicentang saat mencetak.</p>
         
         <div class="kartu-grid">
           ${santriList.map(s => {
-            const k = d.kelas.find(x => x.id === s.kelasId)?.kode || '-';
-            const tglLahir = new Date(s.tanggalLahir).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-            const fallbackImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=1e293b&color=fff&size=128`;
+            const kelas = d.kelas.find(x => x.id === s.kelasId)?.kode || '-';
+            
+            // Format Tgl Lahir: DD/MM/YYYY
+            let tglLahirStr = '-';
+            if (s.tanggalLahir) {
+              const parts = s.tanggalLahir.split('-');
+              if (parts.length === 3) tglLahirStr = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+
+            // Gunakan inisial jika API avatar gagal
+            const fallbackImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=f1f5f9&color=0f766e&size=128&font-size=0.4`;
+            const jk = s.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan';
 
             return `
               <div class="card-portrait" data-santri="${s.id}">
+                
                 <!-- HEADER -->
                 <div class="card-header">
                   <div class="card-brand">
                     <img src="https://lh3.googleusercontent.com/d/1F6GqnKh5sEGXFMIeFob5a3jib1CbhpHv" onerror="this.src='https://ui-avatars.com/api/?name=TPA&background=0f766e&color=fff&size=128'">
                     <div class="brand-text">
-                      <h3>TPA AR RAHMAN</h3>
-                      <p>Jogonalan Lor - Klaten</p>
+                      <h3>TPA AR-RAHMAN</h3>
+                      <p>KARTU ANGGOTA</p>
                     </div>
                   </div>
-                  <div class="card-badge-kelas">SANTRI - ${k}</div>
-                </div>
-
-                <!-- PROFIL (FOTO & NAMA) -->
-                <div class="card-profile-row">
-                  <div class="card-foto-wrap">
-                    <img src="${fallbackImg}" class="card-foto" alt="Foto">
-                    <div class="badge-aktif">Aktif</div>
-                  </div>
-                  <div class="profile-info">
-                    <div class="info-nama">${tpa.esc(s.nama)}</div>
-                    <div class="info-nis">NIS: ${s.nis}</div>
+                  <div class="header-right">
+                    <div class="badge-aktif">AKTIF</div>
+                    <div class="header-nis">${s.nis}</div>
                   </div>
                 </div>
 
-                <!-- DATA DIRI -->
-                <div class="details-grid">
-                  <div class="detail-item">
-                    <span class="label">TTL</span>
-                    <span class="value" title="${s.tempatLahir}, ${tglLahir}">${s.tempatLahir}, ${tglLahir}</span>
+                <!-- KOTAK PROFIL -->
+                <div class="profile-box">
+                  <div class="profile-top">
+                    <div class="foto-wrap">
+                      <img src="${fallbackImg}" class="foto-img" alt="Foto">
+                      <div class="badge-santri">SANTRI</div>
+                    </div>
+                    <div class="profile-info">
+                      <div class="info-nama">${tpa.esc(s.nama)}</div>
+                      <div class="tags">
+                        <span class="tag">${s.nis}</span>
+                        <span class="tag">Kelas ${kelas}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="detail-item">
-                    <span class="label">Wali</span>
-                    <span class="value" title="${s.namaWali || '-'}">${tpa.esc(s.namaWali || '-')}</span>
+
+                  <div class="details-grid">
+                    <div class="detail-item">
+                      <span class="label">TGL LAHIR</span>
+                      <span class="value">${tglLahirStr}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="label">KELAMIN</span>
+                      <span class="value">${jk}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="label">WALI SANTRI</span>
+                      <span class="value" title="${s.namaWali || '-'}">${tpa.esc(s.namaWali || '-')}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="label">GOL DARAH</span>
+                      <span class="value">${s.golDarah && s.golDarah !== '-' ? s.golDarah : '-'}</span>
+                    </div>
+                    <div class="detail-item full">
+                      <span class="label">ALAMAT</span>
+                      <span class="value" title="${s.alamat || 'Jogonalan Lor'}">${tpa.esc(s.alamat || 'Jogonalan Lor')}</span>
+                    </div>
                   </div>
-                  <div class="detail-item">
-                    <span class="label">JK</span>
-                    <span class="value">${s.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="label">Alamat</span>
-                    <span class="value" title="${s.alamat || 'Jogonalan Lor'}">${tpa.esc(s.alamat || 'Jogonalan Lor')}</span>
+
+                  <div class="validity-box">
+                    <div class="label">📅 MASA BERLAKU</div>
+                    <div class="value">${tglBerlaku}</div>
                   </div>
                 </div>
 
-                <!-- BARIS BAWAH (QR SANGAT BESAR) -->
-                <div class="card-bottom-row">
-                  <div class="qr-wrap">
+                <!-- KOTAK QR CODE -->
+                <div class="qr-box">
+                  <div class="qr-container">
                     <div id="qr-${s.id}"></div>
-                    <div class="qr-text">SCAN PRESENSI</div>
                   </div>
-                  <div class="masa-berlaku">
-                    Masa Berlaku: <strong>1 Tahun</strong><br>
-                    s/d ${tglBerlaku}
+                  <div class="btn-scan">
+                    <span>◎</span> SCAN PRESENSI HADIR TPQ
                   </div>
+                  <p class="qr-hint">Arahkan kamera scanner di menu Presensi untuk kehadiran...</p>
                 </div>
+
               </div>
             `;
           }).join('') || '<div class="empty">Tidak ada santri aktif.</div>'}
@@ -333,18 +411,18 @@
 
     tpa.mountPage('Kartu Anggota', html);
 
-    // Render QR setelah DOM dimuat
+    // Render QR Code
     requestAnimationFrame(() => {
       santriList.forEach(s => {
         const qrEl = document.getElementById(`qr-${s.id}`);
         if (qrEl && qrEl.childElementCount === 0) {
           new QRCode(qrEl, {
             text: s.nis,
-            width: 144, // Resolusi QR dinaikkan
-            height: 144, 
-            colorDark: '#000', 
-            colorLight: '#fff',
-            correctLevel: QRCode.CorrectLevel.M
+            width: 150, // QR Code besar
+            height: 150, 
+            colorDark: '#0f766e', // Warna QR disesuaikan dengan tema tosca
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H // High correction for better scan
           });
         }
       });
