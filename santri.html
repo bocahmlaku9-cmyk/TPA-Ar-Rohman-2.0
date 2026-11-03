@@ -5,6 +5,95 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Santri · TPA Ar Rahman</title>
 <link rel="stylesheet" href="shared.css">
+<style>
+  /* --- Gaya Khusus Halaman Data Santri --- */
+  .page-header-box {
+    background: #fff; border-radius: 16px; padding: 20px;
+    border: 1px solid var(--border); margin-bottom: 16px;
+  }
+  .page-title-row {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;
+  }
+  .page-title-row h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin: 0; }
+  .badge-total {
+    background: #dcfce7; color: #15803d; padding: 4px 12px;
+    border-radius: 20px; font-size: 13px; font-weight: 700;
+  }
+  .page-desc { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+
+  .action-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .btn-solid { background: #0f766e; color: #fff; border-radius: 8px; padding: 8px 16px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+  .btn-solid:hover { background: #115e59; }
+  .btn-outline { background: #fff; color: #334155; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 16px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+  .btn-outline:hover { background: #f8fafc; }
+  .btn-icon-outline { padding: 8px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; display: grid; place-items: center; }
+
+  .search-filter-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .search-box { position: relative; flex: 1; min-width: 280px; }
+  .search-box input { padding-left: 36px; border-radius: 8px; border: 1px solid #e2e8f0; height: 40px; }
+  .search-box .icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+  
+  .filter-pills { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+  .filter-pills button {
+    padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+    color: #64748b; background: transparent; border: 1px solid transparent; white-space: nowrap;
+  }
+  .filter-pills button.active { background: #fff; color: #0f172a; border-color: #e2e8f0; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  
+  .drive-links { display: flex; align-items: center; gap: 12px; font-size: 13px; flex-wrap: wrap; }
+  .drive-btn {
+    display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+    background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;
+    border-radius: 6px; font-weight: 600; font-size: 12px;
+  }
+  .drive-btn.blue { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
+  .drive-btn.orange { background: #fff7ed; color: #9a3412; border-color: #fed7aa; }
+
+  /* Tabel */
+  .table-card { background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
+  th { background: #f8fafc; color: #64748b; font-weight: 600; padding: 14px 16px; border-bottom: 1px solid #e2e8f0; white-space: nowrap; font-size: 12px; }
+  td { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  tr:hover { background: #f8fafc; }
+  
+  .avatar-img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; background: #e2e8f0; }
+  .nama-cell { display: flex; flex-direction: column; gap: 2px; }
+  .nama-cell strong { color: #0f172a; font-size: 14px; }
+  .nama-cell span { color: #64748b; font-size: 11px; }
+  
+  .badge-jk { padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+  .badge-jk.p { background: #fce7f3; color: #be185d; }
+  .badge-jk.l { background: #e0f2fe; color: #0369a1; }
+  
+  .badge-gol { background: #f1f5f9; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+  
+  .badge-kelas { padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 12px; border: 1px solid transparent; }
+  .badge-kelas.k1 { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+  .badge-kelas.k2 { background: #ccfbf1; color: #0f766e; border-color: #99f6e4; }
+  .badge-kelas.k3 { background: #fef9c3; color: #a16207; border-color: #fef08a; }
+  .badge-kelas.k4 { background: #f3e8ff; color: #7e22ce; border-color: #e9d5ff; }
+
+  .doc-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; display: inline-block; }
+  .doc-badge.belum { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+  .doc-badge.sudah { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+
+  .wali-cell { display: flex; flex-direction: column; gap: 2px; }
+  .wali-cell span { font-size: 12px; color: #0f172a; }
+  .wali-cell small { font-size: 10px; color: #64748b; }
+  
+  .btn-qr { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+  .btn-qr:hover { background: #dcfce7; }
+  
+  .aksi-btns { display: flex; gap: 8px; color: #94a3b8; }
+  .aksi-btns button { color: inherit; font-size: 16px; }
+  .aksi-btns button:hover { color: #0f172a; }
+
+  @media(max-width: 768px) {
+    .page-title-row { flex-direction: column; align-items: flex-start; }
+    .search-filter-row { flex-direction: column; }
+    .filter-pills { width: 100%; }
+  }
+</style>
 </head>
 <body>
 <div id="app"></div>
@@ -13,45 +102,141 @@
   const sess = tpa.requireAuth(['admin','wali_kelas']);
   let editingId = null;
   let search = '';
+  let activeFilter = 'all'; // 'all' atau ID kelas (k1, k2, dst)
 
   function render() {
     const d = tpa.loadData();
-    const kelasMap = Object.fromEntries(d.kelas.map(k => [k.id, k.kode]));
+    
+    // Wali kelas hanya bisa lihat kelasnya sendiri
+    let baseList = d.santri;
+    if (sess.role === 'wali_kelas' && sess.kelasId) {
+      baseList = baseList.filter(s => s.kelasId === sess.kelasId);
+    }
 
-    // Filter: wali kelas hanya kelasnya sendiri
-    let list = d.santri;
-    if (sess.role === 'wali_kelas' && sess.kelasId)
-      list = list.filter(s => s.kelasId === sess.kelasId);
+    // Hitung total per kelas untuk filter pill
+    const counts = { all: baseList.length };
+    d.kelas.forEach(k => {
+      counts[k.id] = baseList.filter(s => s.kelasId === k.id).length;
+    });
 
-    if (search) list = list.filter(s =>
-      s.nama.toLowerCase().includes(search.toLowerCase()) || s.nis.includes(search));
+    // Terapkan filter aktif dan pencarian
+    let list = baseList;
+    if (activeFilter !== 'all') {
+      list = list.filter(s => s.kelasId === activeFilter);
+    }
+    if (search) {
+      const q = search.toLowerCase();
+      list = list.filter(s => 
+        s.nama.toLowerCase().includes(q) || 
+        s.nis.includes(q) || 
+        (s.namaWali && s.namaWali.toLowerCase().includes(q))
+      );
+    }
 
     const html = `
-      <div class="row" style="margin-bottom:12px">
-        <input placeholder="🔍 Cari nama atau NIS..." id="search" value="${tpa.esc(search)}" style="flex:1">
-        <button class="btn btn-primary" onclick="openForm()">+ Tambah</button>
+      <!-- HEADER SECTION -->
+      <div class="page-header-box">
+        <div class="page-title-row">
+          <h1>Data Santri TPA</h1>
+          <span class="badge-total">Total: ${baseList.length} santri</span>
+        </div>
+        <p class="page-desc">Kelola data diri, kartu barcode presensi, dan pembagian kelas A1, A2, B, C</p>
+
+        <div class="action-buttons">
+          <button class="btn-solid" onclick="openForm()"><span>+</span> Tambah Santri</button>
+          <button class="btn-solid" onclick="window.print()">Cetak Data</button>
+          <button class="btn-outline" onclick="alert('Fitur Export Excel akan segera hadir')"><span>📄</span> Export Excel</button>
+          <button class="btn-outline" onclick="alert('Fitur Import Excel akan segera hadir')"><span>⬆</span> Import Excel</button>
+          <button class="btn-icon-outline" title="Pengaturan Cetak"><span>⚙</span></button>
+        </div>
+
+        <div class="search-filter-row">
+          <div class="search-box">
+            <span class="icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Cari nama santri, NIS, atau nama orang tua..." value="${tpa.esc(search)}">
+          </div>
+          <div class="filter-pills">
+            <button class="${activeFilter==='all'?'active':''}" onclick="setFilter('all')">Semua (${counts.all})</button>
+            ${d.kelas.map(k => `
+              <button class="${activeFilter===k.id?'active':''}" onclick="setFilter('${k.id}')">Kelas ${k.kode} (${counts[k.id]||0})</button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="drive-links">
+          <span>Akses Berkas Drive:</span>
+          <a href="#" class="drive-btn" onclick="alert('Buka Google Drive Folder KK')">📁 Folder KK Santri ↗</a>
+          <a href="#" class="drive-btn blue" onclick="alert('Buka Google Drive Folder Akta')">📁 Folder Akta Santri ↗</a>
+          <a href="#" class="drive-btn orange" onclick="alert('Buka Google Drive Folder Foto')">📁 Folder Foto Santri ↗</a>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">
-          <span>Data Santri (${list.length})</span>
-        </div>
+      <!-- TABLE SECTION -->
+      <div class="table-card">
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Foto</th><th>Nama</th><th>NIS</th><th>Kelas</th><th>Status</th><th>Aksi</th></tr></thead>
+            <thead>
+              <tr>
+                <th>NO</th>
+                <th>FOTO</th>
+                <th>NAMA & NIS</th>
+                <th>JK</th>
+                <th>GOL. DARAH</th>
+                <th>KELAS</th>
+                <th>DOKUMEN KK</th>
+                <th>DOKUMEN AKTA</th>
+                <th>WALI SANTRI</th>
+                <th>KARTU QR</th>
+                <th>AKSI</th>
+              </tr>
+            </thead>
             <tbody>
-              ${list.map(s => `
+              ${list.map((s, i) => {
+                const k = d.kelas.find(x => x.id === s.kelasId) || { kode: '-', id: '' };
+                const jkClass = s.jenisKelamin === 'P' ? 'p' : 'l';
+                const jkText = s.jenisKelamin || '-';
+                const docKkClass = s.docKk === 'Sudah' ? 'sudah' : 'belum';
+                const docAktaClass = s.docAkta === 'Sudah' ? 'sudah' : 'belum';
+                
+                return `
                 <tr>
-                  <td><div class="avatar-sm">${s.nama.charAt(0)}</div></td>
-                  <td><strong>${tpa.esc(s.nama)}</strong></td>
-                  <td>${s.nis}</td>
-                  <td><span class="badge green">${kelasMap[s.kelasId] || '-'}</span></td>
-                  <td><span class="badge ${s.status==='Aktif'?'green':'red'}">${s.status}</span></td>
-                  <td class="row" style="gap:4px">
-                    <button class="btn-icon primary" onclick="openForm('${s.id}')">✏️</button>
-                    <button class="btn-icon danger" onclick="del('${s.id}')">🗑</button>
+                  <td>${i + 1}</td>
+                  <td>
+                    <!-- Placeholder avatar karena belum ada sistem upload foto -->
+                    <div class="avatar-sm" style="width:36px;height:36px;border-radius:8px;font-size:16px;background:#334155;color:#fff">
+                      ${s.nama.charAt(0)}
+                    </div>
                   </td>
-                </tr>`).join('') || `<tr><td colspan="6" class="empty">Belum ada data santri</td></tr>`}
+                  <td>
+                    <div class="nama-cell">
+                      <strong>${tpa.esc(s.nama)}</strong>
+                      <span>NIS: ${s.nis}</span>
+                    </div>
+                  </td>
+                  <td><span class="badge-jk ${jkClass}">${jkText}</span></td>
+                  <td><span class="badge-gol">${s.golDarah || '-'}</span></td>
+                  <td><span class="badge-kelas ${k.id}">${k.kode}</span></td>
+                  <td><span class="doc-badge ${docKkClass}">${s.docKk === 'Sudah' ? 'Sudah Upload' : 'Belum Upload'}</span></td>
+                  <td><span class="doc-badge ${docAktaClass}">${s.docAkta === 'Sudah' ? 'Sudah Upload' : 'Belum Upload'}</span></td>
+                  <td>
+                    <div class="wali-cell">
+                      <span>${tpa.esc(s.namaWali || '-')}</span>
+                      <small>WA: ${tpa.esc(s.waWali || '-')}</small>
+                    </div>
+                  </td>
+                  <td>
+                    <button class="btn-qr" onclick="alert('Membuka QR Code untuk ${tpa.esc(s.nama)}')">
+                      <span>⬚</span> Kartu
+                    </button>
+                  </td>
+                  <td>
+                    <div class="aksi-btns">
+                      <button onclick="openForm('${s.id}')" title="Edit">✏️</button>
+                      <button onclick="del('${s.id}')" title="Hapus">🗑️</button>
+                    </div>
+                  </td>
+                </tr>`;
+              }).join('') || `<tr><td colspan="11" class="empty">Tidak ada data santri yang sesuai filter</td></tr>`}
             </tbody>
           </table>
         </div>
@@ -60,11 +245,27 @@
 
     tpa.mountPage('Data Santri', html);
 
-    document.getElementById('search').addEventListener('input', e => {
-      search = e.target.value; render();
-    });
+    // Re-attach event listener untuk search
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        search = e.target.value;
+        // Render ulang hanya tabel tanpa kehilangan fokus
+        const val = e.target.value;
+        render();
+        const newInput = document.getElementById('searchInput');
+        newInput.focus();
+        newInput.setSelectionRange(val.length, val.length);
+      });
+    }
   }
 
+  window.setFilter = (filterId) => {
+    activeFilter = filterId;
+    render();
+  };
+
+  // --- Modal Form Tambah/Edit ---
   function openForm(id) {
     editingId = id || null;
     const d = tpa.loadData();
@@ -74,14 +275,29 @@
     modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);' +
       'display:grid;place-items:center;z-index:100;padding:16px;overflow-y:auto';
     modal.innerHTML = `
-      <div class="card" style="max-width:600px;width:100%;max-height:90vh;overflow-y:auto">
-        <div class="card-title"><span>${id?'Edit':'Tambah'} Santri</span>
+      <div class="card" style="max-width:650px;width:100%;max-height:90vh;overflow-y:auto;border-radius:16px">
+        <div class="card-title"><span style="font-size:18px">${id?'Edit':'Tambah'} Santri</span>
           <button class="btn-icon" onclick="this.closest('div[style]').remove()">✕</button></div>
         <div class="form-grid">
-          <div class="field"><label>NIS</label><input id="f_nis" value="${tpa.esc(s.nis||'')}"></div>
+          <div class="field"><label>NIS</label><input id="f_nis" value="${tpa.esc(s.nis||'')}" placeholder="TPA-2026-XXX"></div>
           <div class="field"><label>Nama Lengkap</label><input id="f_nama" value="${tpa.esc(s.nama||'')}"></div>
-          <div class="field"><label>Tempat Lahir</label><input id="f_tempat" value="${tpa.esc(s.tempatLahir||'')}"></div>
-          <div class="field"><label>Tanggal Lahir</label><input type="date" id="f_tgl" value="${s.tanggalLahir||''}"></div>
+          
+          <div class="field"><label>Jenis Kelamin</label>
+            <select id="f_jk">
+              <option value="L" ${s.jenisKelamin==='L'?'selected':''}>Laki-laki (L)</option>
+              <option value="P" ${s.jenisKelamin==='P'?'selected':''}>Perempuan (P)</option>
+            </select>
+          </div>
+          <div class="field"><label>Golongan Darah</label>
+            <select id="f_gol">
+              <option value="-" ${s.golDarah==='-'?'selected':''}>-</option>
+              <option value="A" ${s.golDarah==='A'?'selected':''}>A</option>
+              <option value="B" ${s.golDarah==='B'?'selected':''}>B</option>
+              <option value="AB" ${s.golDarah==='AB'?'selected':''}>AB</option>
+              <option value="O" ${s.golDarah==='O'?'selected':''}>O</option>
+            </select>
+          </div>
+
           <div class="field"><label>Kelas</label>
             <select id="f_kelas">
               ${d.kelas.map(k => `<option value="${k.id}" ${s.kelasId===k.id?'selected':''}>${k.kode}</option>`).join('')}
@@ -93,46 +309,66 @@
               <option value="Nonaktif" ${s.status==='Nonaktif'?'selected':''}>Nonaktif</option>
             </select>
           </div>
-          <div class="field full"><label>Nama Ayah</label><input id="f_ayah" value="${tpa.esc(s.namaAyah||'')}"></div>
-          <div class="field full"><label>Nama Ibu</label><input id="f_ibu" value="${tpa.esc(s.namaIbu||'')}"></div>
-          <div class="field full"><label>No. HP</label><input id="f_hp" value="${tpa.esc(s.noHp||'')}"></div>
-          <div class="field full"><label>Alamat</label><textarea id="f_alamat" rows="2">${tpa.esc(s.alamat||'')}</textarea></div>
+
+          <div class="field full" style="border-top:1px solid #e2e8f0;padding-top:12px;margin-top:4px">
+            <label style="font-weight:700;color:#0f172a">Data Wali Santri</label>
+          </div>
+          <div class="field"><label>Nama Wali</label><input id="f_wali" value="${tpa.esc(s.namaWali||'')}" placeholder="Nama Ayah/Ibu/Wali"></div>
+          <div class="field"><label>No. WhatsApp Wali</label><input id="f_wa" value="${tpa.esc(s.waWali||'')}" placeholder="08xxxxxxxxxx"></div>
+
+          <div class="field full" style="border-top:1px solid #e2e8f0;padding-top:12px;margin-top:4px">
+            <label style="font-weight:700;color:#0f172a">Kelengkapan Dokumen</label>
+          </div>
+          <div class="field"><label>Dokumen KK</label>
+            <select id="f_dockk">
+              <option value="Belum" ${s.docKk==='Belum'?'selected':''}>Belum Upload</option>
+              <option value="Sudah" ${s.docKk==='Sudah'?'selected':''}>Sudah Upload</option>
+            </select>
+          </div>
+          <div class="field"><label>Dokumen Akta</label>
+            <select id="f_docakta">
+              <option value="Belum" ${s.docAkta==='Belum'?'selected':''}>Belum Upload</option>
+              <option value="Sudah" ${s.docAkta==='Sudah'?'selected':''}>Sudah Upload</option>
+            </select>
+          </div>
         </div>
         <div class="form-actions">
           <button class="btn btn-ghost" onclick="this.closest('div[style]').remove()">Batal</button>
-          <button class="btn btn-primary" onclick="save()">Simpan</button>
+          <button class="btn btn-primary" onclick="saveSantri()">Simpan Data</button>
         </div>
       </div>`;
     document.body.appendChild(modal);
-
-    window.save = () => {
-      const data = {
-        nis: document.getElementById('f_nis').value.trim(),
-        nama: document.getElementById('f_nama').value.trim(),
-        tempatLahir: document.getElementById('f_tempat').value.trim(),
-        tanggalLahir: document.getElementById('f_tgl').value,
-        kelasId: document.getElementById('f_kelas').value,
-        status: document.getElementById('f_status').value,
-        namaAyah: document.getElementById('f_ayah').value.trim(),
-        namaIbu: document.getElementById('f_ibu').value.trim(),
-        noHp: document.getElementById('f_hp').value.trim(),
-        alamat: document.getElementById('f_alamat').value.trim(),
-      };
-      if (!data.nama || !data.nis) return tpa.toast('Nama & NIS wajib diisi', 'error');
-
-      tpa.updateData(dd => {
-        if (editingId) {
-          const i = dd.santri.findIndex(x => x.id === editingId);
-          dd.santri[i] = { ...dd.santri[i], ...data };
-        } else {
-          dd.santri.push({ id: tpa.uid('s'), ...data });
-        }
-      });
-      modal.remove();
-      tpa.toast(editingId ? 'Data santri diperbarui' : 'Santri baru ditambahkan', 'success');
-      render();
-    };
   }
+
+  window.saveSantri = () => {
+    const data = {
+      nis: document.getElementById('f_nis').value.trim(),
+      nama: document.getElementById('f_nama').value.trim(),
+      jenisKelamin: document.getElementById('f_jk').value,
+      golDarah: document.getElementById('f_gol').value,
+      kelasId: document.getElementById('f_kelas').value,
+      status: document.getElementById('f_status').value,
+      namaWali: document.getElementById('f_wali').value.trim(),
+      waWali: document.getElementById('f_wa').value.trim(),
+      docKk: document.getElementById('f_dockk').value,
+      docAkta: document.getElementById('f_docakta').value,
+    };
+    
+    if (!data.nama || !data.nis) return tpa.toast('Nama & NIS wajib diisi', 'error');
+
+    tpa.updateData(dd => {
+      if (editingId) {
+        const i = dd.santri.findIndex(x => x.id === editingId);
+        dd.santri[i] = { ...dd.santri[i], ...data };
+      } else {
+        dd.santri.push({ id: tpa.uid('s'), ...data });
+      }
+    });
+    
+    document.querySelector('div[style*="position:fixed"]').remove();
+    tpa.toast(editingId ? 'Data santri diperbarui' : 'Santri baru ditambahkan', 'success');
+    render();
+  };
 
   window.del = (id) => {
     const s = tpa.loadData().santri.find(x => x.id === id);
