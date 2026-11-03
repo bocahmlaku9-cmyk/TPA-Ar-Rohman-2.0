@@ -10,21 +10,20 @@
 
 <style>
   /* =========================================================
-     DESAIN HIJAU RATA PRESI (ID-CARD 54mm x 85mm)
-     DENGAN KONTRAST TEKS TINGGI DAN BACA MUDAH
+     DESAIN FULL HIJAU EMERALD (PRESISI ID-CARD 54mm x 85mm)
+     TANPA PANEL/BACKGROUND PUTIH
      ========================================================= */
   
   :root {
-    --emerald-dark: #044e3a;
-    --emerald-main: #065f46;
-    --emerald-card: #033829;
-    --emerald-box: #064e3b;
+    --emerald-dark: #022c22;
+    --emerald-main: #064e3b;
+    --emerald-panel: rgba(4, 120, 87, 0.25);
     --emerald-border: #059669;
     --emerald-light: #a7f3d0;
     --gold-bright: #fbbf24;
     --gold-accent: #d97706;
-    --text-white: #ffffff;
-    --text-sub: #cbd5e1;
+    --gold-light: #fef3c7;
+    --text-gold: #fde047;
     --bg-masjid-url: url('photo2436060185124254977.jpg'); 
   }
 
@@ -40,19 +39,36 @@
   .card-portrait {
     width: 54mm;
     height: 85mm;
-    background-color: var(--emerald-card);
+    background: linear-gradient(160deg, #064e3b 0%, #022c22 100%);
     border: 1.2mm solid var(--gold-accent);
     border-radius: 4mm;
     padding: 1.2mm;
-    color: #fff;
+    color: #ffffff;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
     position: relative;
     overflow: hidden;
+  }
+
+  /* Watermark Masjid Transparan Menyatu di Seluruh Latar Belakang Kartu */
+  .card-portrait::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--bg-masjid-url);
+    background-size: cover;
+    background-position: center center;
+    opacity: 0.12;
+    filter: brightness(180%) contrast(140%);
+    pointer-events: none;
+    z-index: 0;
   }
 
   /* --- HEADER --- */
@@ -60,12 +76,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(6, 95, 70, 0.95);
+    background: rgba(2, 44, 34, 0.6);
     border-bottom: 0.4mm solid var(--gold-bright);
     padding: 0.8mm 1mm;
     border-radius: 2mm 2mm 1mm 1mm;
     flex-shrink: 0;
     z-index: 2;
+    position: relative;
   }
   .card-brand {
     display: flex;
@@ -77,9 +94,9 @@
     height: 7mm;
     border-radius: 1mm;
     object-fit: contain;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 0.2mm solid var(--gold-bright);
     padding: 0.3mm;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
   }
   .brand-text h3 {
     font-size: 10.5px;
@@ -106,7 +123,7 @@
   }
   .badge-aktif {
     background: var(--gold-bright);
-    color: #000;
+    color: #000000;
     font-size: 7px;
     font-weight: 900;
     padding: 0.3mm 1.5mm;
@@ -117,46 +134,25 @@
   .header-nis {
     font-size: 8.5px;
     font-weight: 900;
-    color: #ffffff;
+    color: var(--text-gold);
     font-family: 'Courier New', Courier, monospace;
     letter-spacing: 0.2px;
   }
 
-  /* --- KOTAK PROFIL & DATA DIRI (BACKGROUND HIJAU RATA + WATERMARK MASJID) --- */
+  /* --- KOTAK PROFIL & DATA DIRI (PANEL HIJAU TRANSPARAN) --- */
   .profile-box {
-    background: var(--emerald-box);
+    background: var(--emerald-panel);
     border-radius: 2.2mm;
     padding: 1.2mm 1.5mm;
     color: #ffffff;
     display: flex;
     flex-direction: column;
     gap: 1mm;
-    box-shadow: inset 0 0 0 0.3mm rgba(255,255,255,0.15);
+    border: 0.3mm solid rgba(167, 243, 208, 0.2);
     border-top: 0.8mm solid var(--gold-bright);
     position: relative;
-    overflow: hidden;
-  }
-
-  /* Watermark Masjid Transparan pada Background Hijau Rata */
-  .profile-box::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: var(--bg-masjid-url);
-    background-size: cover;
-    background-position: center bottom;
-    opacity: 0.15;
-    filter: brightness(200%) contrast(150%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .profile-top, .details-grid, .validity-box {
-    position: relative;
     z-index: 1;
+    backdrop-filter: blur(2px);
   }
 
   .profile-top {
@@ -185,7 +181,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(2, 44, 34, 0.9);
     color: var(--gold-bright);
     font-size: 5.5px;
     font-weight: 900;
@@ -213,7 +209,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin-bottom: 0.8mm;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
   }
   .tags {
     display: flex;
@@ -221,7 +217,7 @@
     flex-wrap: wrap;
   }
   .tag {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(6, 78, 59, 0.8);
     color: var(--emerald-light);
     border: 0.3mm solid var(--emerald-border);
     font-size: 7.5px;
@@ -235,7 +231,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.8mm 1.2mm;
-    border-top: 0.3mm solid rgba(255, 255, 255, 0.2);
+    border-top: 0.3mm solid rgba(255, 255, 255, 0.15);
     padding-top: 1mm;
   }
   .detail-item {
@@ -267,7 +263,7 @@
 
   /* Kotak Masa Berlaku */
   .validity-box {
-    background: rgba(0, 0, 0, 0.35);
+    background: rgba(2, 44, 34, 0.7);
     border: 0.3mm solid var(--gold-bright);
     border-radius: 1mm;
     padding: 0.6mm 1.2mm;
@@ -286,9 +282,9 @@
     color: #ffffff;
   }
 
-  /* --- KOTAK QR CODE (BACKGROUND HIJAU RATA + WATERMARK MASJID) --- */
+  /* --- KOTAK QR CODE (PANEL HIJAU TRANSPARAN) --- */
   .qr-box {
-    background: var(--emerald-box);
+    background: var(--emerald-panel);
     border-radius: 2.2mm;
     padding: 1mm 1.2mm 0.8mm 1.2mm;
     display: flex;
@@ -296,43 +292,23 @@
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    box-shadow: inset 0 0 0 0.3mm rgba(255,255,255,0.15);
+    border: 0.3mm solid rgba(167, 243, 208, 0.2);
     border-bottom: 0.8mm solid var(--gold-bright);
     position: relative;
-    overflow: hidden;
-  }
-
-  /* Watermark Masjid Transparan pada QR Box */
-  .qr-box::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: var(--bg-masjid-url);
-    background-size: cover;
-    background-position: center center;
-    opacity: 0.12;
-    filter: brightness(200%) contrast(150%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .qr-container, .btn-scan, .qr-hint {
-    position: relative;
     z-index: 1;
+    backdrop-filter: blur(2px);
   }
 
-  /* Container QR tetap putih agar pemindai presensi dapat membaca QR dengan sempurna */
+  /* QR Container Menggunakan Warna Emas Terang (Bukan Putih) Agar Scanner Presensi Tetap Responsif */
   .qr-container {
-    background: #ffffff;
+    background: var(--gold-light);
     padding: 0.6mm;
     border-radius: 1.2mm;
     margin-bottom: 0.8mm;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 0.3mm solid var(--gold-bright);
     box-shadow: 0 2px 4px rgba(0,0,0,0.4);
   }
   .qr-container canvas, .qr-container img {
@@ -342,7 +318,7 @@
   }
 
   .btn-scan {
-    background: var(--gold-bright);
+    background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold-accent) 100%);
     color: #000000;
     font-size: 8.5px;
     font-weight: 900;
@@ -374,7 +350,7 @@
       margin: 8mm; 
     }
     body { 
-      background: #fff !important; 
+      background: #ffffff !important; 
       -webkit-print-color-adjust: exact !important; 
       print-color-adjust: exact !important; 
     }
@@ -439,7 +415,7 @@
               if (parts.length === 3) tglLahirStr = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            const fallbackImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=064e3b&color=fff&size=128&font-size=0.4`;
+            const fallbackImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=022c22&color=fbbf24&size=128&font-size=0.4`;
             const jk = s.jenisKelamin === 'L' ? 'Laki-laki' : (s.jenisKelamin === 'P' ? 'Perempuan' : '-');
             const nisDisplay = s.nis || '-';
             const fotoSrc = s.fotoUrl || fallbackImg;
@@ -462,7 +438,7 @@
                   </div>
                 </div>
 
-                <!-- KOTAK PROFIL (HIJAU RATA) -->
+                <!-- KOTAK PROFIL (FULL HIJAU EMERALD) -->
                 <div class="profile-box">
                   <div class="profile-top">
                     <div class="foto-wrap">
@@ -507,7 +483,7 @@
                   </div>
                 </div>
 
-                <!-- KOTAK QR CODE (HIJAU RATA) -->
+                <!-- KOTAK QR CODE (FULL HIJAU EMERALD) -->
                 <div class="qr-box">
                   <div class="qr-container">
                     <div id="qr-${s.id}"></div>
@@ -536,8 +512,8 @@
             text: s.nis || `SANTRI-${s.id}`,
             width: 120, 
             height: 120, 
-            colorDark: '#044e3a', 
-            colorLight: '#ffffff',
+            colorDark: '#022c22', 
+            colorLight: '#fef3c7',
             correctLevel: QRCode.CorrectLevel.M 
           });
         }
