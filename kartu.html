@@ -11,7 +11,7 @@
 
 <style>
   /* =========================================
-     STYLE KARTU PORTRAIT (PERBAIKAN LAYOUT)
+     STYLE KARTU PORTRAIT (LAYOUT OPTIMAL)
      ========================================= */
   
   .kartu-grid {
@@ -22,18 +22,17 @@
   }
 
   .card-portrait {
-    background-color: #0b5e3b; /* Hijau gelap */
-    /* Watermark */
+    background-color: #0b5e3b;
+    /* Watermark geometris halus */
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path fill="white" d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50S27.9 10 50 10s40 17.9 40 40-17.9 40-40 40zM30 30h40v10H30zm0 20h40v10H30zm0 20h40v10H30z"/></svg>');
     background-size: 150%;
     background-position: center;
-    background-repeat: no-repeat;
     
-    border: 3px solid #eab308; /* Border Emas */
+    border: 3px solid #eab308;
     border-radius: 12px;
     width: 100%;
-    max-width: 340px; /* Lebar standar ID Card */
-    height: 540px;    /* Tinggi standar ID Card */
+    max-width: 340px;
+    height: 540px;
     padding: 16px;
     color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -52,7 +51,7 @@
     align-items: flex-start;
     border-bottom: 1px solid rgba(255,255,255,0.2);
     padding-bottom: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     flex-shrink: 0;
   }
   .card-brand {
@@ -61,8 +60,8 @@
     gap: 8px;
   }
   .card-brand img {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     background: #fff;
     border-radius: 6px;
     padding: 2px;
@@ -90,25 +89,23 @@
     white-space: nowrap;
   }
 
-  /* --- BODY (GRID 3 KOLOM) --- */
-  .card-body {
-    display: grid;
-    /* Kolom 1: Foto (80px), Kolom 2: Teks (Sisa ruang), Kolom 3: QR (75px) */
-    grid-template-columns: 75px 1fr 75px;
+  /* --- BARIS ATAS: FOTO & BARCODE --- */
+  .card-top-row {
+    display: flex;
     gap: 12px;
-    flex: 1; /* Mengisi ruang tengah */
-    align-items: start;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-shrink: 0;
   }
 
-  /* 1. FOTO */
   .card-foto-wrap {
     position: relative;
-    width: 75px;
-    height: 100px;
+    width: 80px;
+    height: 105px;
     border-radius: 8px;
     border: 2px solid rgba(255,255,255,0.4);
     background: #1e293b;
-    overflow: visible;
+    flex-shrink: 0;
   }
   .card-foto {
     width: 100%;
@@ -132,67 +129,103 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 
-  /* 2. INFO TEKS */
-  .card-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 0; /* Mencegah flex overflow */
-  }
-  .info-nama {
-    font-size: 15px;
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 2px;
-    word-wrap: break-word;
-  }
-  .info-nis {
-    font-size: 11px;
-    font-weight: 700;
-    color: #eab308;
-    margin-bottom: 6px;
-  }
-  .info-list {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-  .info-item {
-    display: flex;
-    font-size: 9px;
-    line-height: 1.3;
-    color: #d1fae5;
-  }
-  .info-item .label {
-    width: 35px;
-    flex-shrink: 0;
-    font-weight: 600;
-  }
-  .info-item .value {
+  .barcode-box {
     flex: 1;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Memotong teks panjang dengan ... */
-  }
-
-  /* 3. QR CODE */
-  .card-qr-wrap {
+    background: rgba(255,255,255,0.08);
+    border: 1px dashed rgba(255,255,255,0.3);
+    border-radius: 8px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 105px; /* Sama dengan tinggi foto */
+    box-sizing: border-box;
+  }
+  .barcode-box svg {
+    width: 100%;
+    max-width: 160px;
+    height: 45px;
+  }
+  .barcode-text {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+
+  /* --- BARIS TENGAH: DATA DIRI --- */
+  .card-data-section {
+    flex: 1; /* Mengisi semua ruang kosong di tengah */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .info-nama {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+  .info-nis {
+    font-size: 12px;
+    font-weight: 700;
+    color: #eab308;
+    margin-bottom: 12px;
+  }
+
+  /* Grid 2 Kolom untuk data diri agar hemat tempat */
+  .details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+    font-size: 10px;
+    line-height: 1.3;
+    color: #d1fae5;
+  }
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .detail-item .label {
+    font-weight: 600;
+    font-size: 9px;
+    color: #6ee7b7; /* Hijau muda pudar */
+    margin-bottom: 1px;
+  }
+  .detail-item .value {
+    color: #fff;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* --- BARIS BAWAH: QR & MASA BERLAKU --- */
+  .card-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto; /* Memastikan nempel di paling bawah */
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    flex-shrink: 0;
+  }
+
+  .qr-wrap {
     background: #fff;
     padding: 4px;
     border-radius: 6px;
-    width: 75px;
-    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 76px;
   }
-  .card-qr-wrap #qr-santri {
-     /* ID akan di-inject via JS */
-  }
-  .card-qr-wrap canvas, .card-qr-wrap img {
-    width: 67px !important;
-    height: 67px !important;
+  .qr-wrap canvas, .qr-wrap img {
+    width: 68px !important;
+    height: 68px !important;
     display: block;
   }
   .qr-text {
@@ -205,39 +238,15 @@
     line-height: 1;
   }
 
-  /* --- FOOTER --- */
-  .card-footer {
-    margin-top: auto; /* Mendorong footer ke paling bawah */
-    border-top: 1px solid rgba(255,255,255,0.2);
-    padding-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-shrink: 0;
-  }
-  .barcode-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .barcode-wrap svg {
-    height: 28px;
-    width: 130px;
-  }
-  .barcode-text {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
   .masa-berlaku {
     text-align: right;
-    font-size: 8px;
+    font-size: 9px;
     color: #a7f3d0;
-    line-height: 1.3;
+    line-height: 1.4;
   }
   .masa-berlaku strong {
     color: #fff;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   /* --- PRINT SETTINGS --- */
@@ -286,8 +295,6 @@
             const k = d.kelas.find(x => x.id === s.kelasId)?.kode || '-';
             const tglLahir = new Date(s.tanggalLahir).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
             const idBarcode = `TPA-SANTRI-${s.nis.replace(/[^A-Za-z0-9]/g, '')}`;
-            
-            // Gunakan inisial jika API avatar gagal
             const fallbackImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=1e293b&color=fff&size=128`;
 
             return `
@@ -304,53 +311,48 @@
                   <div class="card-badge-kelas">SANTRI - ${k}</div>
                 </div>
 
-                <!-- BODY (Grid 3 Kolom) -->
-                <div class="card-body">
-                  
-                  <!-- KOLOM 1: FOTO -->
+                <!-- BARIS ATAS: FOTO & BARCODE -->
+                <div class="card-top-row">
                   <div class="card-foto-wrap">
                     <img src="${fallbackImg}" class="card-foto" alt="Foto">
                     <div class="badge-aktif">Aktif</div>
                   </div>
-                  
-                  <!-- KOLOM 2: INFO TEKS -->
-                  <div class="card-info">
-                    <div class="info-nama">${tpa.esc(s.nama)}</div>
-                    <div class="info-nis">NIS: ${s.nis}</div>
-                    
-                    <div class="info-list">
-                      <div class="info-item">
-                        <div class="label">TTL</div>
-                        <div class="value" title="${s.tempatLahir}, ${tglLahir}">: ${s.tempatLahir}, ${tglLahir}</div>
-                      </div>
-                      <div class="info-item">
-                        <div class="label">Wali</div>
-                        <div class="value" title="${s.namaWali || '-'}">: ${tpa.esc(s.namaWali || '-')}</div>
-                      </div>
-                      <div class="info-item">
-                        <div class="label">JK</div>
-                        <div class="value">: ${s.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</div>
-                      </div>
-                      <div class="info-item">
-                        <div class="label">Alamat</div>
-                        <div class="value" title="${s.alamat || 'Jogonalan Lor'}">: ${tpa.esc(s.alamat || 'Jogonalan Lor')}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- KOLOM 3: QR CODE -->
-                  <div class="card-qr-wrap">
-                    <div id="qr-${s.id}"></div>
-                    <div class="qr-text">SCAN<br>PRESENSI</div>
-                  </div>
-
-                </div>
-
-                <!-- FOOTER -->
-                <div class="card-footer">
-                  <div class="barcode-wrap">
+                  <div class="barcode-box">
                     <svg class="barcode-${s.id}"></svg>
                     <div class="barcode-text">${idBarcode}</div>
+                  </div>
+                </div>
+
+                <!-- BARIS TENGAH: DATA DIRI -->
+                <div class="card-data-section">
+                  <div class="info-nama">${tpa.esc(s.nama)}</div>
+                  <div class="info-nis">NIS: ${s.nis}</div>
+                  
+                  <div class="details-grid">
+                    <div class="detail-item" style="grid-column: 1 / -1;">
+                      <span class="label">TTL</span>
+                      <span class="value" title="${s.tempatLahir}, ${tglLahir}">${s.tempatLahir}, ${tglLahir}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="label">Jenis Kelamin</span>
+                      <span class="value">${s.jenisKelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="label">Nama Wali</span>
+                      <span class="value" title="${s.namaWali || '-'}">${tpa.esc(s.namaWali || '-')}</span>
+                    </div>
+                    <div class="detail-item" style="grid-column: 1 / -1;">
+                      <span class="label">Alamat</span>
+                      <span class="value" title="${s.alamat || 'Jogonalan Lor'}">${tpa.esc(s.alamat || 'Jogonalan Lor')}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- BARIS BAWAH: QR & MASA BERLAKU -->
+                <div class="card-bottom-row">
+                  <div class="qr-wrap">
+                    <div id="qr-${s.id}"></div>
+                    <div class="qr-text">SCAN PRESENSI</div>
                   </div>
                   <div class="masa-berlaku">
                     Masa Berlaku: <strong>1 Tahun</strong><br>
@@ -366,34 +368,34 @@
 
     tpa.mountPage('Kartu Anggota', html);
 
-    // Render QR & Barcode
+    // Render QR & Barcode setelah DOM dimuat
     requestAnimationFrame(() => {
       santriList.forEach(s => {
-        // Generate QR
+        // 1. Generate QR
         const qrEl = document.getElementById(`qr-${s.id}`);
         if (qrEl && qrEl.childElementCount === 0) {
           new QRCode(qrEl, {
-            text: s.nis, // QR sekarang berisi NIS langsung agar ringkas
-            width: 67, 
-            height: 67, 
+            text: s.nis,
+            width: 68, 
+            height: 68, 
             colorDark: '#000', 
             colorLight: '#fff',
             correctLevel: QRCode.CorrectLevel.M
           });
         }
 
-        // Generate Barcode
+        // 2. Generate Barcode (Garis Putih)
         const barcodeEl = document.querySelector(`.barcode-${s.id}`);
         if (barcodeEl) {
           const idBarcode = `TPA-SANTRI-${s.nis.replace(/[^A-Za-z0-9]/g, '')}`;
           try {
             JsBarcode(barcodeEl, idBarcode, {
               format: "CODE128",
-              width: 1.2, // Ketebalan garis barcode
-              height: 28,
+              width: 1.5,
+              height: 40, // Sedikit lebih tinggi karena ruang barcode lebih lega
               displayValue: false,
               background: "transparent",
-              lineColor: "#ffffff"
+              lineColor: "#ffffff" // Putih
             });
           } catch (e) {
             console.warn('Barcode error:', e);
