@@ -22,20 +22,73 @@ const DEFAULT_DATA = {
   pengajar: [
     { id:'p1', nip:'PG-0001', nama:'Ust. Ahmad', noHp:'0812 3456 7890', alamat:'Jl. Mawar No. 5', aktif:true },
     { id:'p2', nip:'PG-0002', nama:'Ust. Budi',  noHp:'0812 3456 7891', alamat:'Jl. Mawar No. 6', aktif:true },
+    { id:'p3', nip:'PG-0003', nama:'Ust. Citra', noHp:'0812 3456 7892', alamat:'Jl. Mawar No. 7', aktif:true },
+    { id:'p4', nip:'PG-0004', nama:'Ust. Dewi',  noHp:'0812 3456 7893', alamat:'Jl. Mawar No. 8', aktif:true },
+    { id:'p5', nip:'PG-0005', nama:'Ust. Fajar', noHp:'0812 3456 7894', alamat:'Jl. Mawar No. 9', aktif:true },
+    { id:'p6', nip:'PG-0006', nama:'Ust. Siti',  noHp:'0812 3456 7895', alamat:'Jl. Mawar No.10', aktif:true },
   ],
   pengajarKelas: [
     { pengajarId:'p1', kelasId:'k1', peran:'Pengajar' },
     { pengajarId:'p2', kelasId:'k2', peran:'Pengajar' },
+    { pengajarId:'p3', kelasId:'k3', peran:'Pengajar' },
+    { pengajarId:'p4', kelasId:'k4', peran:'Pengajar' },
   ],
   santri: [
-    { id:'s1', nis:'TPA-2026-001', nama:'Ananda Putri Ramadhani', jenisKelamin:'P', golDarah:'-', kelasId:'k4', status:'Aktif', docKk:'Belum', docAkta:'Belum', namaWali:'Ayah Santri', waWali:'081234567890', tempatLahir:'Sragen', tanggalLahir:'2016-05-12' },
-    { id:'s2', nis:'TPA-2026-002', nama:'Fiola Fahira',           jenisKelamin:'P', golDarah:'-', kelasId:'k1', status:'Aktif', docKk:'Belum', docAkta:'Belum', namaWali:'Ayah Santri', waWali:'081234567890', tempatLahir:'Sragen', tanggalLahir:'2016-03-08' },
-    { id:'s3', nis:'TPA-2026-003', nama:'Dafandra Athaya Zafran', jenisKelamin:'P', golDarah:'-', kelasId:'k1', status:'Aktif', docKk:'Belum', docAkta:'Belum', namaWali:'Ayah Santri', waWali:'081234567890', tempatLahir:'Karanganyar', tanggalLahir:'2015-12-20' },
-    { id:'s4', nis:'TPA-2026-004', nama:'Akhtar Farzan Wijaya',   jenisKelamin:'L', golDarah:'-', kelasId:'k1', status:'Aktif', docKk:'Belum', docAkta:'Belum', namaWali:'Ayah Santri', waWali:'081234567890', tempatLahir:'Sragen', tanggalLahir:'2016-07-03' },
-    { id:'s5', nis:'TPA-2026-005', nama:'Abdul Rahman',           jenisKelamin:'L', golDarah:'O', kelasId:'k3', status:'Aktif', docKk:'Sudah', docAkta:'Sudah', namaWali:'Bpk. Yusuf', waWali:'081234567894', tempatLahir:'Sragen', tanggalLahir:'2016-01-11' },
-    { id:'s6', nis:'TPA-2026-006', nama:'Nabila Putri',           jenisKelamin:'P', golDarah:'A', kelasId:'k4', status:'Aktif', docKk:'Sudah', docAkta:'Belum', namaWali:'Bpk. Rudi', waWali:'081234567895', tempatLahir:'Karanganyar', tanggalLahir:'2016-09-25' },
+    { 
+      id:'s1', nis:'TPA-2026-001', nama:'Ananda Putri Ramadhani', jenisKelamin:'P', golDarah:'-', 
+      kelasId:'k4', status:'Aktif', docKk:'Belum', docAkta:'Belum', namaWali:'Ayah Santri', 
+      waWali:'081234567890', tempatLahir:'Sragen', tanggalLahir:'2016-05-12', 
+      alamat:'Jl. Melati No. 12', fotoUrl:'' 
+    },
+    { 
+      id:'s2', nis:'TPA-2026-002', nama:'Fiola Fahira', jenisKelamin:'P', golDarah:'-', 
+      kelasId:'k1', status:'Aktif', docKk:'Belum', docAkta:'Belum', namaWali:'Ayah Santri', 
+      waWali:'081234567890', tempatLahir:'Sragen', tanggalLahir:'2016-03-08', 
+      alamat:'Jl. Melati No. 13', fotoUrl:'' 
+    },
+    { 
+      id:'s3', nis:'TPA-2026-003', nama:'Dafandra Athaya Zafran', jenisKelamin:'P', golDarah:'-', 
+      kelasId:'k1', status:'Aktif', docKk:'Belum', docAkta:'Belum', namaWali:'Ayah Santri', 
+      waWali:'081234567890', tempatLahir:'Karanganyar', tanggalLahir:'2015-12-20', 
+      alamat:'Jl. Melati No. 14', fotoUrl:'' 
+    },
+    { 
+      id:'s4', nis:'TPA-2026-004', nama:'Akhtar Farzan Wijaya', jenisKelamin:'L', golDarah:'-', 
+      kelasId:'k1', status:'Aktif', docKk:'Belum', docAkta:'Belum', namaWali:'Ayah Santri', 
+      waWali:'081234567890', tempatLahir:'Sragen', tanggalLahir:'2016-07-03', 
+      alamat:'Jl. Melati No. 15', fotoUrl:'' 
+    },
+    { 
+      id:'s5', nis:'TPA-2026-005', nama:'Abdul Rahman', jenisKelamin:'L', golDarah:'O', 
+      kelasId:'k3', status:'Aktif', docKk:'Sudah', docAkta:'Sudah', namaWali:'Bpk. Yusuf', 
+      waWali:'081234567894', tempatLahir:'Sragen', tanggalLahir:'2016-01-11', 
+      alamat:'Jl. Melati No. 16', fotoUrl:'' 
+    },
+    { 
+      id:'s6', nis:'TPA-2026-006', nama:'Nabila Putri', jenisKelamin:'P', golDarah:'A', 
+      kelasId:'k4', status:'Aktif', docKk:'Sudah', docAkta:'Belum', namaWali:'Bpk. Rudi', 
+      waWali:'081234567895', tempatLahir:'Karanganyar', tanggalLahir:'2016-09-25', 
+      alamat:'Jl. Melati No. 17', fotoUrl:'' 
+    },
   ],
-  jadwal: [], presensi: [], pencapaian: [], kas: [], hariLibur: [],
+  jadwal: [
+    { id:'j1', kelasId:'k1', hari:'senin', jamMulai:'16:00', jamSelesai:'17:00', toleransi:30, aktif:true },
+    { id:'j2', kelasId:'k2', hari:'senin', jamMulai:'16:00', jamSelesai:'17:00', toleransi:30, aktif:true },
+    { id:'j3', kelasId:'k3', hari:'senin', jamMulai:'16:00', jamSelesai:'17:00', toleransi:30, aktif:true },
+    { id:'j4', kelasId:'k4', hari:'senin', jamMulai:'16:00', jamSelesai:'17:00', toleransi:30, aktif:true },
+  ],
+  presensi: [],
+  pencapaian: [
+    { id:'c1', santriId:'s1', tanggal:'2025-05-12', kategori:'Hafalan', materi:'An-Nas', nilai:95, catatan:'Sangat baik', pengajarId:'p1' },
+    { id:'c2', santriId:'s1', tanggal:'2025-05-12', kategori:'Hafalan', materi:'Al-Falaq', nilai:95, catatan:'Lancar', pengajarId:'p1' },
+    { id:'c3', santriId:'s2', tanggal:'2025-05-10', kategori:'Hafalan', materi:'Al-Ikhlas', nilai:90, catatan:'', pengajarId:'p1' },
+  ],
+  kas: [
+    { id:'t1', tanggal:'2025-05-01', jenis:'masuk',  kategori:'Iuran', nominal:1500000, ket:'Iuran Mei', oleh:'u1' },
+    { id:'t2', tanggal:'2025-05-05', jenis:'keluar', kategori:'Operasional', nominal:250000, ket:'Beli ATK', oleh:'u1' },
+    { id:'t3', tanggal:'2025-05-10', jenis:'masuk',  kategori:'Donasi', nominal:500000, ket:'Donasi wali', oleh:'u1' },
+  ],
+  hariLibur: [],
 };
 
 /* ---------------- Store ---------------- */
