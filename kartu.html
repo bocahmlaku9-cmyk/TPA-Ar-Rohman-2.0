@@ -11,7 +11,7 @@
 
 <style>
   /* =========================================
-     STYLE KARTU PORTRAIT (LAYOUT OPTIMAL)
+     STYLE KARTU PORTRAIT (UKURAN DIOPTIMALKAN)
      ========================================= */
   
   .kartu-grid {
@@ -60,8 +60,8 @@
     gap: 8px;
   }
   .card-brand img {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     background: #fff;
     border-radius: 6px;
     padding: 2px;
@@ -94,7 +94,7 @@
     display: flex;
     gap: 12px;
     align-items: center;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     flex-shrink: 0;
   }
 
@@ -134,32 +134,33 @@
     background: rgba(255,255,255,0.08);
     border: 1px dashed rgba(255,255,255,0.3);
     border-radius: 8px;
-    padding: 10px;
+    padding: 8px 6px; /* Padding dikurangi */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 105px; /* Sama dengan tinggi foto */
+    height: 105px;
     box-sizing: border-box;
   }
   .barcode-box svg {
     width: 100%;
-    max-width: 160px;
-    height: 45px;
+    max-width: 120px; /* Barcode dikecilkan dari 160px */
+    height: 30px;     /* Tinggi garis barcode dikecilkan dari 45px */
   }
   .barcode-text {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     margin-top: 6px;
   }
 
   /* --- BARIS TENGAH: DATA DIRI --- */
   .card-data-section {
-    flex: 1; /* Mengisi semua ruang kosong di tengah */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-top: 4px;
   }
 
   .info-nama {
@@ -176,11 +177,10 @@
     margin-bottom: 12px;
   }
 
-  /* Grid 2 Kolom untuk data diri agar hemat tempat */
   .details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px 12px;
+    gap: 10px 12px;
     font-size: 10px;
     line-height: 1.3;
     color: #d1fae5;
@@ -192,8 +192,8 @@
   .detail-item .label {
     font-weight: 600;
     font-size: 9px;
-    color: #6ee7b7; /* Hijau muda pudar */
-    margin-bottom: 1px;
+    color: #6ee7b7;
+    margin-bottom: 2px;
   }
   .detail-item .value {
     color: #fff;
@@ -208,7 +208,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: auto; /* Memastikan nempel di paling bawah */
+    margin-top: auto;
     padding-top: 12px;
     border-top: 1px solid rgba(255,255,255,0.2);
     flex-shrink: 0;
@@ -216,24 +216,24 @@
 
   .qr-wrap {
     background: #fff;
-    padding: 4px;
+    padding: 3px; /* Padding dikecilkan */
     border-radius: 6px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 76px;
+    width: 64px; /* Lebar kotak dikecilkan dari 76px */
   }
   .qr-wrap canvas, .qr-wrap img {
-    width: 68px !important;
-    height: 68px !important;
+    width: 58px !important; /* Ukuran QR dikecilkan dari 68px */
+    height: 58px !important;
     display: block;
   }
   .qr-text {
-    font-size: 7px;
+    font-size: 6px;
     font-weight: 800;
     color: #000;
     text-align: center;
-    margin-top: 4px;
+    margin-top: 3px;
     letter-spacing: 0.2px;
     line-height: 1;
   }
@@ -243,6 +243,7 @@
     font-size: 9px;
     color: #a7f3d0;
     line-height: 1.4;
+    padding-bottom: 4px;
   }
   .masa-berlaku strong {
     color: #fff;
@@ -371,31 +372,31 @@
     // Render QR & Barcode setelah DOM dimuat
     requestAnimationFrame(() => {
       santriList.forEach(s => {
-        // 1. Generate QR
+        // 1. Generate QR (Ukuran diperkecil ke 58px)
         const qrEl = document.getElementById(`qr-${s.id}`);
         if (qrEl && qrEl.childElementCount === 0) {
           new QRCode(qrEl, {
             text: s.nis,
-            width: 68, 
-            height: 68, 
+            width: 58, 
+            height: 58, 
             colorDark: '#000', 
             colorLight: '#fff',
             correctLevel: QRCode.CorrectLevel.M
           });
         }
 
-        // 2. Generate Barcode (Garis Putih)
+        // 2. Generate Barcode (Tinggi diperkecil ke 30px)
         const barcodeEl = document.querySelector(`.barcode-${s.id}`);
         if (barcodeEl) {
           const idBarcode = `TPA-SANTRI-${s.nis.replace(/[^A-Za-z0-9]/g, '')}`;
           try {
             JsBarcode(barcodeEl, idBarcode, {
               format: "CODE128",
-              width: 1.5,
-              height: 40, // Sedikit lebih tinggi karena ruang barcode lebih lega
+              width: 1.2,
+              height: 30, // Lebih pendek agar tidak terlalu mendominasi
               displayValue: false,
               background: "transparent",
-              lineColor: "#ffffff" // Putih
+              lineColor: "#ffffff" 
             });
           } catch (e) {
             console.warn('Barcode error:', e);
