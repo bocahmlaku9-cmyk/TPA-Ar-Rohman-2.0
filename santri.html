@@ -6,229 +6,131 @@
 <title>Data Santri · TPA Ar Rahman</title>
 <link rel="stylesheet" href="shared.css">
 <style>
-  /* --- Gaya Khusus Halaman Data Santri --- */
-  .page-header-box {
-    background: #fff; border-radius: 16px; padding: 20px;
-    border: 1px solid var(--border); margin-bottom: 16px;
-  }
-  .page-title-row {
-    display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;
-  }
+  /* Style untuk Tabel dan Form */
+  .page-header-box { background: #fff; border-radius: 16px; padding: 20px; border: 1px solid var(--border); margin-bottom: 16px; }
+  .page-title-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
   .page-title-row h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin: 0; }
-  .badge-total {
-    background: #dcfce7; color: #15803d; padding: 4px 12px;
-    border-radius: 20px; font-size: 13px; font-weight: 700;
-  }
+  .badge-total { background: #dcfce7; color: #15803d; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; }
   .page-desc { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
-
   .action-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
   .btn-solid { background: #0f766e; color: #fff; border-radius: 8px; padding: 8px 16px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; }
   .btn-solid:hover { background: #115e59; }
-  .btn-outline { background: #fff; color: #334155; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 16px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; }
-  .btn-outline:hover { background: #f8fafc; }
-  .btn-icon-outline { padding: 8px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; display: grid; place-items: center; }
-
   .search-filter-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
   .search-box { position: relative; flex: 1; min-width: 280px; }
   .search-box input { padding-left: 36px; border-radius: 8px; border: 1px solid #e2e8f0; height: 40px; }
   .search-box .icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
-  
   .filter-pills { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
-  .filter-pills button {
-    padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
-    color: #64748b; background: transparent; border: 1px solid transparent; white-space: nowrap;
-  }
+  .filter-pills button { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #64748b; background: transparent; border: 1px solid transparent; white-space: nowrap; }
   .filter-pills button.active { background: #fff; color: #0f172a; border-color: #e2e8f0; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
-  
-  .drive-links { display: flex; align-items: center; gap: 12px; font-size: 13px; flex-wrap: wrap; }
-  .drive-btn {
-    display: flex; align-items: center; gap: 6px; padding: 6px 12px;
-    background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;
-    border-radius: 6px; font-weight: 600; font-size: 12px;
-  }
-  .drive-btn.blue { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
-  .drive-btn.orange { background: #fff7ed; color: #9a3412; border-color: #fed7aa; }
-
-  /* Tabel */
   .table-card { background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
   th { background: #f8fafc; color: #64748b; font-weight: 600; padding: 14px 16px; border-bottom: 1px solid #e2e8f0; white-space: nowrap; font-size: 12px; }
   td { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
   tr:hover { background: #f8fafc; }
-  
   .avatar-img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; background: #e2e8f0; }
   .nama-cell { display: flex; flex-direction: column; gap: 2px; }
   .nama-cell strong { color: #0f172a; font-size: 14px; }
   .nama-cell span { color: #64748b; font-size: 11px; }
-  
   .badge-jk { padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 11px; }
   .badge-jk.p { background: #fce7f3; color: #be185d; }
   .badge-jk.l { background: #e0f2fe; color: #0369a1; }
-  
-  .badge-gol { background: #f1f5f9; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
-  
   .badge-kelas { padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 12px; border: 1px solid transparent; }
   .badge-kelas.k1 { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
   .badge-kelas.k2 { background: #ccfbf1; color: #0f766e; border-color: #99f6e4; }
   .badge-kelas.k3 { background: #fef9c3; color: #a16207; border-color: #fef08a; }
   .badge-kelas.k4 { background: #f3e8ff; color: #7e22ce; border-color: #e9d5ff; }
-
-  .doc-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; display: inline-block; }
-  .doc-badge.belum { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
-  .doc-badge.sudah { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
-
   .wali-cell { display: flex; flex-direction: column; gap: 2px; }
   .wali-cell span { font-size: 12px; color: #0f172a; }
   .wali-cell small { font-size: 10px; color: #64748b; }
-  
-  .btn-qr { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
-  .btn-qr:hover { background: #dcfce7; }
-  
   .aksi-btns { display: flex; gap: 8px; color: #94a3b8; }
   .aksi-btns button { color: inherit; font-size: 16px; }
   .aksi-btns button:hover { color: #0f172a; }
 
-  @media(max-width: 768px) {
-    .page-title-row { flex-direction: column; align-items: flex-start; }
-    .search-filter-row { flex-direction: column; }
-    .filter-pills { width: 100%; }
-  }
+  /* Style Khusus Kamera & Preview */
+  .camera-modal { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:none; flex-direction:column; align-items:center; justify-content:center; z-index:9999; padding:16px; }
+  .camera-modal video { width:100%; max-width:500px; border-radius:12px; background:#000; transform: scaleX(-1); /* Mirror effect */ }
+  .camera-actions { display:flex; gap:16px; margin-top:20px; }
+  .btn-capture { width:60px; height:60px; border-radius:50%; background:#fff; border:4px solid #cbd5e1; display:grid; place-items:center; cursor:pointer; }
+  .btn-capture:active { background:#cbd5e1; }
+  .btn-close-cam { background:#ef4444; color:#fff; padding:10px 20px; border-radius:20px; font-weight:bold; border:none; cursor:pointer; }
+  
+  .foto-preview-box { margin-top: 10px; display: flex; gap: 12px; align-items: flex-end; }
+  .foto-preview-img { width: 80px; height: 100px; border-radius: 8px; object-fit: cover; border: 2px solid #cbd5e1; display: none; }
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script src="app.js"></script>
 <script>
-  const sess = tpa.requireAuth(['admin','wali_kelas']);
+  // === MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI ===
+  const GAS_URL = 'URL_WEB_APP_ANDA_DISINI'; 
+  
   let editingId = null;
   let search = '';
-  let activeFilter = 'all'; // 'all' atau ID kelas (k1, k2, dst)
+  let activeFilter = 'all';
+  let capturedBase64 = null; // Menyimpan foto dari kamera sebelum disimpan
+
+  const sess = tpa.requireAuth(['admin','wali_kelas']);
 
   function render() {
     const d = tpa.loadData();
-    
-    // Wali kelas hanya bisa lihat kelasnya sendiri
     let baseList = d.santri;
     if (sess.role === 'wali_kelas' && sess.kelasId) {
       baseList = baseList.filter(s => s.kelasId === sess.kelasId);
     }
 
-    // Hitung total per kelas untuk filter pill
     const counts = { all: baseList.length };
-    d.kelas.forEach(k => {
-      counts[k.id] = baseList.filter(s => s.kelasId === k.id).length;
-    });
+    d.kelas.forEach(k => { counts[k.id] = baseList.filter(s => s.kelasId === k.id).length; });
 
-    // Terapkan filter aktif dan pencarian
     let list = baseList;
-    if (activeFilter !== 'all') {
-      list = list.filter(s => s.kelasId === activeFilter);
-    }
+    if (activeFilter !== 'all') list = list.filter(s => s.kelasId === activeFilter);
     if (search) {
       const q = search.toLowerCase();
-      list = list.filter(s => 
-        s.nama.toLowerCase().includes(q) || 
-        s.nis.includes(q) || 
-        (s.namaWali && s.namaWali.toLowerCase().includes(q))
-      );
+      list = list.filter(s => s.nama.toLowerCase().includes(q) || s.nis.includes(q));
     }
 
     const html = `
-      <!-- HEADER SECTION -->
       <div class="page-header-box">
         <div class="page-title-row">
           <h1>Data Santri TPA</h1>
           <span class="badge-total">Total: ${baseList.length} santri</span>
         </div>
         <p class="page-desc">Kelola data diri, kartu barcode presensi, dan pembagian kelas A1, A2, B, C</p>
-
         <div class="action-buttons">
           <button class="btn-solid" onclick="openForm()"><span>+</span> Tambah Santri</button>
-          <button class="btn-solid" onclick="window.print()">Cetak Data</button>
-          <button class="btn-outline" onclick="alert('Fitur Export Excel akan segera hadir')"><span>📄</span> Export Excel</button>
-          <button class="btn-outline" onclick="alert('Fitur Import Excel akan segera hadir')"><span>⬆</span> Import Excel</button>
-          <button class="btn-icon-outline" title="Pengaturan Cetak"><span>⚙</span></button>
         </div>
-
         <div class="search-filter-row">
           <div class="search-box">
             <span class="icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Cari nama santri, NIS, atau nama orang tua..." value="${tpa.esc(search)}">
+            <input type="text" id="searchInput" placeholder="Cari nama santri, NIS..." value="${tpa.esc(search)}">
           </div>
           <div class="filter-pills">
             <button class="${activeFilter==='all'?'active':''}" onclick="setFilter('all')">Semua (${counts.all})</button>
-            ${d.kelas.map(k => `
-              <button class="${activeFilter===k.id?'active':''}" onclick="setFilter('${k.id}')">Kelas ${k.kode} (${counts[k.id]||0})</button>
-            `).join('')}
+            ${d.kelas.map(k => `<button class="${activeFilter===k.id?'active':''}" onclick="setFilter('${k.id}')">Kelas ${k.kode} (${counts[k.id]||0})</button>`).join('')}
           </div>
-        </div>
-
-        <div class="drive-links">
-          <span>Akses Berkas Drive:</span>
-          <a href="#" class="drive-btn" onclick="alert('Buka Google Drive Folder KK')">📁 Folder KK Santri ↗</a>
-          <a href="#" class="drive-btn blue" onclick="alert('Buka Google Drive Folder Akta')">📁 Folder Akta Santri ↗</a>
-          <a href="#" class="drive-btn orange" onclick="alert('Buka Google Drive Folder Foto')">📁 Folder Foto Santri ↗</a>
         </div>
       </div>
 
-      <!-- TABLE SECTION -->
       <div class="table-card">
         <div class="table-wrap">
           <table>
             <thead>
-              <tr>
-                <th>NO</th>
-                <th>FOTO</th>
-                <th>NAMA & NIS</th>
-                <th>JK</th>
-                <th>GOL. DARAH</th>
-                <th>KELAS</th>
-                <th>DOKUMEN KK</th>
-                <th>DOKUMEN AKTA</th>
-                <th>WALI SANTRI</th>
-                <th>KARTU QR</th>
-                <th>AKSI</th>
-              </tr>
+              <tr><th>NO</th><th>FOTO</th><th>NAMA & NIS</th><th>JK</th><th>KELAS</th><th>WALI SANTRI</th><th>AKSI</th></tr>
             </thead>
             <tbody>
               ${list.map((s, i) => {
                 const k = d.kelas.find(x => x.id === s.kelasId) || { kode: '-', id: '' };
                 const jkClass = s.jenisKelamin === 'P' ? 'p' : 'l';
-                const jkText = s.jenisKelamin || '-';
-                const docKkClass = s.docKk === 'Sudah' ? 'sudah' : 'belum';
-                const docAktaClass = s.docAkta === 'Sudah' ? 'sudah' : 'belum';
+                const fotoUrl = s.fotoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=f1f5f9&color=0f766e&size=128&font-size=0.4`;
                 
                 return `
                 <tr>
                   <td>${i + 1}</td>
-                  <td>
-                    <!-- Placeholder avatar karena belum ada sistem upload foto -->
-                    <div class="avatar-sm" style="width:36px;height:36px;border-radius:8px;font-size:16px;background:#334155;color:#fff">
-                      ${s.nama.charAt(0)}
-                    </div>
-                  </td>
-                  <td>
-                    <div class="nama-cell">
-                      <strong>${tpa.esc(s.nama)}</strong>
-                      <span>NIS: ${s.nis}</span>
-                    </div>
-                  </td>
-                  <td><span class="badge-jk ${jkClass}">${jkText}</span></td>
-                  <td><span class="badge-gol">${s.golDarah || '-'}</span></td>
+                  <td><img src="${fotoUrl}" class="avatar-img" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=f1f5f9&color=0f766e&size=128'"></td>
+                  <td><div class="nama-cell"><strong>${tpa.esc(s.nama)}</strong><span>NIS: ${s.nis}</span></div></td>
+                  <td><span class="badge-jk ${jkClass}">${s.jenisKelamin || '-'}</span></td>
                   <td><span class="badge-kelas ${k.id}">${k.kode}</span></td>
-                  <td><span class="doc-badge ${docKkClass}">${s.docKk === 'Sudah' ? 'Sudah Upload' : 'Belum Upload'}</span></td>
-                  <td><span class="doc-badge ${docAktaClass}">${s.docAkta === 'Sudah' ? 'Sudah Upload' : 'Belum Upload'}</span></td>
-                  <td>
-                    <div class="wali-cell">
-                      <span>${tpa.esc(s.namaWali || '-')}</span>
-                      <small>WA: ${tpa.esc(s.waWali || '-')}</small>
-                    </div>
-                  </td>
-                  <td>
-                    <button class="btn-qr" onclick="alert('Membuka QR Code untuk ${tpa.esc(s.nama)}')">
-                      <span>⬚</span> Kartu
-                    </button>
-                  </td>
+                  <td><div class="wali-cell"><span>${tpa.esc(s.namaWali || '-')}</span><small>WA: ${tpa.esc(s.waWali || '-')}</small></div></td>
                   <td>
                     <div class="aksi-btns">
                       <button onclick="openForm('${s.id}')" title="Edit">✏️</button>
@@ -236,7 +138,7 @@
                     </div>
                   </td>
                 </tr>`;
-              }).join('') || `<tr><td colspan="11" class="empty">Tidak ada data santri yang sesuai filter</td></tr>`}
+              }).join('') || `<tr><td colspan="7" class="empty">Tidak ada data santri.</td></tr>`}
             </tbody>
           </table>
         </div>
@@ -244,129 +146,244 @@
     `;
 
     tpa.mountPage('Data Santri', html);
-
-    // Re-attach event listener untuk search
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        search = e.target.value;
-        // Render ulang hanya tabel tanpa kehilangan fokus
-        const val = e.target.value;
-        render();
-        const newInput = document.getElementById('searchInput');
-        newInput.focus();
-        newInput.setSelectionRange(val.length, val.length);
-      });
-    }
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      search = e.target.value; render();
+      const newInput = document.getElementById('searchInput');
+      newInput.focus(); newInput.setSelectionRange(search.length, search.length);
+    });
   }
 
-  window.setFilter = (filterId) => {
-    activeFilter = filterId;
-    render();
-  };
+  window.setFilter = (filterId) => { activeFilter = filterId; render(); };
 
-  // --- Modal Form Tambah/Edit ---
+  // --- MODAL FORM TAMBAH/EDIT SANTRI ---
   function openForm(id) {
     editingId = id || null;
+    capturedBase64 = null; // Reset kamera
     const d = tpa.loadData();
     const s = id ? d.santri.find(x => x.id === id) : {};
 
     const modal = document.createElement('div');
-    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);' +
-      'display:grid;place-items:center;z-index:100;padding:16px;overflow-y:auto';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);display:grid;place-items:center;z-index:100;padding:16px;overflow-y:auto';
     modal.innerHTML = `
       <div class="card" style="max-width:650px;width:100%;max-height:90vh;overflow-y:auto;border-radius:16px">
         <div class="card-title"><span style="font-size:18px">${id?'Edit':'Tambah'} Santri</span>
           <button class="btn-icon" onclick="this.closest('div[style]').remove()">✕</button></div>
-        <div class="form-grid">
-          <div class="field"><label>NIS</label><input id="f_nis" value="${tpa.esc(s.nis||'')}" placeholder="TPA-2026-XXX"></div>
-          <div class="field"><label>Nama Lengkap</label><input id="f_nama" value="${tpa.esc(s.nama||'')}"></div>
+        
+        <form id="formSantri" onsubmit="event.preventDefault(); saveSantri();">
+          <div class="form-grid">
+            <div class="field"><label>NIS</label><input id="f_nis" value="${tpa.esc(s.nis||'')}" placeholder="Contoh: 00123" required></div>
+            <div class="field"><label>Nama Lengkap</label><input id="f_nama" value="${tpa.esc(s.nama||'')}" required></div>
+            
+            <div class="field"><label>Jenis Kelamin</label>
+              <select id="f_jk"><option value="L" ${s.jenisKelamin==='L'?'selected':''}>Laki-laki (L)</option><option value="P" ${s.jenisKelamin==='P'?'selected':''}>Perempuan (P)</option></select>
+            </div>
+            <div class="field"><label>Kelas</label>
+              <select id="f_kelas">${d.kelas.map(k => `<option value="${k.id}" ${s.kelasId===k.id?'selected':''}>${k.kode}</option>`).join('')}</select>
+            </div>
+
+            <div class="field"><label>Nama Wali</label><input id="f_wali" value="${tpa.esc(s.namaWali||'')}"></div>
+            <div class="field"><label>No. WhatsApp Wali</label><input id="f_wa" value="${tpa.esc(s.waWali||'')}"></div>
+            <div class="field full"><label>Alamat</label><textarea id="f_alamat" rows="2">${tpa.esc(s.alamat||'')}</textarea></div>
+            
+            <div class="field full" style="border-top:1px solid #e2e8f0;padding-top:12px;margin-top:8px">
+              <label style="font-weight:700;color:#0f766e">Foto Santri</label>
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+                <button type="button" class="btn btn-ghost" onclick="openCamera()" style="border:1px solid #cbd5e1; padding:8px 12px;">📷 Ambil dari Kamera</button>
+                <span style="font-size:12px;color:#94a3b8">atau pilih file:</span>
+                <input type="file" id="f_foto" accept="image/*" style="border:1px dashed #cbd5e1;padding:6px;background:#f8fafc; flex:1;">
+              </div>
+              <div class="foto-preview-box">
+                <img id="img_preview" class="foto-preview-img" src="">
+                <small style="color:#64748b;margin-bottom:4px;display:block">Nama file otomatis: <strong id="preview_name">${s.nis||'NIS'}_${s.nama||'Nama'}.jpg</strong></small>
+              </div>
+            </div>
+          </div>
           
-          <div class="field"><label>Jenis Kelamin</label>
-            <select id="f_jk">
-              <option value="L" ${s.jenisKelamin==='L'?'selected':''}>Laki-laki (L)</option>
-              <option value="P" ${s.jenisKelamin==='P'?'selected':''}>Perempuan (P)</option>
-            </select>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" onclick="this.closest('div[style]').remove()">Batal</button>
+            <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan & Upload</button>
           </div>
-          <div class="field"><label>Golongan Darah</label>
-            <select id="f_gol">
-              <option value="-" ${s.golDarah==='-'?'selected':''}>-</option>
-              <option value="A" ${s.golDarah==='A'?'selected':''}>A</option>
-              <option value="B" ${s.golDarah==='B'?'selected':''}>B</option>
-              <option value="AB" ${s.golDarah==='AB'?'selected':''}>AB</option>
-              <option value="O" ${s.golDarah==='O'?'selected':''}>O</option>
-            </select>
-          </div>
-
-          <div class="field"><label>Kelas</label>
-            <select id="f_kelas">
-              ${d.kelas.map(k => `<option value="${k.id}" ${s.kelasId===k.id?'selected':''}>${k.kode}</option>`).join('')}
-            </select>
-          </div>
-          <div class="field"><label>Status</label>
-            <select id="f_status">
-              <option value="Aktif" ${s.status==='Aktif'?'selected':''}>Aktif</option>
-              <option value="Nonaktif" ${s.status==='Nonaktif'?'selected':''}>Nonaktif</option>
-            </select>
-          </div>
-
-          <div class="field full" style="border-top:1px solid #e2e8f0;padding-top:12px;margin-top:4px">
-            <label style="font-weight:700;color:#0f172a">Data Wali Santri</label>
-          </div>
-          <div class="field"><label>Nama Wali</label><input id="f_wali" value="${tpa.esc(s.namaWali||'')}" placeholder="Nama Ayah/Ibu/Wali"></div>
-          <div class="field"><label>No. WhatsApp Wali</label><input id="f_wa" value="${tpa.esc(s.waWali||'')}" placeholder="08xxxxxxxxxx"></div>
-
-          <div class="field full" style="border-top:1px solid #e2e8f0;padding-top:12px;margin-top:4px">
-            <label style="font-weight:700;color:#0f172a">Kelengkapan Dokumen</label>
-          </div>
-          <div class="field"><label>Dokumen KK</label>
-            <select id="f_dockk">
-              <option value="Belum" ${s.docKk==='Belum'?'selected':''}>Belum Upload</option>
-              <option value="Sudah" ${s.docKk==='Sudah'?'selected':''}>Sudah Upload</option>
-            </select>
-          </div>
-          <div class="field"><label>Dokumen Akta</label>
-            <select id="f_docakta">
-              <option value="Belum" ${s.docAkta==='Belum'?'selected':''}>Belum Upload</option>
-              <option value="Sudah" ${s.docAkta==='Sudah'?'selected':''}>Sudah Upload</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-ghost" onclick="this.closest('div[style]').remove()">Batal</button>
-          <button class="btn btn-primary" onclick="saveSantri()">Simpan Data</button>
-        </div>
+        </form>
       </div>`;
     document.body.appendChild(modal);
+
+    const inputNis = document.getElementById('f_nis');
+    const inputNama = document.getElementById('f_nama');
+    const previewName = document.getElementById('preview_name');
+    const inputFile = document.getElementById('f_foto');
+    const imgPreview = document.getElementById('img_preview');
+
+    const updatePreviewName = () => { previewName.textContent = `${inputNis.value || 'NIS'}_${inputNama.value || 'Nama'}.jpg`; };
+    inputNis.addEventListener('input', updatePreviewName);
+    inputNama.addEventListener('input', updatePreviewName);
+
+    // Tampilkan preview jika memilih file dari galeri
+    inputFile.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          imgPreview.src = ev.target.result;
+          imgPreview.style.display = 'block';
+          capturedBase64 = ev.target.result; // Simpan base64
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Jika sedang edit dan sudah ada foto sebelumnya, tampilkan
+    if (s.fotoUrl) {
+      imgPreview.src = s.fotoUrl;
+      imgPreview.style.display = 'block';
+    }
   }
 
-  window.saveSantri = () => {
+  // ==========================================
+  // LOGIKA KAMERA LANGSUNG (WEBCAM / HP)
+  // ==========================================
+  let videoStream = null;
+
+  window.openCamera = async () => {
+    // Buat elemen modal kamera
+    const camModal = document.createElement('div');
+    camModal.className = 'camera-modal';
+    camModal.id = 'cameraModal';
+    camModal.innerHTML = `
+      <h3 style="color:white; margin-bottom:16px;">Ambil Foto</h3>
+      <video id="videoFeed" autoplay playsinline></video>
+      <canvas id="canvasCapture" style="display:none;"></canvas>
+      <div class="camera-actions">
+        <button type="button" class="btn-close-cam" onclick="closeCamera()">Batal</button>
+        <button type="button" class="btn-capture" onclick="capturePhoto()" title="Ambil Gambar"></button>
+      </div>
+    `;
+    document.body.appendChild(camModal);
+    camModal.style.display = 'flex';
+
+    try {
+      // Minta akses kamera (depan/belakang)
+      videoStream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } } 
+      });
+      document.getElementById('videoFeed').srcObject = videoStream;
+    } catch (err) {
+      alert('Tidak dapat mengakses kamera: ' + err.message + '\\nPastikan Anda memberi izin dan menggunakan koneksi HTTPS/localhost.');
+      closeCamera();
+    }
+  };
+
+  window.closeCamera = () => {
+    if (videoStream) {
+      videoStream.getTracks().forEach(track => track.stop());
+    }
+    const modal = document.getElementById('cameraModal');
+    if (modal) modal.remove();
+  };
+
+  window.capturePhoto = () => {
+    const video = document.getElementById('videoFeed');
+    const canvas = document.getElementById('canvasCapture');
+    
+    // Kompresi: Set resolusi maksimal 400x400px agar ringan
+    const maxSize = 400;
+    let w = video.videoWidth;
+    let h = video.videoHeight;
+    if (w > h && w > maxSize) { h = h * (maxSize / w); w = maxSize; }
+    else if (h > maxSize) { w = w * (maxSize / h); h = maxSize; }
+    
+    canvas.width = w;
+    canvas.height = h;
+    
+    const ctx = canvas.getContext('2d');
+    // Efek cermin (mirror) agar sama seperti yang terlihat di video
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(video, 0, 0, w, h);
+    
+    // Ambil hasil sebagai format JPEG kualitas 0.8 (kompresi bagus)
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+    
+    // Simpan ke variabel global
+    capturedBase64 = dataUrl;
+    
+    // Tampilkan di preview form
+    const imgPreview = document.getElementById('img_preview');
+    if (imgPreview) {
+      imgPreview.src = dataUrl;
+      imgPreview.style.display = 'block';
+    }
+    
+    // Reset input file agar tidak bentrok
+    const inputFile = document.getElementById('f_foto');
+    if (inputFile) inputFile.value = '';
+    
+    closeCamera();
+    tpa.toast('Foto berhasil diambil', 'success');
+  };
+
+  // ==========================================
+  // SIMPAN DATA & UPLOAD KE DRIVE
+  // ==========================================
+  window.saveSantri = async () => {
+    const btn = document.getElementById('btnSimpan');
+    
     const data = {
       nis: document.getElementById('f_nis').value.trim(),
       nama: document.getElementById('f_nama').value.trim(),
       jenisKelamin: document.getElementById('f_jk').value,
-      golDarah: document.getElementById('f_gol').value,
       kelasId: document.getElementById('f_kelas').value,
-      status: document.getElementById('f_status').value,
       namaWali: document.getElementById('f_wali').value.trim(),
       waWali: document.getElementById('f_wa').value.trim(),
-      docKk: document.getElementById('f_dockk').value,
-      docAkta: document.getElementById('f_docakta').value,
+      alamat: document.getElementById('f_alamat').value.trim(),
+      status: 'Aktif'
     };
     
     if (!data.nama || !data.nis) return tpa.toast('Nama & NIS wajib diisi', 'error');
 
+    let newFotoUrl = null;
+
+    // Jika ada foto (dari kamera ATAU dari file galeri)
+    if (capturedBase64) {
+      btn.disabled = true;
+      btn.textContent = 'Mengunggah ke Drive...';
+      tpa.toast('Sedang mengunggah foto ke Google Drive...', '');
+
+      try {
+        const filename = `${data.nis}_${data.nama}.jpg`;
+        const res = await fetch(GAS_URL, {
+          method: 'POST',
+          body: JSON.stringify({ base64: capturedBase64, filename: filename })
+        });
+        const result = await res.json();
+        
+        if (result.status === 'success') {
+          newFotoUrl = result.url;
+          tpa.toast('Foto berhasil diunggah ke Drive!', 'success');
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (err) {
+        console.error(err);
+        tpa.toast('Gagal upload foto: ' + err.message, 'error');
+        btn.disabled = false;
+        btn.textContent = 'Simpan & Upload';
+        return; // Hentikan proses simpan jika upload gagal
+      }
+    }
+
+    // Simpan ke Database (localStorage)
     tpa.updateData(dd => {
       if (editingId) {
         const i = dd.santri.findIndex(x => x.id === editingId);
         dd.santri[i] = { ...dd.santri[i], ...data };
+        if (newFotoUrl) dd.santri[i].fotoUrl = newFotoUrl; 
       } else {
-        dd.santri.push({ id: tpa.uid('s'), ...data });
+        dd.santri.push({ id: tpa.uid('s'), ...data, fotoUrl: newFotoUrl });
       }
     });
     
     document.querySelector('div[style*="position:fixed"]').remove();
-    tpa.toast(editingId ? 'Data santri diperbarui' : 'Santri baru ditambahkan', 'success');
+    tpa.toast(editingId ? 'Data diperbarui' : 'Santri ditambahkan', 'success');
     render();
   };
 
@@ -377,8 +394,7 @@
       const i = d.santri.findIndex(x => x.id === id);
       d.santri[i].status = 'Nonaktif';
     });
-    tpa.toast('Santri dinonaktifkan', 'success');
-    render();
+    tpa.toast('Santri dinonaktifkan', 'success'); render();
   };
 
   render();
